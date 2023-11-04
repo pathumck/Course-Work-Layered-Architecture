@@ -1,4 +1,4 @@
 package lk.ijse.controller;
 
-public class MainForm {
+public class OrdersForm {
 }

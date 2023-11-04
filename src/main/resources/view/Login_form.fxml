@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.controller.LoginForm"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #B0B3B8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginForm">
+   <children>
+      <AnchorPane prefHeight="225.0" prefWidth="800.0" style="-fx-background-color: #3A3B3C;" AnchorPane.bottomAnchor="224.99901907356949" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TextField layoutX="303.0" layoutY="272.0" prefHeight="25.0" prefWidth="194.0" promptText="Type your user name here" style="-fx-background-radius: 8;" />
+      <TextField layoutX="303.0" layoutY="329.0" prefHeight="25.0" prefWidth="194.0" promptText="Type your password here" style="-fx-background-radius: 8;" />
+      <Label layoutX="226.0" layoutY="273.0" prefHeight="16.0" prefWidth="66.0" text="User Name">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="226.0" layoutY="330.0" prefHeight="16.0" prefWidth="66.0" text="Password">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" graphicTextGap="8.0" layoutX="361.0" layoutY="383.0" prefHeight="0.0" prefWidth="77.0" style="-fx-background-color: #27ae60; -fx-background-radius: 10;" text="Login">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font></JFXButton>
+   </children>
 </AnchorPane>

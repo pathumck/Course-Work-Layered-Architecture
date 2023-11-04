@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="650.0" style="-fx-background-color: #B0B3B8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrdersForm">
+   <children>
+      <Label layoutX="86.0" layoutY="2.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="456.0" layoutY="2.0" prefHeight="24.0" prefWidth="71.0" text="Order Date :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="536.0" layoutY="2.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="35.0" prefHeight="24.0" prefWidth="79.0" text="Customer Id :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXComboBox layoutX="101.0" layoutY="34.0" prefHeight="25.0" prefWidth="164.0" promptText="      Customer's NIC" />
+      <Label layoutX="23.0" layoutY="2.0" prefHeight="24.0" prefWidth="71.0" text="Order ID :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="279.0" layoutY="32.0" prefHeight="12.0" prefWidth="65.0" style="-fx-background-color: #009432; -fx-background-radius: 20;" text="+ New">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="429.0" layoutY="36.0" prefHeight="24.0" prefWidth="99.0" text="Customer Name :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="536.0" layoutY="34.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="85.0" prefHeight="24.0" prefWidth="79.0" text="Item Code :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXComboBox layoutX="19.0" layoutY="109.0" prefHeight="25.0" prefWidth="164.0" promptText="     Select Item Code" />
+      <Label layoutX="221.0" layoutY="85.0" prefHeight="24.0" prefWidth="79.0" text="Description :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="441.0" layoutY="85.0" prefHeight="24.0" prefWidth="92.0" text="Qty. On Hand :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="574.0" layoutY="85.0" prefHeight="24.0" prefWidth="41.0" text="Qty :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="340.0" layoutY="85.0" prefHeight="24.0" prefWidth="79.0" text="Unit Price :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="215.0" layoutY="109.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="109.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="437.0" layoutY="109.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="574.0" layoutY="109.0" prefHeight="25.0" prefWidth="59.0" style="-fx-background-radius: 5;" />
+      <JFXButton buttonType="RAISED" layoutX="544.0" layoutY="145.0" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #5758BB; -fx-background-radius: 20;" text="Add To Cart">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </JFXButton>
+      <TableView layoutX="12.0" layoutY="185.0" prefHeight="214.0" prefWidth="626.0">
+        <columns>
+          <TableColumn prefWidth="106.42901802062988" text="C1" />
+          <TableColumn prefWidth="111.42910766601562" text="C2" />
+            <TableColumn prefWidth="99.28605651855469" text="C2" />
+            <TableColumn prefWidth="100.71478271484375" text="C2" />
+            <TableColumn prefWidth="102.14334106445312" text="C2" />
+            <TableColumn prefWidth="112.857666015625" text="C2" />
+        </columns>
+      </TableView>
+      <Label layoutX="13.0" layoutY="414.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="414.0" prefHeight="24.0" prefWidth="99.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="526.0" layoutY="408.0" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: #EE5A24; -fx-background-radius: 20;" text="Place Order">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

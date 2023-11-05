@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.st_clothing.controller;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;

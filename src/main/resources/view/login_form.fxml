@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #B0B3B8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #B0B3B8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginFormController">
    <children>
       <AnchorPane prefHeight="225.0" prefWidth="800.0" style="-fx-background-color: #3A3B3C;" AnchorPane.bottomAnchor="224.99901907356949" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <TextField layoutX="303.0" layoutY="272.0" prefHeight="25.0" prefWidth="194.0" promptText="Type your user name here" style="-fx-background-radius: 8;" />

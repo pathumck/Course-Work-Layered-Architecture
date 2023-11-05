@@ -101,12 +101,12 @@
       </JFXButton>
       <TableView layoutX="12.0" layoutY="185.0" prefHeight="214.0" prefWidth="626.0">
         <columns>
-          <TableColumn prefWidth="106.42901802062988" text="C1" />
-          <TableColumn prefWidth="111.42910766601562" text="C2" />
-            <TableColumn prefWidth="99.28605651855469" text="C2" />
-            <TableColumn prefWidth="100.71478271484375" text="C2" />
-            <TableColumn prefWidth="102.14334106445312" text="C2" />
-            <TableColumn prefWidth="112.857666015625" text="C2" />
+          <TableColumn fx:id="code" prefWidth="106.42901802062988" text="Code" />
+          <TableColumn fx:id="description" prefWidth="111.42910766601562" text="Description" />
+            <TableColumn fx:id="qty" prefWidth="99.28605651855469" text="Qty" />
+            <TableColumn fx:id="unitPrice" prefWidth="100.71478271484375" text="Unit Price" />
+            <TableColumn fx:id="total" prefWidth="102.14334106445312" text="Total" />
+            <TableColumn fx:id="action" prefWidth="112.857666015625" text="Action" />
         </columns>
       </TableView>
       <Label layoutX="13.0" layoutY="414.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">

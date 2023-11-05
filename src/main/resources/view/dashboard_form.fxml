@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashBoard">
+<AnchorPane fx:id="mainAnchor" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashBoardController">
    <children>
       <AnchorPane fx:id="subAnchorPaneLeft" prefHeight="450.0" prefWidth="150.0" style="-fx-background-color: #3A3B3C;">
          <children>

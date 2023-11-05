@@ -13,20 +13,20 @@ public class Launcher extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        // Load the main Dashboard_form.fxml
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard_form.fxml"));
+        // Load the main dashboard_form.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard_form.fxml"));
         AnchorPane rootNode = loader.load();
 
         Scene scene = new Scene(rootNode);
         stage.setScene(scene);
-        stage.setTitle("Login Form");
+        stage.setTitle("Login");
         stage.show();
 
-        // Locate the AnchorPane within Dashboard_form.fxml
+        // Locate the AnchorPane within dashboard_form.fxml
         AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
         // Load and set the content from another FXML file
-        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/Orders_form.fxml"));
+        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/orders_form.fxml"));
         AnchorPane subContent = subLoader.load();
 
         // Add the subContent to the targetAnchorPane

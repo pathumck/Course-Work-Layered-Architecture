@@ -26,7 +26,7 @@ public class Launcher extends Application {
         AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
         // Load and set the content from another FXML file
-        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/orders_form.fxml"));
+        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/home_form.fxml"));
         AnchorPane subContent = subLoader.load();
 
         // Add the subContent to the targetAnchorPane

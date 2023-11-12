@@ -92,6 +92,17 @@ public class DashBoardController {
         stage.setTitle("Items");
     }
 
+    @FXML
+    void customersBtnOnAction(ActionEvent event) throws IOException {
+        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/customers_form.fxml"));
+        this.subAnchorPaneRight.getChildren().clear();
+        this.subAnchorPaneRight.getChildren().add(rootNode);
+
+        // Get the stage from the button's Scene and change the title
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Customers");
+    }
+
 
     public void setDate() {
         lblDate.setText(String.valueOf(LocalDate.now()));

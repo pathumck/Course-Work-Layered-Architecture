@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.st_clothing.controller.EmployeeFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.EmployeeFormController">
+   <children>
+      <TableView layoutX="6.0" layoutY="232.0" prefHeight="290.0" prefWidth="859.0">
+         <columns>
+            <TableColumn fx:id="code" prefWidth="106.42901802062988" text="Employee ID" />
+            <TableColumn fx:id="description" prefWidth="104.76229095458984" text="Name" />
+            <TableColumn fx:id="qty" prefWidth="113.09579467773438" text="Reg Date" />
+            <TableColumn fx:id="unitPrice" prefWidth="110.23858642578125" text="Gender" />
+            <TableColumn fx:id="total" prefWidth="80.95278930664062" text="DOB" />
+            <TableColumn fx:id="action1" prefWidth="106.6671142578125" text="Salary ID" />
+            <TableColumn fx:id="action12" prefWidth="109.2861328125" text="Basic Salary" />
+            <TableColumn fx:id="action121" prefWidth="109.2861328125" text="Action" />
+         </columns>
+      </TableView>
+      <Label layoutX="22.0" layoutY="5.0" prefHeight="24.0" prefWidth="108.0" text="Search Employee :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <JFXComboBox layoutX="49.0" layoutY="33.0" prefHeight="25.0" prefWidth="242.0" promptText="Search Employee By ID" />
+      <JFXComboBox layoutX="585.0" layoutY="32.0" prefHeight="25.0" prefWidth="242.0" promptText="Search Employee by Name" />
+      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="245.0" layoutY="79.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
+      <TextField layoutX="117.0" layoutY="144.0" promptText="Employee Name" />
+      <TextField layoutX="393.0" layoutY="145.0" promptText="Employee Gender" />
+      <TextField layoutX="117.0" layoutY="190.0" promptText="Employee Address" />
+      <TextField layoutX="393.0" layoutY="98.0" promptText="Registered Date" />
+      <Label layoutX="66.0" layoutY="144.0" prefHeight="24.0" prefWidth="74.0" text="Name :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="53.0" layoutY="189.0" prefHeight="24.0" prefWidth="94.0" text="Address :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="322.0" layoutY="98.0" prefHeight="24.0" prefWidth="78.0" text="Reg Date :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="146.0" prefHeight="24.0" prefWidth="60.0" text="Gender :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="348.0" layoutY="193.0" prefHeight="24.0" prefWidth="103.0" text="DOB :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="393.0" layoutY="193.0" promptText="Date Of Birth" />
+      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="186.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Employee">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="740.0" layoutY="185.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #EE5A24;" text="Update Employee">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="32.0" layoutY="96.0" prefHeight="24.0" prefWidth="81.0" text="Employee ID :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="117.0" layoutY="96.0" promptText="EmployeeID" />
+      <Label layoutX="603.0" layoutY="98.0" prefHeight="24.0" prefWidth="78.0" text="Salary ID :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="673.0" layoutY="98.0" prefHeight="24.0" prefWidth="78.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

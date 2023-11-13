@@ -19,7 +19,7 @@ public class Launcher extends Application {
 
         Scene scene = new Scene(rootNode);
         stage.setScene(scene);
-        stage.setTitle("Login");
+        stage.setTitle("ST Clothing Management System");
         stage.show();
 
         // Locate the AnchorPane within dashboard_form.fxml

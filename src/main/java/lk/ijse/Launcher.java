@@ -17,6 +17,7 @@ public class Launcher extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard_form.fxml"));
         AnchorPane rootNode = loader.load();
 
+
         Scene scene = new Scene(rootNode);
         stage.setScene(scene);
         stage.setTitle("ST Clothing Management System");

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.CustomersFormController">
    <children>
-      <TableView layoutX="6.0" layoutY="225.0" prefHeight="297.0" prefWidth="859.0">
+      <TableView fx:id="tblCustomers" layoutX="6.0" layoutY="225.0" prefHeight="297.0" prefWidth="859.0">
          <columns>
-            <TableColumn fx:id="code" prefWidth="106.42901802062988" text="Customer ID" />
-            <TableColumn fx:id="description" prefWidth="182.61978149414062" text="Name" />
-            <TableColumn fx:id="qty" prefWidth="110.23861694335938" text="Tp" />
-            <TableColumn fx:id="unitPrice" prefWidth="171.19122314453125" text="Address" />
-            <TableColumn fx:id="total" prefWidth="163.095947265625" text="Registered Date" />
-            <TableColumn fx:id="action" prefWidth="110.00054931640625" text="Action" />
+            <TableColumn fx:id="colId" prefWidth="106.42901802062988" text="Customer ID" />
+            <TableColumn fx:id="colName" prefWidth="182.61978149414062" text="Name" />
+            <TableColumn fx:id="colTp" prefWidth="110.23861694335938" text="Tp" />
+            <TableColumn fx:id="colAddress" prefWidth="171.19122314453125" text="Address" />
+            <TableColumn fx:id="colRegDate" prefWidth="163.095947265625" text="Registered Date" />
+            <TableColumn fx:id="colAction" prefWidth="110.00054931640625" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="22.0" layoutY="15.0" prefHeight="24.0" prefWidth="115.0" text="Search Customer :">
@@ -27,29 +26,23 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXComboBox layoutX="49.0" layoutY="43.0" prefHeight="25.0" prefWidth="257.0" promptText="Search Customer by Customer ID" />
-      <JFXComboBox layoutX="535.0" layoutY="42.0" prefHeight="25.0" prefWidth="283.0" promptText="Search Customer by Customer Name" />
-      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="255.0" layoutY="97.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
-      <TextField layoutX="107.0" layoutY="123.0" promptText="Customer ID" />
-      <TextField layoutX="373.0" layoutY="174.0" promptText="Address" />
-      <TextField layoutX="107.0" layoutY="174.0" promptText="Customer Name" />
-      <TextField layoutX="373.0" layoutY="124.0" promptText="Telephone Number" />
-      <Label layoutX="23.0" layoutY="123.0" prefHeight="24.0" prefWidth="86.0" text="Customer ID :">
+      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="245.0" layoutY="97.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
+      <Label layoutX="23.0" layoutY="120.0" prefHeight="24.0" prefWidth="86.0" text="ID :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="4.0" layoutY="173.0" prefHeight="24.0" prefWidth="94.0" text="Cusomer Name :">
+      <Label layoutX="304.0" layoutY="122.0" prefHeight="24.0" prefWidth="94.0" text="Name :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="343.0" layoutY="123.0" prefHeight="24.0" prefWidth="27.0" text="Tp :">
+      <Label layoutX="20.0" layoutY="172.0" prefHeight="24.0" prefWidth="27.0" text="Tp :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="312.0" layoutY="173.0" prefHeight="24.0" prefWidth="60.0" text="Address :">
+      <Label layoutX="292.0" layoutY="172.0" prefHeight="24.0" prefWidth="60.0" text="Address :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -59,8 +52,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="693.0" layoutY="123.0" />
-      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="168.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Customer">
+      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="168.0" onAction="#addCustomerBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Customer">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -70,5 +62,16 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
+      <JFXTextField fx:id="txtId" layoutX="45.0" layoutY="118.0" onAction="#IdSearchOnAction" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtName" layoutX="347.0" layoutY="120.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtTp" layoutX="46.0" layoutY="170.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtAddress" layoutX="349.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtSearchByID" layoutX="55.0" layoutY="43.0" onAction="#txtSearchByIdOnAction" prefHeight="25.0" prefWidth="222.0" promptText="Search Customer By Customer ID" />
+      <JFXTextField fx:id="txtSearchByName" layoutX="560.0" layoutY="43.0" prefHeight="25.0" prefWidth="247.0" promptText="Search Customer By Customer Name" />
+      <Label fx:id="lblRegDate" layoutX="700.0" layoutY="122.0" prefHeight="24.0" prefWidth="103.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

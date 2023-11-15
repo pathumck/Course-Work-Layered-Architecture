@@ -62,7 +62,8 @@ create table Customers (
 customerId varchar(50) PRIMARY KEY,
 name varchar(50) not null ,
 address varchar(50) not null ,
-tp varchar(50) not null
+tp varchar(50) not null,
+date varchar(50) not null
 );
 
 desc Customers;

@@ -10,6 +10,13 @@ public class CustomerDto {
     public CustomerDto() {
     }
 
+    public CustomerDto(String id, String name, String address, String tp) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.tp = tp;
+    }
+
     public CustomerDto(String id, String name, String address, String tp, String date) {
         this.id = id;
         this.name = name;

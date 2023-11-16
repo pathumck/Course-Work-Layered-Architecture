@@ -5,13 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.CustomersFormController">
    <children>
-      <TableView fx:id="tblCustomers" layoutX="6.0" layoutY="225.0" prefHeight="297.0" prefWidth="859.0">
+      <TableView fx:id="tblCustomers" layoutX="6.0" layoutY="225.0" onMouseClicked="#mouseClickOnAction" prefHeight="297.0" prefWidth="859.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="106.42901802062988" text="Customer ID" />
             <TableColumn fx:id="colName" prefWidth="182.61978149414062" text="Name" />
@@ -26,52 +28,60 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="245.0" layoutY="97.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
-      <Label layoutX="23.0" layoutY="120.0" prefHeight="24.0" prefWidth="86.0" text="ID :">
+      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="245.0" layoutY="77.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
+      <Label layoutX="23.0" layoutY="100.0" prefHeight="24.0" prefWidth="86.0" text="ID :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="304.0" layoutY="122.0" prefHeight="24.0" prefWidth="94.0" text="Name :">
+      <Label layoutX="304.0" layoutY="102.0" prefHeight="24.0" prefWidth="94.0" text="Name :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="20.0" layoutY="172.0" prefHeight="24.0" prefWidth="27.0" text="Tp :">
+      <Label layoutX="20.0" layoutY="152.0" prefHeight="24.0" prefWidth="27.0" text="Tp :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="292.0" layoutY="172.0" prefHeight="24.0" prefWidth="60.0" text="Address :">
+      <Label layoutX="292.0" layoutY="152.0" prefHeight="24.0" prefWidth="60.0" text="Address :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="590.0" layoutY="123.0" prefHeight="24.0" prefWidth="103.0" text="Registered Date :">
+      <Label layoutX="590.0" layoutY="103.0" prefHeight="24.0" prefWidth="103.0" text="Registered Date :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="168.0" onAction="#addCustomerBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Customer">
+      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="148.0" onAction="#addCustomerBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Customer">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="740.0" layoutY="168.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #EE5A24;" text="Update Customer">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="740.0" layoutY="148.0" onAction="#btnUpdateOnAction" onMouseClicked="#mouseClickOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #EE5A24;" text="Update Customer">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="txtId" layoutX="45.0" layoutY="118.0" onAction="#IdSearchOnAction" prefHeight="25.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtName" layoutX="347.0" layoutY="120.0" prefHeight="25.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtTp" layoutX="46.0" layoutY="170.0" prefHeight="25.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtAddress" layoutX="349.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtSearchByID" layoutX="55.0" layoutY="43.0" onAction="#txtSearchByIdOnAction" prefHeight="25.0" prefWidth="222.0" promptText="Search Customer By Customer ID" />
-      <JFXTextField fx:id="txtSearchByName" layoutX="560.0" layoutY="43.0" prefHeight="25.0" prefWidth="247.0" promptText="Search Customer By Customer Name" />
-      <Label fx:id="lblRegDate" layoutX="700.0" layoutY="122.0" prefHeight="24.0" prefWidth="103.0">
+      <JFXTextField fx:id="txtId" layoutX="45.0" layoutY="98.0" onAction="#IdSearchOnAction" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtName" layoutX="347.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtTp" layoutX="46.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtAddress" layoutX="349.0" layoutY="151.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtSearchByID" layoutX="135.0" layoutY="13.0" onAction="#txtSearchByIdOnAction" prefHeight="25.0" prefWidth="229.0" promptText="Search Customer By Customer ID" />
+      <Label fx:id="lblRegDate" layoutX="700.0" layoutY="102.0" prefHeight="24.0" prefWidth="103.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnClearAllFields" layoutX="807.0" layoutY="6.0" onAction="#btnClearAllFieldsOnAction" prefHeight="42.0" prefWidth="54.0" text=" ">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/refresh.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>

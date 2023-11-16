@@ -102,7 +102,7 @@ public class CustomerModel {
             String tp = rs.getString(4);
             String date = rs.getString(5);
             dto.setName(name);
-            dto.setId(id);
+            dto.setId(cusId);
             dto.setAddress(address);
             dto.setDate(date);
             dto.setTp(tp);

@@ -107,11 +107,8 @@ public class CustomersFormController {
             try {
                 Boolean flag = CustomerModel.deleteCustomer(id);
                 if(flag){
-                    txtSearchByID.clear();
-                    initialize();
+                    clearAllFields();
                     new Alert(Alert.AlertType.CONFIRMATION,"Deleted!").show();
-                    clearTextFields();
-                    setTableCustomers();
                 }
             } catch (SQLException ex) {
                 new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
@@ -155,10 +152,8 @@ public class CustomersFormController {
         try {
             Boolean flag = CustomerModel.addCustomer(dto);
             if (flag) {
+                clearAllFields();
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved!").show();
-                initialize();
-                setTableCustomers();
-                clearTextFields();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -225,11 +220,6 @@ public class CustomersFormController {
         }
     }
 
-    @FXML
-    void IdSearchOnAction(ActionEvent event) {
-        System.out.println("dhdhf");
-    }
-
     public void mouseClickOnAction(javafx.scene.input.MouseEvent mouseEvent) {
         Integer index = tblCustomers.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
@@ -244,16 +234,17 @@ public class CustomersFormController {
     }
 
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) {
+    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
 
-    public void clearAllFields() {
+    public void clearAllFields() throws SQLException {
         txtSearchByID.clear();
         txtId.clear();
         txtTp.clear();
         txtName.clear();
         txtAddress.clear();
+        initialize();
     }
 }
 

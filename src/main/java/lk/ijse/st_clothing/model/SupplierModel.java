@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierModel {
-    public static ArrayList<SupplierDto> getALlSuppliers() throws SQLException {
+    public static ArrayList<SupplierDto> getAllSuppliers() throws SQLException {
         DbConnection db = DbConnection.getInstance();
         Connection con = db.getConnection();
 

@@ -81,7 +81,7 @@ public class SuppliersFormController {
 
     public void setTableSuppliers() {
         try {
-            ArrayList<SupplierDto> dtos = SupplierModel.getALlSuppliers();
+            ArrayList<SupplierDto> dtos = SupplierModel.getAllSuppliers();
             ArrayList<SupplierTm> tms = new ArrayList<>();
             for (SupplierDto dto : dtos) {
                 SupplierTm tm = new SupplierTm();
@@ -195,13 +195,6 @@ public class SuppliersFormController {
         txtAddress.setText(colAddress.getCellData(index).toString());
         txtTp.setText(colTp.getCellData(index).toString());
         lblDate.setText(colDate.getCellData(index).toString());
-    }
-
-    public void clearTextFields() {
-        txtId.clear();
-        txtName.clear();
-        txtTp.clear();
-        txtAddress.clear();
     }
 
     public void loadAllItemCodes() throws SQLException {

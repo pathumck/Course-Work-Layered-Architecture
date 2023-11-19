@@ -184,13 +184,6 @@ public class CustomersFormController {
         }
     }
 
-    public void clearTextFields() {
-        txtAddress.clear();
-        txtId.clear();
-        txtName.clear();
-        txtTp.clear();
-    }
-
     public void loadAllItemCodes() throws SQLException {
         ArrayList<String> cusIds = CustomerModel.getCustomerIds();
         TextFields.bindAutoCompletion(txtSearchByID,cusIds);

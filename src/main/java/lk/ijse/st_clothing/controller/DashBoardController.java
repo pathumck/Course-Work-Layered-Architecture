@@ -432,7 +432,7 @@ public class DashBoardController {
 
 // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        setTitle("Expenses");
+        setTitle("Expences");
 
     }
 

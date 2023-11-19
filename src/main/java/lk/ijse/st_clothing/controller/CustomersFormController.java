@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.CustomerDto;
 import lk.ijse.st_clothing.dto.tm.CustomerTm;
 import lk.ijse.st_clothing.model.CustomerModel;
@@ -238,6 +239,11 @@ public class CustomersFormController {
         txtName.clear();
         txtAddress.clear();
         initialize();
+    }
+
+    @FXML
+    void txtSearchByIdOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
     }
 }
 

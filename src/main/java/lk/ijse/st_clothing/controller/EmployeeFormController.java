@@ -280,5 +280,8 @@ public class EmployeeFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
-
+    @FXML
+    void txtSearchEmployeeOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+    }
 }

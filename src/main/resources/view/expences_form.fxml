@@ -65,7 +65,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtSearchByExpenceId" layoutX="69.0" layoutY="33.0" onAction="#txtSearchByExpenceIdOnAction" prefWidth="229.0" promptText="Search By Expence Id" />
+      <JFXTextField fx:id="txtSearchByExpenceId" layoutX="69.0" layoutY="33.0" onAction="#txtSearchByExpenceIdOnAction" onMouseClicked="#txtSearchByExpenceIdOnMouseClicked" prefWidth="229.0" promptText="Search By Expence Id" />
       <JFXTextField fx:id="txtDescription" layoutX="119.0" layoutY="182.0" prefWidth="180.0" />
       <JFXTextField fx:id="txtAmount" layoutX="381.0" layoutY="134.0" prefWidth="180.0" />
       <DatePicker fx:id="dpDate" layoutX="381.0" layoutY="92.0" prefWidth="180.0" />

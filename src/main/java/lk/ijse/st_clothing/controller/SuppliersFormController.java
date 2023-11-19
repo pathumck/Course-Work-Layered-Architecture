@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.SupplierDto;
 import lk.ijse.st_clothing.dto.tm.SupplierTm;
 import lk.ijse.st_clothing.model.SupplierModel;
@@ -70,7 +71,7 @@ public class SuppliersFormController {
     public void initialize() throws SQLException {
         setTableSuppliers();
         vitualize();
-        loadAllItemCodes();
+        loadAllsupplierIds();
         setDate();
     }
 
@@ -197,7 +198,7 @@ public class SuppliersFormController {
         lblDate.setText(colDate.getCellData(index).toString());
     }
 
-    public void loadAllItemCodes() throws SQLException {
+    public void loadAllsupplierIds() throws SQLException {
         ArrayList<String> supIds = SupplierModel.getSupplierIds();
         TextFields.bindAutoCompletion(txtSearchId,supIds);
     }
@@ -238,7 +239,10 @@ public class SuppliersFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
-
+    @FXML
+    void searchByIdOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+    }
 
 
 

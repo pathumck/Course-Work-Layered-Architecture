@@ -73,7 +73,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtSearchId" layoutX="120.0" layoutY="10.0" onAction="#searchByIdOnAction" prefHeight="25.0" prefWidth="229.0" promptText="Search Supplier By Supplier ID" />
+      <JFXTextField fx:id="txtSearchId" layoutX="120.0" layoutY="10.0" onAction="#searchByIdOnAction" onMouseClicked="#searchByIdOnMouseClicked" prefHeight="25.0" prefWidth="229.0" promptText="Search Supplier By Supplier ID" />
       <JFXButton fx:id="btnClearAllFields" layoutX="817.0" layoutY="6.0" onAction="#btnClearAllFieldsOnAction" prefHeight="42.0" prefWidth="54.0" text=" ">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">

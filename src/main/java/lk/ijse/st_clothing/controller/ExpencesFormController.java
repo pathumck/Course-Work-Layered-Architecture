@@ -232,4 +232,8 @@ public class ExpencesFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
+    @FXML
+    void txtSearchByExpenceIdOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+    }
 }

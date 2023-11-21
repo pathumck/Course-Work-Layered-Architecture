@@ -23,4 +23,16 @@ public class LoginModel {
         }
         return dto;
     }
+
+    public static Boolean updateCredentials(CredentialsDto dto, CredentialsDto current) throws SQLException {
+        DbConnection db = DbConnection.getInstance();
+        Connection con = db.getConnection();
+
+        PreparedStatement pst = con.prepareStatement("UPDATE User SET userName = ?, password = ? WHERE userName = ?");
+        pst.setString(1,dto.getUserName());
+        pst.setString(2,dto.getPassword());
+        pst.setString(3, current.getUserName());
+
+        return pst.executeUpdate()>0;
+    }
 }

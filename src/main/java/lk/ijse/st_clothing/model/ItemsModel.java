@@ -2,12 +2,14 @@ package lk.ijse.st_clothing.model;
 
 import lk.ijse.st_clothing.db.DbConnection;
 import lk.ijse.st_clothing.dto.ItemDto;
+import lk.ijse.st_clothing.dto.tm.ReturnCartTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemsModel {
     public static ArrayList<ItemDto> getAllItems() throws SQLException {
@@ -149,6 +151,28 @@ public class ItemsModel {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    public boolean updateItem(List<ReturnCartTm> cartTmList) throws SQLException {
+        for(ReturnCartTm tm : cartTmList) {
+            //System.out.println("Item: " + tm);
+            if(!updateQty(tm.getItemCode(), tm.getQty())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean updateQty(String code, int qty) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE Items SET qty = qty + ? WHERE itemCode = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setInt(1, qty);
+        pstm.setString(2, code);
+
+        return pstm.executeUpdate() > 0; //false
     }
 
 

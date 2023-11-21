@@ -10,7 +10,7 @@
 <AnchorPane fx:id="mainAnchor" prefHeight="585.0" prefWidth="1040.0" style="-fx-background-color: #e4e6eb#e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.DashBoardController">
    <children>
       <AnchorPane fx:id="subAnchorPaneRight" layoutX="163.0" layoutY="51.0" prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #3A3B3C; -fx-background-radius: 10;" />
-      <AnchorPane fx:id="subAnchorPaneTop" layoutX="6.0" layoutY="6.0" prefHeight="38.0" prefWidth="1028.0" style="-fx-background-color: EBC95E; -fx-background-radius: 10;">
+      <AnchorPane fx:id="subAnchorPaneTop" layoutX="6.0" layoutY="6.0" prefHeight="38.0" prefWidth="1028.0" style="-fx-background-radius: 10;" styleClass="gradient" stylesheets="@../styles/backgrounds.css">
          <children>
             <Label fx:id="lblDate" layoutX="696.0" layoutY="2.0" prefHeight="36.0" prefWidth="159.0" />
             <Label fx:id="lblTitle" layoutX="471.0" layoutY="1.0" prefHeight="34.0" prefWidth="159.0" styleClass="notch" />
@@ -112,7 +112,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnLogout" buttonType="RAISED" layoutX="10.0" layoutY="528.0" prefHeight="48.0" prefWidth="152.0" style="-fx-background-color: #B0B3B8; -fx-background-radius: 0;" text=" Logout" textFill="#d20a0a">
+      <JFXButton fx:id="btnLogout" buttonType="RAISED" layoutX="10.0" layoutY="528.0" onAction="#btnLogoutOnAction" prefHeight="48.0" prefWidth="152.0" style="-fx-background-color: #B0B3B8; -fx-background-radius: 0;" text=" Logout" textFill="#d20a0a">
          <font>
             <Font name="Dyuthi Regular" size="18.0" />
          </font>

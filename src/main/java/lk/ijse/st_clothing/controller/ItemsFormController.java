@@ -94,6 +94,7 @@ public class ItemsFormController {
                 tm.setUnitPrice(dto.getUnitPrice());
                 tm.setQty(dto.getQty());
                 Button btn = new Button("Delete");
+                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
@@ -251,6 +252,7 @@ public class ItemsFormController {
                 tm.setUnitPrice(dto.getUnitPrice());
                 tm.setQty(dto.getQty());
                 Button btn = new Button("Delete");
+                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
@@ -275,6 +277,7 @@ public class ItemsFormController {
                 tm.setUnitPrice(dto.getUnitPrice());
                 tm.setSize(dto.getSize());
                 Button delete = new Button("Delete");
+                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(delete);
                 tm.setBtn(delete);
                 ArrayList<ItemTm> id = new ArrayList<>();

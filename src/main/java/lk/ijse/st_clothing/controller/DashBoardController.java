@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import static lk.ijse.Launcher.rootNode;
 
 
 public class DashBoardController {
@@ -511,7 +514,25 @@ public class DashBoardController {
         lblTime.setText("Time:"+formattedTime);
 
     }
+    @FXML
+    void btnLogoutOnAction(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage) btnLogout.getScene().getWindow();
+        rootNode = FXMLLoader.load(this.getClass().getResource("/view/login_forum.fxml"));
+        Scene scene = new Scene(rootNode);
+        currentStage.setScene(scene);
+        currentStage.centerOnScreen();
+        currentStage.setTitle("");
+        currentStage.show();
+        // Locate the AnchorPane within dashboard_form.fxml
+        AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
+        // Load and set the content from another FXML file
+        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
+        AnchorPane subContent = subLoader.load();
+
+        // Add the subContent to the targetAnchorPane
+        targetAnchorPane.getChildren().setAll(subContent);
+    }
 
 
 

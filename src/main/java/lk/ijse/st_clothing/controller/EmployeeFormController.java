@@ -113,6 +113,7 @@ public class EmployeeFormController {
                 tm.setDate(dto.getDate());
                 tm.setTp(dto.getTp());
                 Button btn = new Button("Delete");
+                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
@@ -263,6 +264,7 @@ public class EmployeeFormController {
                 tm.setTp(dto.getTp());
                 tm.setDate(dto.getDate());
                 Button delete = new Button("Delete");
+                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(delete);
                 tm.setBtn(delete);
                 ArrayList<EmployeeTm> id = new ArrayList<>();

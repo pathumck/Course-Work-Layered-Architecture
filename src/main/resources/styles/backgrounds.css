@@ -7,3 +7,33 @@
 {
     -fx-background-radius: 50 50 0 5;
 }
+
+.gradient{
+    -fx-background-color:linear-gradient(to bottom right,#c4ab08,EBC95E) ;
+}
+
+.gradientwhitgrey-to-right {
+    -fx-background-color: linear-gradient(to right, white, grey);
+}
+.gradientCenterVertical {
+    -fx-background-color: linear-gradient(to bottom, white 0%, grey 50%, white 100%);
+}
+.gradient_grey {
+    -fx-background-color: linear-gradient(to bottom, grey, white);
+}
+
+
+
+.gradientwhitgrey{
+    -fx-background-color:linear-gradient(to bottom right,lightgray,grey) ;
+}
+
+.white-form{
+    -fx-background-color: #fff;
+}
+
+.table-view .column-header {
+    -fx-background-color: linear-gradient(to bottom right,#c4ab08,EBC95E); /* Background color of column headers */
+    -fx-text-fill: white; /* Text color of column headers */
+    -fx-font-weight: bold; /* Make the text bold */
+}

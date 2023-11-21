@@ -115,7 +115,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="90.0" layoutY="494.0" prefHeight="24.0" prefWidth="99.0">
+      <Label layoutX="90.0" layoutY="494.0" prefHeight="24.0" prefWidth="71.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -125,46 +125,60 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <TableView layoutX="315.0" layoutY="401.0" prefHeight="79.0" prefWidth="548.0">
+      <TableView layoutX="5.0" layoutY="401.0" prefHeight="90.0" prefWidth="393.0">
          <columns>
-            <TableColumn fx:id="code1" prefWidth="87.85748291015625" text="Order ID" />
-            <TableColumn fx:id="description1" prefWidth="90.7147216796875" text="Name" />
-            <TableColumn fx:id="code11" prefWidth="115.952880859375" text="Date" />
-            <TableColumn fx:id="code111" prefWidth="106.4290771484375" text="Balane" />
-            <TableColumn fx:id="code1111" prefWidth="85.714599609375" text="Action" />
+            <TableColumn fx:id="code1" prefWidth="110.00045967102051" text="Return ID" />
+            <TableColumn fx:id="code111" prefWidth="141.42916107177734" text="Balance" />
+            <TableColumn fx:id="code1111" prefWidth="120.71484375" text="Action" />
          </columns>
       </TableView>
       <Line endX="683.287109375" layoutX="178.0" layoutY="393.0" opacity="0.23" startX="-169.19070434570312" />
-      <Label layoutX="13.0" layoutY="401.0" prefHeight="24.0" prefWidth="117.0" text="Returned Order ID :">
+      <Label layoutX="413.0" layoutY="401.0" prefHeight="24.0" prefWidth="117.0" text="Returned Order ID :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXComboBox layoutX="140.0" layoutY="401.0" prefHeight="25.0" prefWidth="164.0" promptText="     Select Item Code" />
-      <JFXButton buttonType="RAISED" layoutX="195.0" layoutY="437.0" prefHeight="12.0" prefWidth="65.0" style="-fx-background-color: #009432;" text="Add+">
+      <JFXComboBox layoutX="530.0" layoutY="401.0" prefHeight="25.0" prefWidth="164.0" promptText="     Select Item Code" />
+      <JFXButton buttonType="RAISED" layoutX="582.0" layoutY="437.0" prefHeight="12.0" prefWidth="65.0" style="-fx-background-color: #009432;" text="Add+">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <Label layoutX="213.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Deduction :">
+      <Label layoutX="163.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Deduction :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="280.0" layoutY="494.0" prefHeight="24.0" prefWidth="99.0">
+      <Label layoutX="230.0" layoutY="494.0" prefHeight="24.0" prefWidth="71.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="403.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">
+      <Label layoutX="303.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="470.0" layoutY="494.0" prefHeight="24.0" prefWidth="99.0">
+      <Label layoutX="365.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
+      <Label layoutX="445.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Payment :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="595.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0" text="Balance :">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="649.0" layoutY="494.0" prefHeight="24.0" prefWidth="79.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="504.0" layoutY="495.0" prefHeight="25.0" prefWidth="80.0" style="-fx-background-radius: 5;" />
    </children>
 </AnchorPane>

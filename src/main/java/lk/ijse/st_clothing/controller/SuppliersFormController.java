@@ -92,6 +92,7 @@ public class SuppliersFormController {
                 tm.setAddress(dto.getAddress());
                 tm.setDate(dto.getDate());
                 Button btn = new Button("Delete");
+                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
@@ -215,6 +216,7 @@ public class SuppliersFormController {
                 tm.setTp(dto.getTp());
                 tm.setDate(dto.getDate());
                 Button delete = new Button("Delete");
+                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(delete);
                 tm.setBtn(delete);
                 ArrayList<SupplierTm> id = new ArrayList<>();

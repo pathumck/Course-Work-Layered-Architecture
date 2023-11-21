@@ -82,6 +82,7 @@ public class ExpencesFormController {
                 tm.setDate(dto.getDate());
                 tm.setAmount(dto.getAmount());
                 Button btn = new Button("Delete");
+                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
@@ -216,6 +217,7 @@ public class ExpencesFormController {
                 tm.setDate(dto.getDate());
                 tm.setAmount(dto.getAmount());
                 Button delete = new Button("Delete");
+                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(delete);
                 tm.setBtn(delete);
                 ArrayList<ExpenceTm> id = new ArrayList<>();

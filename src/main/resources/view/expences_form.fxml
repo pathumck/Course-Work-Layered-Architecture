@@ -16,12 +16,12 @@
    <children>
       <TableView fx:id="tblExpence" layoutX="6.0" layoutY="225.0" onMouseClicked="#mouseClickOnAction" prefHeight="297.0" prefWidth="859.0">
          <columns>
-            <TableColumn fx:id="colExpenceId" prefWidth="106.42901802062988" text="Expence Id" />
-            <TableColumn fx:id="colType" prefWidth="182.61978149414062" text="Type" />
-            <TableColumn fx:id="colDescription" prefWidth="120.9530029296875" text="Description" />
-            <TableColumn fx:id="colDate" prefWidth="83.0955810546875" text="Date" />
-            <TableColumn fx:id="colAmount" prefWidth="109.76239013671875" text="Amount" />
-            <TableColumn fx:id="colAction" prefWidth="123.81011962890625" text="Action" />
+            <TableColumn fx:id="colExpenceId" prefWidth="122.6195912361145" text="Expence Id" />
+            <TableColumn fx:id="colType" prefWidth="128.8100814819336" text="Type" />
+            <TableColumn fx:id="colDescription" prefWidth="198.09613037109375" text="Description" />
+            <TableColumn fx:id="colDate" prefWidth="116.19094848632812" text="Date" />
+            <TableColumn fx:id="colAmount" prefWidth="155.2388916015625" text="Amount" />
+            <TableColumn fx:id="colAction" prefWidth="117.6195068359375" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="12.0" layoutY="5.0" prefHeight="24.0" prefWidth="112.0" text="Search Expences :">

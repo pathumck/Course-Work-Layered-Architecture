@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="585.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginForumController">
+   <children>
+      <AnchorPane prefHeight="585.0" prefWidth="520.0" styleClass="gradient" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <Label layoutX="150.0" layoutY="335.0" prefHeight="49.0" prefWidth="210.0" stylesheets="@../styles/backgrounds.css" text="Outfits that reflect your inner spark" textFill="#150c0c">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="310.0" prefHeight="49.0" prefWidth="156.0" stylesheets="@../styles/backgrounds.css" text="ST Clothing" textFill="#1f0f0f">
+               <font>
+                  <Font name="Dyuthi Regular" size="28.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="278.0" fitWidth="463.0" layoutX="28.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/2008.i305.015_women_clothing_store_set-05-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="220.0" layoutY="355.0" prefHeight="49.0" prefWidth="69.0" stylesheets="@../styles/backgrounds.css" text="Since 1996">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="subAnchorPaneRight" layoutX="519.0" prefHeight="585.0" prefWidth="520.0" style="-fx-background-color: white;" />
+   </children>
+</AnchorPane>

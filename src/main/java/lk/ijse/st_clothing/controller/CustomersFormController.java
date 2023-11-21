@@ -86,6 +86,7 @@ public class CustomersFormController {
                 tm.setTp(dto.getTp());
                 tm.setDate(dto.getDate());
                 Button deleteButton = new Button("Delete");
+                deleteButton.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(deleteButton);
                 tm.setBtn(deleteButton);
                 tms.add(tm);
@@ -204,6 +205,7 @@ public class CustomersFormController {
             Button delete = new Button("Delete");
             setRemoveBtnAction(delete);
             tm.setBtn(delete);
+            delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
             ArrayList<CustomerTm> id = new ArrayList<>();
             id.add(tm);
             ObservableList<CustomerTm> customerTms = FXCollections.observableArrayList(id);

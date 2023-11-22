@@ -9,6 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import static lk.ijse.Launcher.rootNode;
 
@@ -75,7 +79,11 @@ public class DashBoardController {
         setTitle("Home");
         setDate();
         setTime();
-// Set corner radius and change color when pressed
+        startUpButtonsColours();
+    }
+
+    public void startUpButtonsColours() {
+        // Set corner radius and change color when pressed
         btnHome.setStyle("-fx-background-color: white; -fx-background-radius: 0;");
 
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color:  white; -fx-background-radius: 0;"));
@@ -96,6 +104,7 @@ public class DashBoardController {
         btnEmployee.setOnMouseExited(e -> btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+
     }
 
     @FXML
@@ -388,8 +397,8 @@ public class DashBoardController {
 
 
     public void setDate() {
-        lblDate.setText(String.valueOf("Date:"+LocalDate.now()));
-        lblDate.setStyle("-fx-text-fill: #6D214F; -fx-font-family: 'Diyuthi'; -fx-font-size: 14; -fx-font-weight: bold;");
+        lblDate.setText(String.valueOf("Date : "+LocalDate.now()));
+        lblDate.setStyle("-fx-text-fill: #636e72; -fx-font-family: 'Dyuthi'; -fx-font-size: 12; -fx-font-weight: bold;");
     }
     @FXML
     void expencesBtnOnAction(ActionEvent event) throws IOException {
@@ -504,36 +513,97 @@ public class DashBoardController {
     private void updateTime() {
         // Get the current time
         LocalTime currentTime = LocalTime.now();
-        lblTime.setStyle("-fx-text-fill: #6D214F; -fx-font-family: 'Diyuthi'; -fx-font-size: 14; -fx-font-weight: bold;");
+        lblTime.setStyle("-fx-text-fill: #636e72; -fx-font-family: 'Dyuthi'; -fx-font-size: 12; -fx-font-weight: bold;");
         // Format the time using a DateTimeFormatter
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = currentTime.format(formatter);
 
         // Update the Label with the formatted time
 
-        lblTime.setText("Time:"+formattedTime);
+        lblTime.setText("Time : "+formattedTime);
 
     }
     @FXML
     void btnLogoutOnAction(ActionEvent event) throws IOException {
-        Stage currentStage = (Stage) btnLogout.getScene().getWindow();
-        rootNode = FXMLLoader.load(this.getClass().getResource("/view/login_forum.fxml"));
-        Scene scene = new Scene(rootNode);
-        currentStage.setScene(scene);
-        currentStage.centerOnScreen();
-        currentStage.setTitle("");
-        currentStage.show();
+        // Set corner radius and change color when pressed
+        btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
+        btnLogout.setOnMousePressed(e -> btnLogout.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+// Reset corner radius and revert color when released
+        btnLogout.setOnMouseReleased(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
+
+// Set the initial styles
+        btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnItems.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnCustomers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnExpences.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+
+// Set the button's style on mouse enter and revert on mouse exit
+        btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnOrder.setOnMouseExited(e -> btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnReturns.setOnMouseEntered(e -> btnReturns.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnReturns.setOnMouseExited(e -> btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnItems.setOnMouseEntered(e -> btnItems.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnItems.setOnMouseExited(e -> btnItems.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnSuppliers.setOnMouseEntered(e -> btnSuppliers.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnSuppliers.setOnMouseExited(e -> btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnCustomers.setOnMouseEntered(e -> btnCustomers.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnCustomers.setOnMouseExited(e -> btnCustomers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnExpences.setOnMouseEntered(e -> btnExpences.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
+        btnExpences.setOnMouseExited(e -> btnExpences.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
+        btnEmployee.setOnMouseEntered(e -> btnEmployee.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
+        btnEmployee.setOnMouseExited(e -> btnEmployee.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
+        btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
+        btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
+
+
+
+
+
+
+
+        ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to logout!", yes, no).showAndWait();
+
+        if (type.orElse(no) == yes) {
+            Stage currentStage = (Stage) btnLogout.getScene().getWindow();
+            rootNode = FXMLLoader.load(this.getClass().getResource("/view/login_forum.fxml"));
+            Scene scene = new Scene(rootNode);
+            currentStage.setScene(scene);
+            currentStage.centerOnScreen();
+            currentStage.setTitle("");
+            currentStage.show();
+            // Locate the AnchorPane within dashboard_form.fxml
+            AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
+
+            // Load and set the content from another FXML file
+            FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
+            AnchorPane subContent = subLoader.load();
+
+            // Add the subContent to the targetAnchorPane
+            targetAnchorPane.getChildren().setAll(subContent);
+            return;
+        }
+        btnLogout.setFocusTraversable(false);
+
+        btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
+        startUpButtonsColours();
         // Locate the AnchorPane within dashboard_form.fxml
         AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
         // Load and set the content from another FXML file
-        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
+        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/home_form.fxml"));
         AnchorPane subContent = subLoader.load();
 
         // Add the subContent to the targetAnchorPane
         targetAnchorPane.getChildren().setAll(subContent);
+
     }
-
-
-
 }

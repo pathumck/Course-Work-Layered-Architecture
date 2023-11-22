@@ -2,6 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,11 +12,19 @@
 <AnchorPane fx:id="mainAnchor" prefHeight="585.0" prefWidth="1040.0" style="-fx-background-color: #e4e6eb#e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.DashBoardController">
    <children>
       <AnchorPane fx:id="subAnchorPaneRight" layoutX="163.0" layoutY="51.0" prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #3A3B3C; -fx-background-radius: 10;" />
-      <AnchorPane fx:id="subAnchorPaneTop" layoutX="6.0" layoutY="6.0" prefHeight="38.0" prefWidth="1028.0" style="-fx-background-radius: 10;" styleClass="gradient" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane fx:id="subAnchorPaneTop" layoutX="6.0" layoutY="6.0" prefHeight="38.0" prefWidth="1028.0" style="-fx-background-radius: 10;" styleClass="gradient">
          <children>
-            <Label fx:id="lblDate" layoutX="696.0" layoutY="2.0" prefHeight="36.0" prefWidth="159.0" />
+            <Label fx:id="lblDate" layoutX="676.0" layoutY="2.0" prefHeight="36.0" prefWidth="159.0" />
             <Label fx:id="lblTitle" layoutX="471.0" layoutY="1.0" prefHeight="34.0" prefWidth="159.0" styleClass="notch" />
             <Label fx:id="lblTime" layoutX="869.0" layoutY="2.0" prefHeight="36.0" prefWidth="159.0" />
+            <ImageView fitHeight="26.0" fitWidth="48.0" layoutX="58.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/2008.i305.015_women_clothing_store_set-05-removebg-preview.png" />
+               </image>
+               <effect>
+                  <Reflection />
+               </effect>
+            </ImageView>
          </children></AnchorPane>
       <JFXButton fx:id="btnHome" buttonType="RAISED" layoutX="10.0" layoutY="52.0" onAction="#btnHomeOnAction" prefHeight="48.0" prefWidth="152.0" style="-fx-background-radius: 0; -fx-background-color: #B0B3B8;" text="Home" textAlignment="RIGHT" textFill="#000000f7">
          <font>
@@ -124,5 +134,13 @@
             </ImageView>
          </graphic>
       </JFXButton>
+      <Label layoutX="36.0" layoutY="16.0" prefHeight="21.0" prefWidth="124.0" stylesheets="@../styles/backgrounds.css" text="ＳＴ Ｃｌｏｔｈｉｎｇ" textFill="#393d3e">
+         <font>
+            <Font name="FreeSans" size="10.0" />
+         </font>
+         <effect>
+            <Bloom />
+         </effect>
+      </Label>
    </children>
 </AnchorPane>

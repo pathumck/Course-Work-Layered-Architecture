@@ -117,7 +117,7 @@ public class FogotPasswordController {
             AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
             // Load and set the content from another FXML file
-            FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/change_credentials_form.fxml"));
+            FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/new_credentials_form.fxml"));
             AnchorPane subContent = subLoader.load();
 
             // Add the subContent to the targetAnchorPane

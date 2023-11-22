@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.ItemsFormController">
    <children>
-      <TableView fx:id="tblItems" layoutX="6.0" layoutY="225.0" onMouseClicked="#mouseClickOnAction" prefHeight="297.0" prefWidth="859.0">
+      <TableView fx:id="tblItems" layoutX="6.0" layoutY="239.0" onMouseClicked="#mouseClickOnAction" prefHeight="282.0" prefWidth="859.0">
          <columns>
             <TableColumn fx:id="colItemCode" prefWidth="106.42901802062988" text="Item Code" />
             <TableColumn fx:id="colSupplierId" prefWidth="137.1434326171875" text="SupplierID" />
@@ -56,12 +56,12 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="590.0" layoutY="176.0" onAction="#addBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #009432;" text="Add Item">
+      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="590.0" layoutY="176.0" onAction="#addBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #2ecc71;" text="Add Item">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="740.0" layoutY="175.0" onAction="#updateBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #EE5A24;" text="Update Item">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="740.0" layoutY="175.0" onAction="#updateBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #3498db;" text="Update Item">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -79,7 +79,7 @@
       <JFXTextField fx:id="txtSearchItemByItemCode" layoutX="90.0" layoutY="22.0" onAction="#searchByItemCodeOnAction" onMouseClicked="#txtSearchByItemCodeOnClicked" prefWidth="229.0" promptText="Search Item By Item Code " />
       <JFXTextField fx:id="txtSearchItemBySupplierId" layoutX="550.0" layoutY="22.0" onAction="#searchBySupplierIdOnAction" onMouseClicked="#txtSearchBySupIdOnClicked" prefWidth="229.0" promptText="Search Item By Supplier ID" />
       <ComboBox fx:id="cmbSize" layoutX="370.0" layoutY="181.0" prefWidth="200.0" />
-      <JFXButton fx:id="btnClearAllFields" layoutX="817.0" layoutY="16.0" onAction="#btnClearAllFieldsOnAction" prefHeight="42.0" prefWidth="54.0" text=" ">
+      <JFXButton fx:id="btnClearAllFields" layoutX="819.0" layoutY="8.0" onAction="#btnClearAllFieldsOnAction" prefHeight="34.0" prefWidth="38.0" text=" ">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -2,6 +2,7 @@ package lk.ijse.st_clothing.model;
 
 import lk.ijse.st_clothing.db.DbConnection;
 import lk.ijse.st_clothing.dto.ItemDto;
+import lk.ijse.st_clothing.dto.tm.CartTm;
 import lk.ijse.st_clothing.dto.tm.ReturnCartTm;
 
 import java.sql.Connection;
@@ -153,7 +154,7 @@ public class ItemsModel {
         return dtos;
     }
 
-    public boolean updateItem(List<ReturnCartTm> cartTmList) throws SQLException {
+    public boolean updateItems(List<ReturnCartTm> cartTmList) throws SQLException {
         for(ReturnCartTm tm : cartTmList) {
             //System.out.println("Item: " + tm);
             if(!updateQty(tm.getItemCode(), tm.getQty())) {
@@ -174,6 +175,29 @@ public class ItemsModel {
 
         return pstm.executeUpdate() > 0; //false
     }
+
+    public boolean updateItem(List<CartTm> cartTmList) throws SQLException {
+        for(CartTm tm : cartTmList) {
+            System.out.println("Item: " + tm);
+            if(!updatesQty(tm.getItemCode(), tm.getQty())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean updatesQty(String code, int qty) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE Items SET qty = qty - ? WHERE itemCode = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setInt(1, qty);
+        pstm.setString(2, code);
+
+        return pstm.executeUpdate() > 0;
+    }
+
 
 
 }

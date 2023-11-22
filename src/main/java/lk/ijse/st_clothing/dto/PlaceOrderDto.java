@@ -1,19 +1,41 @@
 package lk.ijse.st_clothing.dto;
 
-public class OrderDto {
+import lk.ijse.st_clothing.dto.tm.CartTm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlaceOrderDto {
     private String orderId;
     private String  date;
     private String time;
     private String customerId;
+    private List<CartTm> cartTms = new ArrayList<>();
 
-    public OrderDto() {
+    public PlaceOrderDto() {
     }
 
-    public OrderDto(String orderId, String date, String time, String customerId) {
+    public PlaceOrderDto(String orderId, String date, String time, String customerId, List<CartTm> cartTms) {
         this.orderId = orderId;
         this.date = date;
         this.time = time;
         this.customerId = customerId;
+        this.cartTms = cartTms;
+    }
+
+    public PlaceOrderDto(String orderId, String date, String time, String customerId) {
+        this.orderId = orderId;
+        this.date = date;
+        this.time = time;
+        this.customerId = customerId;
+    }
+
+    public List<CartTm> getCartTms() {
+        return cartTms;
+    }
+
+    public void setCartTms(List<CartTm> cartTms) {
+        this.cartTms = cartTms;
     }
 
     public String getOrderId() {

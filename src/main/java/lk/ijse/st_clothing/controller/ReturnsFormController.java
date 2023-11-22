@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.st_clothing.dto.ItemDto;
-import lk.ijse.st_clothing.dto.OrderDto;
+import lk.ijse.st_clothing.dto.PlaceOrderDto;
 import lk.ijse.st_clothing.dto.PlaceReturnDto;
 import lk.ijse.st_clothing.dto.tm.ReturnCartTm;
 import lk.ijse.st_clothing.model.ItemsModel;
@@ -120,7 +120,7 @@ public class ReturnsFormController {
     }
 
     public void setLabelsOfSelectedOrderId() throws SQLException {
-        OrderDto dto = OrdersModel.getOrderByorderId(txtSelectOrderId.getText());
+        PlaceOrderDto dto = OrdersModel.getOrderByorderId(txtSelectOrderId.getText());
         lblOrderDate.setText(dto.getDate());
         lblCusId.setText(dto.getCustomerId());
         lblTime.setText(dto.getTime());
@@ -232,8 +232,8 @@ public class ReturnsFormController {
         String selectId = txtSelectOrderId.getText();
         String selectCode = txtSelectItemCode.getText();
         String qty = txtQty.getText();
-        if(selectId.isEmpty()||selectCode.isEmpty()||qty.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Check Empty Fields").show();
+        if(tblReturnCart.getItems().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR,"Cart is empty!").show();
             return;
         }
 
@@ -267,6 +267,7 @@ public class ReturnsFormController {
         txtSelectOrderId.clear();
         lblDescription.setText("");
         lblUnitPrice.setText("");
+        lblTotal.setText("");
         initialize();
     }
 

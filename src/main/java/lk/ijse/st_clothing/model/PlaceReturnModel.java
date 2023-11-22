@@ -28,7 +28,7 @@ public class PlaceReturnModel {
             boolean isReturnSaved = returnsModel.saveReturn(returnId, customerId, date,time);
             if (isReturnSaved) {
                 System.out.println("xxxxxxxxxxxx");
-                boolean isUpdated = itemsModel.updateItem(placeReturnDto.getList());
+                boolean isUpdated = itemsModel.updateItems(placeReturnDto.getList());
                 if (isUpdated) {
                     boolean isReturnDetailsSaved = returnDetailsModel.saveReturnDetails(placeReturnDto.getReturnId(), placeReturnDto.getList());
                     if (isReturnDetailsSaved) {

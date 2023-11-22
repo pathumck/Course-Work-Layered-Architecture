@@ -1,7 +1,7 @@
 package lk.ijse.st_clothing.model;
 
 import lk.ijse.st_clothing.db.DbConnection;
-import lk.ijse.st_clothing.dto.tm.CredentialsDto;
+import lk.ijse.st_clothing.dto.CredentialsDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package lk.ijse.st_clothing.dto.tm;
+package lk.ijse.st_clothing.dto;
 
 public class CredentialsDto {
     private String userName;

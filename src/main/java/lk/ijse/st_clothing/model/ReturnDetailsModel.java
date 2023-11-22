@@ -5,6 +5,7 @@ import lk.ijse.st_clothing.dto.tm.ReturnCartTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,5 +31,18 @@ public class ReturnDetailsModel {
         pstm.setDouble(4, tm.getUnitPrice());
 
         return pstm.executeUpdate() > 0;
+    }
+
+    public static Double getDeductionById(String id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT SUM(qty * unitPrice) AS totalReturnAmount FROM ReturnDetails WHERE returnId = ? GROUP BY returnId";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1,id);
+        ResultSet rs = pstm.executeQuery();
+        Double sum = null;
+        while (rs.next()) {
+            sum = rs.getDouble(1);
+        }
+        return sum;
     }
 }

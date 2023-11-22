@@ -3,6 +3,8 @@
 -fx-background-radius: 0 50 50 50;
 }
 
+
+
 .notch
 {
     -fx-background-radius: 50 50 0 5;
@@ -13,7 +15,7 @@
 }
 
 .gradientwhitgrey-to-right {
-    -fx-background-color: linear-gradient(to right, white, grey);
+    -fx-background-color: linear-gradient(to right,  #353b48, grey);
 }
 .gradientCenterVertical {
     -fx-background-color: linear-gradient(to bottom, white 0%, grey 50%, white 100%);

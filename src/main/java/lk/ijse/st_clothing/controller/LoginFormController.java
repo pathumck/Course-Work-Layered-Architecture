@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.st_clothing.dto.tm.CredentialsDto;
+import lk.ijse.st_clothing.dto.CredentialsDto;
 import lk.ijse.st_clothing.model.LoginModel;
 
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class LoginFormController {
         AnchorPane targetAnchorPane = (AnchorPane) rootNode.lookup("#subAnchorPaneRight");
 
         // Load and set the content from another FXML file
-        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/fogot_password.fxml"));
+        FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/fogot_password_form.fxml"));
         AnchorPane subContent = subLoader.load();
 
         // Add the subContent to the targetAnchorPane

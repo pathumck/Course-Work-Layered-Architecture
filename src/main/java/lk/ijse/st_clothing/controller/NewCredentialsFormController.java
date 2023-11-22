@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.st_clothing.dto.tm.CredentialsDto;
+import lk.ijse.st_clothing.dto.CredentialsDto;
 import lk.ijse.st_clothing.model.LoginModel;
 
 import java.io.IOException;

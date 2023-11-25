@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,10 +14,10 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.ItemDto;
 import lk.ijse.st_clothing.dto.tm.ItemTm;
 import lk.ijse.st_clothing.model.ItemsModel;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class ItemsFormController {
     @FXML
@@ -63,22 +65,19 @@ public class ItemsFormController {
     @FXML
     private JFXTextField txtSearchItemByItemCode;
 
-    @FXML
-    private JFXTextField txtSearchItemBySupplierId;
 
     @FXML
     private JFXTextField txtSupplierId;
 
     @FXML
     private JFXTextField txtUnitPrice;
-
+    private ObservableList<ItemTm> toTable;
     public void initialize() throws SQLException {
         setTableItems();
         vitualize();
+        searchFilter();
         String[] sizes = {"S","M","L","XL","XXL"};
         cmbSize.setItems(FXCollections.observableArrayList(sizes));
-        loadAllItemCodes();
-        loadAllsupplierIds();
     }
 
     public void setTableItems() {
@@ -101,11 +100,45 @@ public class ItemsFormController {
 
             }
 
-            ObservableList<ItemTm> toTable = FXCollections.observableArrayList(tms);
+            toTable = FXCollections.observableArrayList(tms);
             tblItems.setItems(toTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    private void searchFilter() {
+        FilteredList<ItemTm> filterData= new FilteredList<>(toTable, e->true);
+        txtSearchItemByItemCode.setOnKeyReleased(e->{
+
+
+            txtSearchItemByItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate((Predicate<? super ItemTm >) cust->{
+                    if(newValue==null){
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if(cust.getItemCode().contains(newValue)){
+                        return true;
+                    }else  if(cust.getSupplierId().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDescription().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getUnitPrice().toString().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getQty().toString().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getSize().toString().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+
+            final SortedList<ItemTm> customers = new SortedList<>(filterData);
+            customers.comparatorProperty().bind(tblItems.comparatorProperty());
+            tblItems.setItems(customers);
+        });
     }
 
     public void vitualize() {
@@ -219,87 +252,8 @@ public class ItemsFormController {
         txtUnitPrice.clear();
         txtQty.clear();
         txtSearchItemByItemCode.clear();
-        txtSearchItemBySupplierId.clear();
         cmbSize.setValue(null);
         initialize();
-    }
-
-    public void loadAllItemCodes() throws SQLException {
-        ArrayList<String> itemCodes = ItemsModel.getItemCodes();
-        TextFields.bindAutoCompletion(txtSearchItemByItemCode,itemCodes);
-    }
-
-    public void loadAllsupplierIds() throws SQLException {
-        ArrayList<String> supIds = ItemsModel.getSupplierIds();
-        TextFields.bindAutoCompletion(txtSearchItemBySupplierId,supIds);
-        TextFields.bindAutoCompletion(txtSupplierId,supIds);
-
-    }
-
-
-    @FXML
-    void searchBySupplierIdOnAction(ActionEvent event) {
-        try {
-            String supId = txtSearchItemBySupplierId.getText() ;
-            ArrayList<ItemDto> dtos = ItemsModel.getItemBySupID(supId);
-            ArrayList<ItemTm> tms = new ArrayList<>();
-            for (ItemDto dto : dtos) {
-                ItemTm tm = new ItemTm();
-                tm.setItemCode(dto.getItemCode());
-                tm.setSupplierId(dto.getSupplierId());
-                tm.setDescription(dto.getDescription());
-                tm.setSize(dto.getSize());
-                tm.setUnitPrice(dto.getUnitPrice());
-                tm.setQty(dto.getQty());
-                Button btn = new Button("Delete");
-                btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-                setRemoveBtnAction(btn);
-                tm.setBtn(btn);
-                tms.add(tm);
-            }
-            ObservableList<ItemTm> toTable = FXCollections.observableArrayList(tms);
-            tblItems.setItems(toTable);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void searchByItemCodeOnAction(ActionEvent event) {
-        try {
-            ItemDto dto = ItemsModel.getItemById(txtSearchItemByItemCode.getText());
-            if(dto!=null) {
-                ItemTm tm = new ItemTm();
-                tm.setItemCode(dto.getItemCode());
-                tm.setSupplierId(dto.getSupplierId());
-                tm.setDescription(dto.getDescription());
-                tm.setQty(dto.getQty());
-                tm.setUnitPrice(dto.getUnitPrice());
-                tm.setSize(dto.getSize());
-                Button delete = new Button("Delete");
-                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-                setRemoveBtnAction(delete);
-                tm.setBtn(delete);
-                ArrayList<ItemTm> id = new ArrayList<>();
-                id.add(tm);
-                ObservableList<ItemTm> itemsTms = FXCollections.observableArrayList(id);
-                tblItems.refresh();
-                tblItems.setItems(itemsTms);}
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-
-    }
-
-    @FXML
-    void txtSearchBySupIdOnClicked(MouseEvent event) throws SQLException {
-        clearAllFields();
-    }
-
-
-    @FXML
-    void txtSearchByItemCodeOnClicked(MouseEvent event) throws SQLException {
-        clearAllFields();
     }
 
     @FXML

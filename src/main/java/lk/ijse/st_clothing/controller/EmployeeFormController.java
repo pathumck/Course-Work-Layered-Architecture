@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,11 +14,11 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.EmployeeDto;
 import lk.ijse.st_clothing.dto.tm.EmployeeTm;
 import lk.ijse.st_clothing.model.EmployeeModel;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class EmployeeFormController {
     @FXML
@@ -83,6 +85,8 @@ public class EmployeeFormController {
     @FXML
     private JFXTextField txtId;
 
+    private ObservableList<EmployeeTm> toTable;
+
     public void initialize() throws SQLException {
         String[] genders = {"Male", "Female", "Other"};
         cmbGender.setItems(FXCollections.observableArrayList(genders));
@@ -90,8 +94,48 @@ public class EmployeeFormController {
         setDate();
         setTableEmployee();
         vitualize();
-        loadAllEmployeeIds();
+        searchFilter();
     }
+
+    private void searchFilter() {
+        FilteredList<EmployeeTm> filterData= new FilteredList<>(toTable, e->true);
+        txtSearchId.setOnKeyReleased(e->{
+
+
+            txtSearchId.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate((Predicate<? super EmployeeTm >) cust->{
+                    if(newValue==null){
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if(cust.getId().contains(newValue)){
+                        return true;
+                    }else  if(cust.getAddress().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getNic().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDob().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getName().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getTp().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    }else  if(cust.getDate().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    }else  if(cust.getGender().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    }
+                    return false;
+                });
+            });
+
+            final SortedList<EmployeeTm> customers = new SortedList<>(filterData);
+            customers.comparatorProperty().bind(tblEmployee.comparatorProperty());
+            tblEmployee.setItems(customers);
+        });
+
+    }
+
 
     public void setDate() {
         lblRegDate.setText(String.valueOf(LocalDate.now()));
@@ -118,7 +162,7 @@ public class EmployeeFormController {
                 tm.setBtn(btn);
                 tms.add(tm);
             }
-            ObservableList<EmployeeTm> toTable = FXCollections.observableArrayList(tms);
+            toTable = FXCollections.observableArrayList(tms);
             tblEmployee.setItems(toTable);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -230,10 +274,6 @@ public class EmployeeFormController {
 
     }
 
-    public void loadAllEmployeeIds() throws SQLException {
-        ArrayList<String> empIds = EmployeeModel.getEmmployeeIds();
-        TextFields.bindAutoCompletion(txtSearchId,empIds);
-    }
 
 
 
@@ -249,33 +289,7 @@ public class EmployeeFormController {
         initialize();
     }
 
-    @FXML
-    void searchByIdOnAction(ActionEvent event) {
-        try {
-            EmployeeDto dto = EmployeeModel.getEmployeeById(txtSearchId.getText());
-            if(dto!=null) {
-                EmployeeTm tm = new EmployeeTm();
-                tm.setId(dto.getId());
-                tm.setName(dto.getName());
-                tm.setAddress(dto.getAddress());
-                tm.setGender(dto.getGender());
-                tm.setDob(dto.getDob());
-                tm.setNic(dto.getNic());
-                tm.setTp(dto.getTp());
-                tm.setDate(dto.getDate());
-                Button delete = new Button("Delete");
-                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-                setRemoveBtnAction(delete);
-                tm.setBtn(delete);
-                ArrayList<EmployeeTm> id = new ArrayList<>();
-                id.add(tm);
-                ObservableList<EmployeeTm> employeeTms = FXCollections.observableArrayList(id);
-                tblEmployee.refresh();
-                tblEmployee.setItems(employeeTms);}
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
+
 
 
     @FXML

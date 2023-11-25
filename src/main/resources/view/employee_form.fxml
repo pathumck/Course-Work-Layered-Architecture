@@ -74,7 +74,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtSearchId" layoutX="130.0" layoutY="23.0" onAction="#searchByIdOnAction" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="229.0" />
+      <JFXTextField fx:id="txtSearchId" layoutX="130.0" layoutY="23.0" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="229.0" />
       <JFXTextField fx:id="txtName" layoutX="100.0" layoutY="138.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtAddress" layoutX="100.0" layoutY="182.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtNIC" layoutX="381.0" layoutY="99.0" prefWidth="200.0" />

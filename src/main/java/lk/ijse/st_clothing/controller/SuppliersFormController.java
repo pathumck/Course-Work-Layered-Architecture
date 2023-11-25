@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,11 +15,11 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.SupplierDto;
 import lk.ijse.st_clothing.dto.tm.SupplierTm;
 import lk.ijse.st_clothing.model.SupplierModel;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class SuppliersFormController {
     @FXML
@@ -68,11 +70,13 @@ public class SuppliersFormController {
     @FXML
     private JFXTextField txtTp;
 
+    private ObservableList<SupplierTm> toTable;
     public void initialize() throws SQLException {
         setTableSuppliers();
         vitualize();
-        loadAllsupplierIds();
+        searchFilter();
         setDate();
+        searchFilter();
     }
 
     public void setDate() {
@@ -99,12 +103,47 @@ public class SuppliersFormController {
 
             }
 
-            ObservableList<SupplierTm> toTable = FXCollections.observableArrayList(tms);
+            toTable = FXCollections.observableArrayList(tms);
             tblSupplier.setItems(toTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private void searchFilter() {
+        FilteredList<SupplierTm> filterData= new FilteredList<>(toTable, e->true);
+        txtSearchId.setOnKeyReleased(e->{
+
+
+            txtSearchId.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate((Predicate<? super SupplierTm >) cust->{
+                    if(newValue==null){
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if(cust.getId().contains(newValue)){
+                        return true;
+                    }else  if(cust.getAddress().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getName().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDate().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getTp().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+
+            final SortedList<SupplierTm> customers = new SortedList<>(filterData);
+            customers.comparatorProperty().bind(tblSupplier.comparatorProperty());
+            tblSupplier.setItems(customers);
+        });
+
+    }
+
 
     public void setRemoveBtnAction(Button btn) {
         btn.setOnAction((e) -> {
@@ -199,10 +238,6 @@ public class SuppliersFormController {
         lblDate.setText(colDate.getCellData(index).toString());
     }
 
-    public void loadAllsupplierIds() throws SQLException {
-        ArrayList<String> supIds = SupplierModel.getSupplierIds();
-        TextFields.bindAutoCompletion(txtSearchId,supIds);
-    }
 
     @FXML
     void searchByIdOnAction(ActionEvent event) {

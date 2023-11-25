@@ -68,7 +68,7 @@
       <JFXTextField fx:id="txtName" layoutX="347.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtTp" layoutX="46.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtAddress" layoutX="349.0" layoutY="151.0" prefHeight="25.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtSearchByID" layoutX="135.0" layoutY="13.0" onAction="#txtSearchByIdOnAction" onMouseClicked="#txtSearchByIdOnMouseClicked" prefHeight="25.0" prefWidth="229.0" promptText="Search Customer By Customer ID" />
+      <JFXTextField fx:id="txtSearchByID" layoutX="135.0" layoutY="13.0" onMouseClicked="#txtSearchByIdOnMouseClicked" prefHeight="25.0" prefWidth="229.0" promptText="Search Customer By Customer ID" />
       <Label fx:id="lblRegDate" layoutX="700.0" layoutY="102.0" prefHeight="24.0" prefWidth="103.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />

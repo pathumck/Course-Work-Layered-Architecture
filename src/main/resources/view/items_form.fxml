@@ -76,8 +76,7 @@
       <JFXTextField fx:id="txtDescription" layoutX="90.0" layoutY="180.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtUnitPrice" layoutX="370.0" layoutY="80.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtQty" layoutX="370.0" layoutY="130.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtSearchItemByItemCode" layoutX="90.0" layoutY="22.0" onAction="#searchByItemCodeOnAction" onMouseClicked="#txtSearchByItemCodeOnClicked" prefWidth="229.0" promptText="Search Item By Item Code " />
-      <JFXTextField fx:id="txtSearchItemBySupplierId" layoutX="550.0" layoutY="22.0" onAction="#searchBySupplierIdOnAction" onMouseClicked="#txtSearchBySupIdOnClicked" prefWidth="229.0" promptText="Search Item By Supplier ID" />
+      <JFXTextField fx:id="txtSearchItemByItemCode" layoutX="90.0" layoutY="22.0" prefWidth="229.0" promptText="Search Item By Item Code " />
       <ComboBox fx:id="cmbSize" layoutX="370.0" layoutY="181.0" prefWidth="200.0" />
       <JFXButton fx:id="btnClearAllFields" layoutX="819.0" layoutY="8.0" onAction="#btnClearAllFieldsOnAction" prefHeight="34.0" prefWidth="38.0" text=" ">
          <graphic>

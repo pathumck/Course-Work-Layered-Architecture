@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,11 +14,11 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.ExpenceDto;
 import lk.ijse.st_clothing.dto.tm.ExpenceTm;
 import lk.ijse.st_clothing.model.ExpenceModel;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class ExpencesFormController {
     @FXML
@@ -64,11 +66,12 @@ public class ExpencesFormController {
     @FXML
     private JFXTextField txtType;
 
+    private ObservableList<ExpenceTm> toTable;
     public void initialize() throws SQLException {
         dpDate.setEditable(false);
         setTableExpences();
         vitualize();
-        loadAllExpenceIds();
+        searchFilter();
     }
     public void setTableExpences() {
         try {
@@ -89,12 +92,48 @@ public class ExpencesFormController {
 
             }
 
-            ObservableList<ExpenceTm> toTable = FXCollections.observableArrayList(tms);
+            toTable = FXCollections.observableArrayList(tms);
             tblExpence.setItems(toTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private void searchFilter() {
+        FilteredList<ExpenceTm> filterData= new FilteredList<>(toTable, e->true);
+        txtSearchByExpenceId.setOnKeyReleased(e->{
+
+
+            txtSearchByExpenceId.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate((Predicate<? super ExpenceTm >) cust->{
+                    if(newValue==null){
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if(cust.getId().contains(newValue)){
+                        return true;
+                    }else  if(cust.getType().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDescription().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDate().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getAmount().toString().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+
+            final SortedList<ExpenceTm> customers = new SortedList<>(filterData);
+            customers.comparatorProperty().bind(tblExpence.comparatorProperty());
+            tblExpence.setItems(customers);
+            //ok let's check it
+        });
+
+    }
+
 
     public void vitualize() {
         colExpenceId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -198,36 +237,6 @@ public class ExpencesFormController {
         txtDescription.setText(colDescription.getCellData(index).toString());
         txtAmount.setText(colAmount.getCellData(index).toString());
         dpDate.setValue(LocalDate.parse(colDate.getCellData(index).toString()));
-    }
-
-    public void loadAllExpenceIds() throws SQLException {
-        ArrayList<String> expenceIds = ExpenceModel.getExpenceIds();
-        TextFields.bindAutoCompletion(txtSearchByExpenceId,expenceIds);
-    }
-
-    @FXML
-    void txtSearchByExpenceIdOnAction(ActionEvent event) {
-        try {
-            ExpenceDto dto = ExpenceModel.getExpenceById(txtSearchByExpenceId.getText());
-            if(dto!=null) {
-                ExpenceTm tm = new ExpenceTm();
-                tm.setId(dto.getId());
-                tm.setType(dto.getType());
-                tm.setDescription(dto.getDescription());
-                tm.setDate(dto.getDate());
-                tm.setAmount(dto.getAmount());
-                Button delete = new Button("Delete");
-                delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-                setRemoveBtnAction(delete);
-                tm.setBtn(delete);
-                ArrayList<ExpenceTm> id = new ArrayList<>();
-                id.add(tm);
-                ObservableList<ExpenceTm> expenceTms = FXCollections.observableArrayList(id);
-                tblExpence.refresh();
-                tblExpence.setItems(expenceTms);}
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
     }
 
     @FXML

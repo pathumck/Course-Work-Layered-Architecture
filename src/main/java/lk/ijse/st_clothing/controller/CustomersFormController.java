@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,11 +14,12 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.CustomerDto;
 import lk.ijse.st_clothing.dto.tm.CustomerTm;
 import lk.ijse.st_clothing.model.CustomerModel;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class CustomersFormController {
     @FXML
@@ -64,15 +67,50 @@ public class CustomersFormController {
     @FXML
     private JFXTextField txtSearchByID;
 
+    private ObservableList<CustomerTm> objects;
 
 
     public void initialize() throws SQLException {
         setTableCustomers();
         vitualize();
         setDate();
-        loadAllItemCodes();
+        searchFilter();
+    }
+
+    private void searchFilter() {
+        FilteredList<CustomerTm> filterData= new FilteredList<>(objects, e->true);
+        txtSearchByID.setOnKeyReleased(e->{
+
+
+            txtSearchByID.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate((Predicate<? super CustomerTm >) cust->{
+                    if(newValue==null){
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if(cust.getId().contains(newValue)){
+                        return true;
+                    }else  if(cust.getAddress().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getDate().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getTp().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }else  if(cust.getName().toLowerCase().contains(toLowerCaseFilter)){
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+
+            final SortedList<CustomerTm> customers = new SortedList<>(filterData);
+            customers.comparatorProperty().bind(tblCustomers.comparatorProperty());
+            tblCustomers.setItems(customers);
+        });
 
     }
+
 
     public void setTableCustomers() {
         try {
@@ -91,7 +129,7 @@ public class CustomersFormController {
                 tm.setBtn(deleteButton);
                 tms.add(tm);
             }
-            ObservableList<CustomerTm> objects = FXCollections.observableArrayList(tms);
+             objects = FXCollections.observableArrayList(tms);
             tblCustomers.setItems(objects);
 
         } catch (SQLException e) {
@@ -137,6 +175,8 @@ public class CustomersFormController {
 
     @FXML
     void addCustomerBtnOnAction(ActionEvent event) throws SQLException {
+        Boolean isValidate = validateCustomer();
+        if(isValidate) {
         String id = txtId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
@@ -160,62 +200,36 @@ public class CustomersFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        String id = txtId.getText();
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String tp = txtTp.getText();
+        Boolean isValidate = validateCustomer();
+        if(isValidate) {
+            String id = txtId.getText();
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String tp = txtTp.getText();
 
-        if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
-            new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-            return;
-        }
-
-        CustomerDto dto = new CustomerDto(id,name,address,tp);
-        try {
-            Boolean flag = CustomerModel.updateCustomer(dto);
-            if(flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
-                setTableCustomers();
+            if (id.isEmpty() || name.isEmpty() || address.isEmpty() || tp.isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Text Fields Empty!").show();
+                return;
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Check Item Code!").show();
+
+            CustomerDto dto = new CustomerDto(id, name, address, tp);
+            try {
+                Boolean flag = CustomerModel.updateCustomer(dto);
+                if (flag) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
+                    setTableCustomers();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Check Item Code!").show();
+            }
         }
     }
-
-    public void loadAllItemCodes() throws SQLException {
-        ArrayList<String> cusIds = CustomerModel.getCustomerIds();
-        TextFields.bindAutoCompletion(txtSearchByID,cusIds);
-    }
-
-    @FXML
-    void txtSearchByIdOnAction(ActionEvent event) {
-        try {
-            CustomerDto dto = CustomerModel.getCustomerById(txtSearchByID.getText());
-            if(dto!=null) {
-            CustomerTm tm = new CustomerTm();
-            tm.setId(dto.getId());
-            tm.setName(dto.getName());
-            tm.setAddress(dto.getAddress());
-            tm.setTp(dto.getTp());
-            tm.setDate(dto.getDate());
-            Button delete = new Button("Delete");
-            setRemoveBtnAction(delete);
-            tm.setBtn(delete);
-            delete.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-            ArrayList<CustomerTm> id = new ArrayList<>();
-            id.add(tm);
-            ObservableList<CustomerTm> customerTms = FXCollections.observableArrayList(id);
-            tblCustomers.refresh();
-            tblCustomers.setItems(customerTms);}
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
-
     public void mouseClickOnAction(javafx.scene.input.MouseEvent mouseEvent) {
         Integer index = tblCustomers.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
@@ -247,6 +261,38 @@ public class CustomersFormController {
     void txtSearchByIdOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();
     }
+
+    private Boolean validateCustomer() {
+        String id = txtId.getText();
+        boolean idMatch = Pattern.matches("^(?:19|20)?\\d{2}[0-9]{10}|[0-9]{9}[x|X|v|V]$",id);
+        if (!idMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid customer id!").show();
+            return false;
+        }
+
+
+        String tp = txtTp.getText();
+        boolean telMatch = Pattern.matches("[0-9]{10}",tp);
+        if (!telMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid telphone!").show();
+            return false;
+        }
+
+        String address = txtAddress.getText();
+        boolean addressMatch= Pattern.matches("[A-za-z]{3,}",address);
+        if (!addressMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid address!").show();
+            return false;
+        }
+        String name= txtName.getText();
+        boolean nameMatch = Pattern.matches("[A-za-z\\s]{4,}",name);
+        if (!nameMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid name!").show();
+            return false;
+        }
+        return true;
+    }
+
 }
 
 

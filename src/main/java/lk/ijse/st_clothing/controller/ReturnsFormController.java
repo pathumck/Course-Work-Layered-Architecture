@@ -185,6 +185,7 @@ public class ReturnsFormController {
         obList.add(ReturnCartTm);
 
         tblReturnCart.setItems(obList);
+        FXCollections.reverse(obList);
         calculateTotal();
         txtQty.clear();
     }

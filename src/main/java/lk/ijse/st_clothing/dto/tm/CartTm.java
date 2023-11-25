@@ -13,6 +13,14 @@ public class CartTm {
     public CartTm() {
     }
 
+    public CartTm(String itemCode, String description, Integer qty, Double unitPrice, Double total) {
+        this.itemCode = itemCode;
+        this.description = description;
+        this.qty = qty;
+        UnitPrice = unitPrice;
+        this.total = total;
+    }
+
     public CartTm(String itemCode, String description, Integer qty, Double unitPrice, Double total, Button btn) {
         this.itemCode = itemCode;
         this.description = description;

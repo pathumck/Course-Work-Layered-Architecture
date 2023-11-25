@@ -20,8 +20,10 @@ import lk.ijse.st_clothing.dto.PlaceOrderDto;
 import lk.ijse.st_clothing.dto.tm.CartTm;
 import lk.ijse.st_clothing.dto.tm.DeductionTm;
 import lk.ijse.st_clothing.model.*;
+import net.sf.jasperreports.engine.JRException;
 import org.controlsfx.control.textfield.TextFields;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -30,6 +32,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrdersFormController {
+    @FXML
+    private JFXButton btnPrint;
 
     @FXML
     private JFXButton btnAddNewCus;
@@ -125,9 +129,10 @@ public class OrdersFormController {
 
     private ObservableList<DeductionTm> obList2 = FXCollections.observableArrayList();
 
-    private double total =0;
-    private double deduction =0;
-    private double netTotal =0;
+    private List<CartTm> list2 = new ArrayList<>();
+    private double total = 0;
+    private double deduction = 0;
+    private double netTotal = 0;
 
     private CustomerModel customerModel = new CustomerModel();
     private ItemsModel itemModel = new ItemsModel();
@@ -145,7 +150,9 @@ public class OrdersFormController {
         lblOrderTotal.setText(String.valueOf(total));
         lblDeduction.setText(String.valueOf(deduction));
         lblNetTotal.setText(String.valueOf(netTotal));
+        txtReturnId.setText("r");
     }
+
     private void generateNextOrderId() {
         try {
             String orderId = OrdersModel.generateNextOrderId();
@@ -157,18 +164,19 @@ public class OrdersFormController {
 
     public void loadAllCustomerIds() throws SQLException {
         ArrayList<String> cusIds = CustomerModel.getCustomerIds();
-        TextFields.bindAutoCompletion(txtCustomerId,cusIds);
+        TextFields.bindAutoCompletion(txtCustomerId, cusIds);
     }
 
     public void loadAllItemCodes() throws SQLException {
         ArrayList<String> itemCodes = ItemsModel.getItemCodes();
-        TextFields.bindAutoCompletion(txtItemCode,itemCodes);
+        TextFields.bindAutoCompletion(txtItemCode, itemCodes);
     }
 
     public void loadAllReturnIds() throws SQLException {
         ArrayList<String> returnIds = ReturnsModel.getAllReturnIds();
-        TextFields.bindAutoCompletion(txtReturnId,returnIds);
+        TextFields.bindAutoCompletion(txtReturnId, returnIds);
     }
+
     @FXML
     void btnAddNewCusOnAction(ActionEvent event) throws IOException {
         AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/customers_form.fxml"));
@@ -186,6 +194,7 @@ public class OrdersFormController {
         CustomerDto customerDto = CustomerModel.getCustomerById(cusId);
         lblCustomerName.setText(customerDto.getName());
     }
+
     @FXML
     void txtSelectCustomerKeyReleased(KeyEvent event) throws SQLException {
         getCustomerNameById();
@@ -211,8 +220,8 @@ public class OrdersFormController {
     void btnAddToCartOnAction(ActionEvent event) {
         String itemCode1 = txtItemCode.getText();
         String qty1 = txtQty.getText();
-        if(itemCode1.isEmpty()||qty1.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Check Empty Fields").show();
+        if (itemCode1.isEmpty() || qty1.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Check Empty Fields").show();
             return;
         }
 
@@ -224,6 +233,11 @@ public class OrdersFormController {
 
         int qtyOnHand = Integer.parseInt(lblQtyOnHand.getText());
 
+        if(qtyOnHand<qty) {
+            new Alert(Alert.AlertType.ERROR,"Over the Item's quantity limit!").show();
+            return;
+        }
+
         Button btn = new Button("Remove");
         btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
         setRemoveBtnAction(btn);
@@ -234,8 +248,8 @@ public class OrdersFormController {
                 if (colCode.getCellData(i).equals(itemCode)) {
                     int col_qty = (int) colQty.getCellData(i);
                     qty += col_qty;
-                    if(qty>qtyOnHand) {
-                        new Alert(Alert.AlertType.ERROR,"Over the item's quantity limit!").show();
+                    if (qty > qtyOnHand) {
+                        new Alert(Alert.AlertType.ERROR, "Over the item's quantity limit!").show();
                         return;
                     }
                     tot = unitPrice * qty;
@@ -256,6 +270,7 @@ public class OrdersFormController {
         obList.add(cartTm);
 
         tblCart.setItems(obList);
+        FXCollections.reverse(obList);
         calculateTotal();
         netTotal();
         checkBalance();
@@ -282,7 +297,7 @@ public class OrdersFormController {
     }
 
     private void calculateTotal() {
-        total=0;
+        total = 0;
         for (int i = 0; i < tblCart.getItems().size(); i++) {
             total += (double) colTotal.getCellData(i);
         }
@@ -290,7 +305,7 @@ public class OrdersFormController {
     }
 
     private void calculateDeduction() {
-        deduction=0;
+        deduction = 0;
         for (int i = 0; i < tblReturn.getItems().size(); i++) {
             deduction += (double) colDeduction.getCellData(i);
         }
@@ -303,13 +318,13 @@ public class OrdersFormController {
     }
 
     public void checkBalance() {
-        if(txtPayment.getText().isEmpty()) {
+        if (txtPayment.getText().isEmpty()) {
             lblBalance.setText("");
             return;
         }
         Double payment = Double.valueOf(txtPayment.getText());
         Double netTotal = Double.valueOf(lblNetTotal.getText());
-        lblBalance.setText(String.valueOf(payment-netTotal));
+        lblBalance.setText(String.valueOf(payment - netTotal));
     }
 
     @FXML
@@ -317,6 +332,7 @@ public class OrdersFormController {
         lblBalance.setText("");
         checkBalance();
     }
+
     public void vitualize() {
         colCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -329,8 +345,8 @@ public class OrdersFormController {
     @FXML
     void btnAddReturnOnAction(ActionEvent event) throws SQLException {
         String id = txtReturnId.getText();
-        if(id.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Select ReturnId!").show();
+        if (id.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Select ReturnId!").show();
             return;
         }
         Double deduction = ReturnDetailsModel.getDeductionById(id);
@@ -345,6 +361,7 @@ public class OrdersFormController {
         tm.setBtn(btn);
         obList2.add(tm);
         tblReturn.setItems(obList2);
+        FXCollections.reverse(obList2);
         calculateDeduction();
         netTotal();
         checkBalance();
@@ -378,23 +395,23 @@ public class OrdersFormController {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
-        if(tblCart.getItems().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Cart is Empty!").show();
+        if (tblCart.getItems().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Cart is Empty!").show();
             return;
         }
 
-        if(netTotal<0) {
-            new Alert(Alert.AlertType.ERROR,"Ask customer to buy some items!").show();
+        if (netTotal < 0) {
+            new Alert(Alert.AlertType.ERROR, "Ask customer to buy some items!").show();
             return;
         }
 
-        if(txtPayment.getText().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Input Customer's Payment!").show();
+        if (txtPayment.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Input Customer's Payment!").show();
             return;
         }
         Double blnce = Double.valueOf(lblBalance.getText());
-        if(blnce<0) {
-            new Alert(Alert.AlertType.ERROR,"Payment is not Enough!").show();
+        if (blnce < 0) {
+            new Alert(Alert.AlertType.ERROR, "Payment is not Enough!").show();
             return;
         }
 
@@ -406,9 +423,16 @@ public class OrdersFormController {
 
 
         List<CartTm> cartTmList = new ArrayList<>();
+        System.out.println(tblCart.getItems().size());
         for (int i = 0; i < tblCart.getItems().size(); i++) {
             CartTm cartTm = obList.get(i);
-
+            CartTm tm2 = new CartTm();
+            tm2.setItemCode(cartTm.getItemCode());
+            tm2.setDescription(cartTm.getDescription());
+            tm2.setQty(cartTm.getQty());
+            tm2.setUnitPrice(cartTm.getUnitPrice());
+            tm2.setTotal(cartTm.getTotal());
+            list2.add(tm2);
             cartTmList.add(cartTm);
         }
 
@@ -422,12 +446,11 @@ public class OrdersFormController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 
+    @FXML
+    void btnPrintOnAction(ActionEvent event) throws JRException, FileNotFoundException {
 
-
+    }
 
 }

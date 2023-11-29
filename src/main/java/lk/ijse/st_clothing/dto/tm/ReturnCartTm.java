@@ -12,6 +12,13 @@ public class ReturnCartTm {
     public ReturnCartTm() {
     }
 
+    public ReturnCartTm(String itemCode, Double unitPrice, Integer qty, Double total) {
+        this.itemCode = itemCode;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+        this.total = total;
+    }
+
     public ReturnCartTm(String itemCode, Double unitPrice, Integer qty, Double total, Button btn) {
         this.itemCode = itemCode;
         this.unitPrice = unitPrice;

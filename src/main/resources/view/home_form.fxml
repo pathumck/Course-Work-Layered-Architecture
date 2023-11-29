@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb; -fx-border-radius: 12;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.HomeFormController">
+<AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb; -fx-border-radius: 12;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.HomeFormController">
    <children>
-      <AnchorPane layoutX="11.0" layoutY="11.0" prefHeight="200.0" prefWidth="420.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="200.0" prefWidth="570.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <AnchorPane layoutX="363.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+            <AnchorPane layoutX="513.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
                <children>
                   <ImageView fitHeight="57.0" fitWidth="50.0" layoutX="-5.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -20,11 +20,11 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="442.0" layoutY="11.0" prefHeight="200.0" prefWidth="420.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="598.0" layoutY="11.0" prefHeight="200.0" prefWidth="570.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <AnchorPane layoutX="362.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+            <AnchorPane layoutX="512.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="54.0" layoutX="-1.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="57.0" fitWidth="54.0" layoutX="-11.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../icon/coins.png" />
                      </image>
@@ -32,31 +32,31 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="10.0" layoutY="222.0" prefHeight="143.0" prefWidth="851.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
-      <AnchorPane layoutX="10.0" layoutY="376.0" prefHeight="143.0" prefWidth="851.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="10.0" layoutY="222.0" prefHeight="200.0" prefWidth="1159.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
+      <AnchorPane layoutX="10.0" layoutY="436.0" prefHeight="200.0" prefWidth="1159.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <Label layoutX="25.0" layoutY="44.0" prefHeight="60.0" prefWidth="189.0" text="Most Active Customers :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="64.0" prefHeight="60.0" prefWidth="189.0" text="Most Active Customers :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="-116.0" prefHeight="60.0" prefWidth="189.0" text="Most Selling Items :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="-136.0" prefHeight="60.0" prefWidth="189.0" text="Most Selling Items :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="-295.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="-355.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="465.0" layoutY="-295.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
+            <Label layoutX="619.0" layoutY="-355.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
          </children></AnchorPane>
-      <AnchorPane layoutX="246.0" layoutY="395.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="246.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -70,7 +70,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="400.0" layoutY="395.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="400.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -84,7 +84,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="554.0" layoutY="395.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="554.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -98,7 +98,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="705.0" layoutY="395.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="705.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -112,7 +112,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="246.0" layoutY="240.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="246.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -126,7 +126,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="396.0" layoutY="240.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="396.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -140,7 +140,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="546.0" layoutY="240.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="546.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -154,7 +154,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="696.0" layoutY="240.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="696.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>

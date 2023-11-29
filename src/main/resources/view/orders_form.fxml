@@ -10,19 +10,19 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.OrdersFormController">
+<AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.OrdersFormController">
    <children>
       <Label fx:id="lblOrderId" layoutX="76.0" layoutY="2.0" prefHeight="24.0" prefWidth="99.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="666.0" layoutY="2.0" prefHeight="24.0" prefWidth="71.0" text="Order Date :">
+      <Label layoutX="847.0" layoutY="2.0" prefHeight="24.0" prefWidth="71.0" text="Order Date :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderDate" layoutX="742.0" layoutY="3.0" prefHeight="24.0" prefWidth="123.0">
+      <Label fx:id="lblOrderDate" layoutX="941.0" layoutY="3.0" prefHeight="24.0" prefWidth="235.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -52,138 +52,139 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="460.0" layoutY="47.0" prefHeight="24.0" prefWidth="79.0" text="Item Code :">
+      <Label layoutX="853.0" layoutY="37.0" prefHeight="24.0" prefWidth="79.0" text="Item Code :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="126.0" prefHeight="24.0" prefWidth="79.0" text="Description :">
+      <Label layoutX="848.0" layoutY="75.0" prefHeight="24.0" prefWidth="79.0" text="Description :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="441.0" layoutY="127.0" prefHeight="24.0" prefWidth="92.0" text="Qty. On Hand :">
+      <Label layoutX="834.0" layoutY="144.0" prefHeight="24.0" prefWidth="92.0" text="Qty. On Hand :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="639.0" layoutY="128.0" prefHeight="24.0" prefWidth="41.0" text="Qty :">
+      <Label layoutX="890.0" layoutY="177.0" prefHeight="24.0" prefWidth="41.0" text="Qty :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="260.0" layoutY="127.0" prefHeight="24.0" prefWidth="79.0" text="Unit Price :">
+      <Label layoutX="858.0" layoutY="110.0" prefHeight="24.0" prefWidth="79.0" text="Unit Price :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblDescription" layoutX="95.0" layoutY="126.0" prefHeight="24.0" prefWidth="164.0">
+      <Label fx:id="lblDescription" layoutX="923.0" layoutY="77.0" prefHeight="24.0" prefWidth="249.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblUnitPrice" layoutX="331.0" layoutY="128.0" prefHeight="24.0" prefWidth="99.0">
+      <Label fx:id="lblUnitPrice" layoutX="984.0" layoutY="112.0" prefHeight="24.0" prefWidth="153.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblQtyOnHand" layoutX="537.0" layoutY="128.0" prefHeight="24.0" prefWidth="99.0">
+      <Label fx:id="lblQtyOnHand" layoutX="1000.0" layoutY="144.0" prefHeight="24.0" prefWidth="125.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQty" layoutX="680.0" layoutY="128.0" prefHeight="25.0" prefWidth="69.0" style="-fx-background-radius: 5;" />
-      <JFXButton fx:id="btnAddToCart" buttonType="RAISED" layoutX="770.0" layoutY="123.0" onAction="#btnAddToCartOnAction" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #3498db;" text="Add To Cart">
+      <TextField fx:id="txtQty" layoutX="991.0" layoutY="178.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-radius: 5;" />
+      <JFXButton fx:id="btnAddToCart" buttonType="RAISED" layoutX="970.0" layoutY="213.0" onAction="#btnAddToCartOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #3498db;" text="Add To Cart">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tblCart" layoutX="5.0" layoutY="165.0" prefHeight="219.0" prefWidth="859.0">
+      <TableView fx:id="tblCart" layoutX="5.0" layoutY="255.0" prefHeight="219.0" prefWidth="1172.0">
         <columns>
-          <TableColumn fx:id="colCode" prefWidth="106.42901802062988" text="ItemCode" />
-          <TableColumn fx:id="colDescription" prefWidth="223.81040954589844" text="Description" />
-            <TableColumn fx:id="colQty" prefWidth="121.90536499023438" text="Qty" />
-            <TableColumn fx:id="colUnitPrice" prefWidth="124.5244140625" text="Unit Price" />
-            <TableColumn fx:id="colTotal" prefWidth="113.33380126953125" text="Total" />
-            <TableColumn fx:id="colAction" prefWidth="157.6197509765625" text="Action" />
+          <TableColumn fx:id="colCode" prefWidth="106.42901802062988" style="-fx-alignment: center;" text="ItemCode" />
+          <TableColumn fx:id="colDescription" prefWidth="223.81040954589844" style="-fx-alignment: center;" text="Description" />
+            <TableColumn fx:id="colQty" prefWidth="121.90536499023438" style="-fx-alignment: center;" text="Qty" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="124.5244140625" style="-fx-alignment: center;" text="Unit Price" />
+            <TableColumn fx:id="colTotal" prefWidth="113.33380126953125" style="-fx-alignment: center;" text="Total" />
+            <TableColumn fx:id="colAction" prefWidth="157.6197509765625" style="-fx-alignment: center;" text="Action" />
         </columns>
       </TableView>
-      <Label layoutX="13.0" layoutY="496.0" prefHeight="24.0" prefWidth="79.0" text="Order Total :">
+      <Label layoutX="13.0" layoutY="616.0" prefHeight="24.0" prefWidth="79.0" text="Order Total :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderTotal" layoutX="90.0" layoutY="497.0" prefHeight="24.0" prefWidth="71.0">
+      <Label fx:id="lblOrderTotal" layoutX="90.0" layoutY="617.0" prefHeight="24.0" prefWidth="71.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnPlaceOrder" buttonType="RAISED" layoutX="751.0" layoutY="487.0" onAction="#btnPlaceOrderOnAction" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: #EE5A24;" text="Place Order">
+      <JFXButton fx:id="btnPlaceOrder" buttonType="RAISED" layoutX="1041.0" layoutY="487.0" onAction="#btnPlaceOrderOnAction" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: #EE5A24;" text="Place Order">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tblReturn" layoutX="5.0" layoutY="401.0" prefHeight="90.0" prefWidth="393.0">
+      <TableView fx:id="tblReturn" layoutX="5.0" layoutY="501.0" prefHeight="90.0" prefWidth="393.0">
          <columns>
-            <TableColumn fx:id="colReturnId" prefWidth="110.00045967102051" text="Return ID" />
-            <TableColumn fx:id="colDeduction" prefWidth="141.42916107177734" text="Deduction" />
-            <TableColumn fx:id="colAction2" prefWidth="120.71484375" text="Action" />
+            <TableColumn fx:id="colReturnId" prefWidth="110.00045967102051" style="-fx-alignment: center;" text="Return ID" />
+            <TableColumn fx:id="colDeduction" prefWidth="141.42916107177734" style="-fx-alignment: center;" text="Deduction" />
+            <TableColumn fx:id="colAction2" prefWidth="120.71484375" style="-fx-alignment: center;" text="Action" />
          </columns>
       </TableView>
-      <Line endX="683.287109375" layoutX="178.0" layoutY="393.0" opacity="0.23" startX="-169.19070434570312" />
-      <Label layoutX="413.0" layoutY="405.0" prefHeight="24.0" prefWidth="69.0" text="Return Id :">
+      <Line endX="683.287109375" layoutX="178.0" layoutY="483.0" opacity="0.23" startX="-169.19070434570312" />
+      <Label layoutX="413.0" layoutY="565.0" prefHeight="24.0" prefWidth="69.0" text="Return Id :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnAddReturn" buttonType="RAISED" layoutX="650.0" layoutY="397.0" onAction="#btnAddReturnOnAction" prefHeight="34.0" prefWidth="69.0" style="-fx-background-color: #009432;" text="Add+">
+      <JFXButton fx:id="btnAddReturn" buttonType="RAISED" layoutX="650.0" layoutY="557.0" onAction="#btnAddReturnOnAction" prefHeight="34.0" prefWidth="69.0" style="-fx-background-color: #009432;" text="Add+">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <Label layoutX="163.0" layoutY="496.0" prefHeight="24.0" prefWidth="79.0" text="Deduction :">
+      <Label layoutX="213.0" layoutY="616.0" prefHeight="24.0" prefWidth="79.0" text="Deduction :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblDeduction" layoutX="230.0" layoutY="497.0" prefHeight="24.0" prefWidth="71.0">
+      <Label fx:id="lblDeduction" layoutX="297.0" layoutY="617.0" prefHeight="24.0" prefWidth="71.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="303.0" layoutY="497.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">
+      <Label layoutX="383.0" layoutY="617.0" prefHeight="24.0" prefWidth="79.0" text="Net Total :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblNetTotal" layoutX="365.0" layoutY="498.0" prefHeight="24.0" prefWidth="79.0">
+      <Label fx:id="lblNetTotal" layoutX="465.0" layoutY="619.0" prefHeight="24.0" prefWidth="79.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="445.0" layoutY="496.0" prefHeight="24.0" prefWidth="79.0" text="Payment :">
+      <Label layoutX="555.0" layoutY="616.0" prefHeight="24.0" prefWidth="79.0" text="Payment :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="595.0" layoutY="495.0" prefHeight="24.0" prefWidth="79.0" text="Balance :">
+      <Label layoutX="725.0" layoutY="615.0" prefHeight="24.0" prefWidth="79.0" text="Balance :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblBalance" layoutX="649.0" layoutY="496.0" prefHeight="24.0" prefWidth="79.0">
+      <Label fx:id="lblBalance" layoutX="799.0" layoutY="616.0" prefHeight="24.0" prefWidth="79.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPayment" layoutX="504.0" layoutY="495.0" onKeyReleased="#txtPaymentOnKeyReleased" prefHeight="25.0" prefWidth="80.0" style="-fx-background-radius: 5;" />
+      <TextField fx:id="txtPayment" layoutX="624.0" layoutY="615.0" onKeyReleased="#txtPaymentOnKeyReleased" prefHeight="25.0" prefWidth="80.0" style="-fx-background-radius: 5;" />
       <JFXTextField fx:id="txtCustomerId" layoutX="98.0" layoutY="44.0" onKeyReleased="#txtSelectCustomerKeyReleased" />
-      <JFXTextField fx:id="txtItemCode" layoutX="537.0" layoutY="44.0" onKeyReleased="#txtItemCodeOnKeyReleased" />
-      <JFXTextField fx:id="txtReturnId" layoutX="485.0" layoutY="403.0" />
-      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="751.0" layoutY="447.0" onAction="#btnPrintOnAction" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: #EE5A24;" text="Print">
+      <JFXTextField fx:id="txtItemCode" layoutX="922.0" layoutY="37.0" onKeyReleased="#txtItemCodeOnKeyReleased" prefHeight="25.0" prefWidth="249.0" />
+      <JFXTextField fx:id="txtReturnId" layoutX="485.0" layoutY="563.0" />
+      <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="1041.0" layoutY="537.0" onAction="#btnPrintOnAction" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: #EE5A24;" text="Print">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
+      <AnchorPane fx:id="setPane" layoutX="394.0" layoutY="8.0" prefHeight="240.0" prefWidth="320.0" />
    </children>
 </AnchorPane>

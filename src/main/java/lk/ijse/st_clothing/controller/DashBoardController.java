@@ -157,6 +157,13 @@ public class DashBoardController {
 
     @FXML
     void btnOrderOnAction(ActionEvent event) throws IOException {
+
+        if(OrdersFormController.scanning==true) {
+            OrdersFormController.webcamPanel.stop();
+            OrdersFormController.webcam.close();
+            OrdersFormController.scanning = false;
+        }
+
         // Set corner radius and change color when pressed
         btnOrder.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnOrder.setOnMousePressed(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -205,6 +212,12 @@ public class DashBoardController {
 
     @FXML
     void btnReturnsOnAction(ActionEvent event) throws IOException {
+        if(ReturnsFormController.scanning1==true) {
+            ReturnsFormController.webcamPanel1.stop();
+            ReturnsFormController.webcam1.close();
+            ReturnsFormController.scanning1 = false;
+        }
+
         // Set corner radius and change color when pressed
         btnReturns.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnReturns.setOnMousePressed(e -> btnReturns.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -525,6 +538,19 @@ public class DashBoardController {
     }
     @FXML
     void btnLogoutOnAction(ActionEvent event) throws IOException {
+
+        if(OrdersFormController.scanning==true) {
+            OrdersFormController.webcamPanel.stop();
+            OrdersFormController.webcam.close();
+            OrdersFormController.scanning = false;
+        }
+
+        if(ReturnsFormController.scanning1==true) {
+            ReturnsFormController.webcamPanel1.stop();
+            ReturnsFormController.webcam1.close();
+            ReturnsFormController.scanning1 = false;
+        }
+
         // Set corner radius and change color when pressed
         btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnLogout.setOnMousePressed(e -> btnLogout.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));

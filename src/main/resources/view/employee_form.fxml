@@ -13,19 +13,19 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.EmployeeFormController">
+<AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.EmployeeFormController">
    <children>
-      <TableView fx:id="tblEmployee" layoutX="6.0" layoutY="239.0" onMouseClicked="#mouseClickOnAction" prefHeight="282.0" prefWidth="859.0">
+      <TableView fx:id="tblEmployee" layoutX="6.0" layoutY="292.0" onMouseClicked="#mouseClickOnAction" prefHeight="350.0" prefWidth="1167.0">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="106.42901802062988" text="Employee ID" />
-            <TableColumn fx:id="colName" prefWidth="88.80989837646484" text="Name" />
-            <TableColumn fx:id="colAddress" prefWidth="94.04798889160156" text="Address" />
-            <TableColumn fx:id="colNIC" prefWidth="112.38150024414062" text="NIC" />
-            <TableColumn fx:id="colGender" prefWidth="80.23843383789062" text="Gender" />
-            <TableColumn fx:id="colDOB" prefWidth="94.52423095703125" text="DOB" />
-            <TableColumn fx:id="colDate" prefWidth="93.33380126953125" text="Reg Date" />
-            <TableColumn fx:id="colTp" prefWidth="93.33380126953125" text="Tp" />
-            <TableColumn fx:id="colAction" prefWidth="93.33380126953125" text="Action" />
+            <TableColumn fx:id="colId" prefWidth="106.42901802062988" style="-fx-alignment: center;" text="Employee ID" />
+            <TableColumn fx:id="colName" prefWidth="140.71497344970703" style="-fx-alignment: center;" text="Name" />
+            <TableColumn fx:id="colAddress" prefWidth="169.286376953125" style="-fx-alignment: center;" text="Address" />
+            <TableColumn fx:id="colNIC" prefWidth="128.572021484375" style="-fx-alignment: center;" text="NIC" />
+            <TableColumn fx:id="colGender" prefWidth="93.57177734375" style="-fx-alignment: center;" text="Gender" />
+            <TableColumn fx:id="colDOB" prefWidth="109.2862548828125" style="-fx-alignment: center;" text="DOB" />
+            <TableColumn fx:id="colDate" prefWidth="144.2862548828125" style="-fx-alignment: center;" text="Reg Date" />
+            <TableColumn fx:id="colTp" prefWidth="119.2862548828125" style="-fx-alignment: center;" text="Tp" />
+            <TableColumn fx:id="colAction" prefWidth="135.000732421875" style="-fx-alignment: center;" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="14.0" layoutY="25.0" prefHeight="24.0" prefWidth="108.0" text="Search Employee :">
@@ -33,62 +33,62 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Line endX="605.718017578125" endY="7.62939453125E-6" layoutX="245.0" layoutY="79.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
-      <Label layoutX="51.0" layoutY="144.0" prefHeight="24.0" prefWidth="74.0" text="Name :">
+      <Line endX="909.2908935546875" endY="7.62939453125E-6" layoutX="250.0" layoutY="79.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
+      <Label layoutX="51.0" layoutY="204.0" prefHeight="24.0" prefWidth="74.0" text="Name :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="39.0" layoutY="189.0" prefHeight="24.0" prefWidth="94.0" text="Address :">
+      <Label layoutX="39.0" layoutY="249.0" prefHeight="24.0" prefWidth="94.0" text="Address :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="342.0" layoutY="98.0" prefHeight="24.0" prefWidth="78.0" text="NIC :">
+      <Label layoutX="66.0" layoutY="110.0" prefHeight="24.0" prefWidth="78.0" text="NIC :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="322.0" layoutY="146.0" prefHeight="24.0" prefWidth="60.0" text="Gender :">
+      <Label layoutX="482.0" layoutY="156.0" prefHeight="24.0" prefWidth="60.0" text="Gender :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="338.0" layoutY="193.0" prefHeight="24.0" prefWidth="103.0" text="DOB :">
+      <Label layoutX="498.0" layoutY="205.0" prefHeight="24.0" prefWidth="103.0" text="DOB :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="590.0" layoutY="186.0" onAction="#addBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #2ecc71;" text="Add Employee">
+      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="922.0" layoutY="149.0" onAction="#addBtnOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #2ecc71;" text="Add Employee">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="740.0" layoutY="185.0" onAction="#updateBtnOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #3498db;" text="Update Employee">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="922.0" layoutY="225.0" onAction="#updateBtnOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #3498db;" text="Update Employee">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <Label layoutX="15.0" layoutY="98.0" prefHeight="24.0" prefWidth="81.0" text="Employee ID :">
+      <Label layoutX="15.0" layoutY="156.0" prefHeight="24.0" prefWidth="81.0" text="Employee ID :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtSearchId" layoutX="130.0" layoutY="23.0" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="229.0" />
-      <JFXTextField fx:id="txtName" layoutX="100.0" layoutY="138.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtAddress" layoutX="100.0" layoutY="182.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtNIC" layoutX="381.0" layoutY="99.0" prefWidth="200.0" />
-      <Label layoutX="603.0" layoutY="146.0" prefHeight="24.0" prefWidth="104.0" text="Registered Date :">
+      <JFXTextField fx:id="txtSearchId" layoutX="130.0" layoutY="23.0" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="350.0" />
+      <JFXTextField fx:id="txtName" layoutX="100.0" layoutY="198.0" prefWidth="300.0" />
+      <JFXTextField fx:id="txtAddress" layoutX="100.0" layoutY="242.0" prefWidth="300.0" />
+      <JFXTextField fx:id="txtNIC" layoutX="99.0" layoutY="111.0" prefWidth="300.0" />
+      <Label layoutX="433.0" layoutY="110.0" prefHeight="24.0" prefWidth="104.0" text="Registered Date :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblRegDate" layoutX="713.0" layoutY="145.0" prefHeight="24.0" prefWidth="78.0">
+      <Label fx:id="lblRegDate" layoutX="548.0" layoutY="111.0" prefHeight="24.0" prefWidth="193.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnClearAllFields" layoutX="819.0" layoutY="11.0" onAction="#btnClearAllFieldsOnAction" prefHeight="34.0" prefWidth="38.0" text=" ">
+      <JFXButton fx:id="btnClearAllFields" layoutX="1129.0" layoutY="15.0" onAction="#btnClearAllFieldsOnAction" prefHeight="34.0" prefWidth="38.0" text=" ">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -97,14 +97,14 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <DatePicker fx:id="dpDOB" layoutX="380.0" layoutY="193.0" />
-      <ComboBox fx:id="cmbGender" layoutX="380.0" layoutY="147.0" prefWidth="200.0" />
-      <Label layoutX="602.0" layoutY="98.0" prefHeight="24.0" prefWidth="78.0" text="Tp :">
+      <DatePicker fx:id="dpDOB" layoutX="550.0" layoutY="207.0" prefWidth="300.0" />
+      <ComboBox fx:id="cmbGender" layoutX="550.0" layoutY="154.0" prefWidth="300.0" />
+      <Label layoutX="508.0" layoutY="248.0" prefHeight="24.0" prefWidth="78.0" text="Tp :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtTp" layoutX="632.0" layoutY="100.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtId" layoutX="100.0" layoutY="99.0" prefWidth="200.0" />
+      <JFXTextField fx:id="txtTp" layoutX="552.0" layoutY="248.0" prefWidth="300.0" />
+      <JFXTextField fx:id="txtId" layoutX="100.0" layoutY="157.0" prefWidth="300.0" />
    </children>
 </AnchorPane>

@@ -12,17 +12,17 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="528.0" prefWidth="871.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.ItemsFormController">
+<AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.ItemsFormController">
    <children>
-      <TableView fx:id="tblItems" layoutX="6.0" layoutY="239.0" onMouseClicked="#mouseClickOnAction" prefHeight="282.0" prefWidth="859.0">
+      <TableView fx:id="tblItems" layoutX="6.0" layoutY="292.0" onMouseClicked="#mouseClickOnAction" prefHeight="350.0" prefWidth="1169.0">
          <columns>
-            <TableColumn fx:id="colItemCode" prefWidth="106.42901802062988" text="Item Code" />
-            <TableColumn fx:id="colSupplierId" prefWidth="137.1434326171875" text="SupplierID" />
-            <TableColumn fx:id="colDescription" prefWidth="156.42926025390625" text="Description" />
-            <TableColumn fx:id="colUnitPrice" prefWidth="120.9530029296875" text="Unit Price" />
-            <TableColumn fx:id="colQty" prefWidth="95.00042724609375" text="Qty" />
-            <TableColumn fx:id="colSize" prefWidth="112.143310546875" text="Size" />
-            <TableColumn fx:id="colAction" prefWidth="106.4290771484375" text="Action" />
+            <TableColumn fx:id="colItemCode" prefWidth="106.42901802062988" style="-fx-alignment: center;" text="Item Code" />
+            <TableColumn fx:id="colSupplierId" prefWidth="178.57227325439453" style="-fx-alignment: center;" text="SupplierID" />
+            <TableColumn fx:id="colDescription" prefWidth="279.286865234375" style="-fx-alignment: center;" text="Description" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="154.286376953125" style="-fx-alignment: center;" text="Unit Price" />
+            <TableColumn fx:id="colQty" prefWidth="106.42919921875" style="-fx-alignment: center;" text="Qty" />
+            <TableColumn fx:id="colSize" prefWidth="161.4293212890625" style="-fx-alignment: center;" text="Size" />
+            <TableColumn fx:id="colAction" prefWidth="158.572021484375" style="-fx-alignment: center;" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="12.0" layoutY="5.0" prefHeight="24.0" prefWidth="99.0" text="Search Items :">

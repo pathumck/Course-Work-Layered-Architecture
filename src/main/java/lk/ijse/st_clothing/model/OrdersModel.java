@@ -45,7 +45,7 @@ public class OrdersModel {
     public static String generateNextOrderId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT orderId FROM Orders ORDER BY orderId DESC LIMIT 1";
+        String sql = "SELECT orderId FROM Orders WHERE orderId LIKE 'o00%' ORDER BY CAST(SUBSTRING(orderId, 4) AS UNSIGNED) DESC LIMIT 1";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
         ResultSet resultSet = pstm.executeQuery();
@@ -55,24 +55,18 @@ public class OrdersModel {
         return splitOrderId(null);
     }
 
-    public static String splitOrderId(String currentId) {
-        if(currentId != null) {
-            String[] strings = currentId.split("o0");
-            int id = Integer.parseInt(strings[1]);
-            id++;
-            String ID = String.valueOf(id);
-            int length = ID.length();
-            if (length < 2){
-                return "o00"+id;
-            }else {
-                if (length < 3){
-                    return "o0"+id;
-                }else {
-                    return "o"+id;
-                }
-            }
+    private static String splitOrderId(String currentOrderId) {
+        if (currentOrderId == null || currentOrderId.isEmpty() || !currentOrderId.matches("^o\\d+$")) {
+            return "o001";
+        } else {
+            String numericPart = currentOrderId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "o00" + nextNumericPart;
         }
-        return "o001";
     }
 
     public boolean saveOrder(String orderId, String date, String time, String cusId) throws SQLException {
@@ -86,5 +80,18 @@ public class OrdersModel {
         pstm.setString(4,cusId);
 
         return pstm.executeUpdate() > 0;
+    }
+
+    public static String isOrderSaved(String id) throws SQLException {
+        DbConnection db = DbConnection.getInstance();
+        Connection con = db.getConnection();
+        PreparedStatement pst = con.prepareStatement("SELECT * FROM Orders WHERE orderId = ?");
+        pst.setString(1,id);
+        ResultSet rs = pst.executeQuery();
+        String checkId = null;
+        while (rs.next()) {
+            checkId = rs.getString(1);
+        }
+        return checkId;
     }
 }

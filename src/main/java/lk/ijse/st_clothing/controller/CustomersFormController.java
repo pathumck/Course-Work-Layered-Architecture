@@ -75,6 +75,18 @@ public class CustomersFormController {
         vitualize();
         setDate();
         searchFilter();
+
+        if(OrdersFormController.scanning==true) {
+            OrdersFormController.webcamPanel.stop();
+            OrdersFormController.webcam.close();
+            OrdersFormController.scanning = false;
+        }
+
+        if(ReturnsFormController.scanning1==true) {
+            ReturnsFormController.webcamPanel1.stop();
+            ReturnsFormController.webcam1.close();
+            ReturnsFormController.scanning1 = false;
+        }
     }
 
     private void searchFilter() {
@@ -235,7 +247,7 @@ public class CustomersFormController {
         if (index <= -1) {
             return;
         }
-
+        txtId.setEditable(false);
         txtName.setText(colName.getCellData(index).toString());
         txtId.setText(colId.getCellData(index).toString());
         txtAddress.setText(colAddress.getCellData(index).toString());
@@ -291,6 +303,12 @@ public class CustomersFormController {
             return false;
         }
         return true;
+    }
+
+    @FXML
+    void txtIdOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+        txtId.setEditable(true);
     }
 
 }

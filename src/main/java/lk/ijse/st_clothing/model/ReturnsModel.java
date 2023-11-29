@@ -62,4 +62,17 @@ public class ReturnsModel {
         }
         return list;
     }
+
+    public static String isReturnSaved(String id) throws SQLException {
+        DbConnection db = DbConnection.getInstance();
+        Connection con = db.getConnection();
+        PreparedStatement pst = con.prepareStatement("SELECT * FROM Returns WHERE returnId = ?");
+        pst.setString(1,id);
+        ResultSet rs = pst.executeQuery();
+        String checkId = null;
+        while (rs.next()) {
+            checkId = rs.getString(1);
+        }
+        return checkId;
+    }
 }

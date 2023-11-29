@@ -1,14 +1,27 @@
 package lk.ijse.st_clothing.controller;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -20,16 +33,22 @@ import lk.ijse.st_clothing.dto.PlaceOrderDto;
 import lk.ijse.st_clothing.dto.tm.CartTm;
 import lk.ijse.st_clothing.dto.tm.DeductionTm;
 import lk.ijse.st_clothing.model.*;
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.sound.sampled.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 public class OrdersFormController {
     @FXML
@@ -134,10 +153,21 @@ public class OrdersFormController {
     private double deduction = 0;
     private double netTotal = 0;
 
+    @FXML
+    private AnchorPane setPane;
+
     private CustomerModel customerModel = new CustomerModel();
     private ItemsModel itemModel = new ItemsModel();
     private OrdersModel orderModel = new OrdersModel();
     private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
+
+    public static volatile boolean scanning = false;
+
+    public static Webcam webcam;
+    public static WebcamPanel webcamPanel;
+
+    private static long lastPlayTime = 0;
+    private static final long SOUND_DELAY_MS = 1000;
 
     public void initialize() throws SQLException {
         generateNextOrderId();
@@ -151,7 +181,81 @@ public class OrdersFormController {
         lblDeduction.setText(String.valueOf(deduction));
         lblNetTotal.setText(String.valueOf(netTotal));
         txtReturnId.setText("r");
+
+        if(ReturnsFormController.scanning1==true) {
+            ReturnsFormController.webcamPanel1.stop();
+            ReturnsFormController.webcam1.close();
+            ReturnsFormController.scanning1 = false;
+        }
+
+        if (!scanning) {
+            scanning = true;
+            new Thread(this::triggerScanning).start();
+        }
+
+        txtItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                lblDescription.setText("");
+                lblQtyOnHand.setText("");
+                lblUnitPrice.setText("");
+                txtQty.clear();
+                getItemByItemCode();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
+
+
+    public void triggerScanning() {
+        webcam = Webcam.getDefault();
+        webcam.setViewSize(new Dimension(320, 240));
+        webcamPanel = new WebcamPanel(webcam);
+        webcamPanel.setMirrored(false);
+
+        SwingNode swingNode = new SwingNode();
+        SwingUtilities.invokeLater(() -> swingNode.setContent(webcamPanel));
+
+        Platform.runLater(() -> setPane.getChildren().add(swingNode));
+
+        while (scanning) {
+            try {
+                BufferedImage image = webcam.getImage();
+                LuminanceSource source = new BufferedImageLuminanceSource(image);
+                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                Result result = new MultiFormatReader().decode(bitmap);
+                if (result != null && result.getText() != null) {
+                    String messageText = result.getText();
+                    Platform.runLater(() -> txtItemCode.setText(messageText));
+                    playSound();
+                    //    getItemByItemCode();
+                }
+                //  Thread.sleep(100); // Adjust sleep time if needed
+            } catch (Exception e) {
+                // e.printStackTrace();
+            }
+        }
+        webcamPanel.stop();
+        webcam.close();
+    }
+
+    private void playSound() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastPlayTime >= SOUND_DELAY_MS) {
+            try {
+                File soundFile = new File("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/sound/beep-06.wav");
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+                lastPlayTime = currentTime;
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void generateNextOrderId() {
         try {
@@ -217,11 +321,24 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnAddToCartOnAction(ActionEvent event) {
+    void btnAddToCartOnAction(ActionEvent event) throws SQLException {
+
         String itemCode1 = txtItemCode.getText();
         String qty1 = txtQty.getText();
         if (itemCode1.isEmpty() || qty1.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Check Empty Fields").show();
+            return;
+        }
+
+        ArrayList<String> temp = ItemsModel.getItemCodes();
+        boolean flag = false;
+        for (String s : temp) {
+            if(s.equals(txtItemCode.getText())) {
+                flag = true;
+            }
+        }
+        if(flag==false) {
+            new Alert(Alert.AlertType.ERROR,"Please check itemCode!").show();
             return;
         }
 
@@ -344,6 +461,18 @@ public class OrdersFormController {
 
     @FXML
     void btnAddReturnOnAction(ActionEvent event) throws SQLException {
+        ArrayList<String> temp = ReturnsModel.getAllReturnIds();
+        boolean flag = false;
+        for (String s : temp) {
+           if(s.equals(txtReturnId.getText())) {
+               flag = true;
+           }
+        }
+        if(flag==false) {
+            new Alert(Alert.AlertType.ERROR,"Please check return id!").show();
+            return;
+        }
+
         String id = txtReturnId.getText();
         if (id.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Select ReturnId!").show();
@@ -449,8 +578,78 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnPrintOnAction(ActionEvent event) throws JRException, FileNotFoundException {
+    void btnPrintOnAction(ActionEvent event) throws JRException, FileNotFoundException, SQLException {
+        String id = lblOrderId.getText();
+        String checkId = OrdersModel.isOrderSaved(id);
+        if(checkId!=null) {
+            orderJasper();
+            return;
+        }
+        new Alert(Alert.AlertType.ERROR,"Please place order first!").show();
+    }
+
+    public void orderJasper() {
+        try {
+
+
+            /* User home directory location */
+            String userHomeDirectory = System.getProperty("user.home");
+            String name = lblOrderId.getText();
+            /* Output file location */
+            String outputFile = userHomeDirectory + File.separatorChar +name+".pdf";
+
+            LocalTime currentTime = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formattedTime = currentTime.format(formatter);
+
+            String date = String.valueOf(LocalDate.now());
+            String time= formattedTime;
+            String id = lblOrderId.getText();
+            String orderTotal = lblOrderTotal.getText();
+            String deduction = lblDeduction.getText();
+            String netTotal = lblNetTotal.getText();
+            Double payment = Double.valueOf(txtPayment.getText());
+            String balance = lblBalance.getText();
+
+            /* Convert List to JRBeanCollectionDataSource */
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(list2);
+
+            /* Map to hold Jasper report Parameters */
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("ItemDataSource", itemsJRBean);
+            parameters.put("dat",date);
+            parameters.put("tim",time);
+            parameters.put("i",id);
+            parameters.put("oT",orderTotal);
+            parameters.put("ded",deduction);
+            parameters.put("nT",netTotal);
+            parameters.put("pay",payment);
+            parameters.put("bal",balance);
+
+            /* Using compiled version(.jasper) of Jasper report to generate PDF */
+            JasperPrint jasperPrint = JasperFillManager.fillReport("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/report/paycart.jasper", parameters, new JREmptyDataSource());
+
+            /* outputStream to create PDF */
+            OutputStream outputStream = null;
+            try {
+                outputStream = new FileOutputStream(new File(outputFile));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            /* Write content to PDF file */
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+
+            // Open the generated PDF in JasperViewer
+            JasperViewer.viewReport(jasperPrint, false);
+
+
+            System.out.println("File Generated");
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
 
     }
+
 
 }

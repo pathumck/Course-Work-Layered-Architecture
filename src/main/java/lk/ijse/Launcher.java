@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import static lk.ijse.st_clothing.controller.OrdersFormController.webcam;
+import static lk.ijse.st_clothing.controller.OrdersFormController.webcamPanel;
+import static lk.ijse.st_clothing.controller.ReturnsFormController.webcam1;
+import static lk.ijse.st_clothing.controller.ReturnsFormController.webcamPanel1;
+
 
 public class Launcher extends Application {
     public static AnchorPane rootNode;
@@ -32,6 +37,26 @@ public class Launcher extends Application {
         // Add the subContent to the targetAnchorPane
         targetAnchorPane.getChildren().setAll(subContent);
     }
+
+    @Override
+    public void stop() {
+        // This method is called when the application is closing
+
+        // Close the webcam if it's open
+        if (webcam != null && webcam.isOpen()) {
+            webcamPanel.stop();
+            webcam.close();
+            System.exit(0);
+        }
+
+        if (webcam1 != null && webcam1.isOpen()) {
+            webcamPanel1.stop();
+            webcam1.close();
+            System.exit(0);
+        }
+        System.exit(0);
+    }
+
 
 
 }

@@ -8,6 +8,26 @@
 
 <AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb; -fx-border-radius: 12;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.HomeFormController">
    <children>
+      <AnchorPane layoutX="12.0" layoutY="500.0" prefHeight="135.0" prefWidth="396.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <Label layoutX="17.0" layoutY="39.0" prefHeight="60.0" prefWidth="125.0" text="Items' Qty :" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="173.0" layoutY="89.0" prefHeight="45.0" prefWidth="102.0" text="Less than 5" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="279.0" layoutY="89.0" prefHeight="45.0" prefWidth="102.0" text="Out of stock" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="13.0" layoutY="225.0" prefHeight="123.0" prefWidth="1164.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
       <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="200.0" prefWidth="570.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <AnchorPane layoutX="513.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
@@ -20,7 +40,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="598.0" layoutY="11.0" prefHeight="200.0" prefWidth="570.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="598.0" layoutY="11.0" prefHeight="200.0" prefWidth="580.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <AnchorPane layoutX="512.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
                <children>
@@ -32,138 +52,435 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="10.0" layoutY="222.0" prefHeight="200.0" prefWidth="1159.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
-      <AnchorPane layoutX="10.0" layoutY="436.0" prefHeight="200.0" prefWidth="1159.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="12.0" layoutY="361.0" prefHeight="124.0" prefWidth="1164.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <Label layoutX="25.0" layoutY="64.0" prefHeight="60.0" prefWidth="189.0" text="Most Active Customers :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="14.0" prefHeight="60.0" prefWidth="189.0" text="Most Active" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="-136.0" prefHeight="60.0" prefWidth="189.0" text="Most Selling Items :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="-101.0" prefHeight="60.0" prefWidth="189.0" text="Most Selling Items :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="-355.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="-275.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="619.0" layoutY="-355.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
+            <Label layoutX="619.0" layoutY="-275.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-         </children></AnchorPane>
-      <AnchorPane layoutX="246.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
-         <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/man.png" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="c001" textFill="WHITE">
+            <Label fx:id="lblMonthlySales" layoutX="235.0" layoutY="-274.0" prefHeight="60.0" prefWidth="189.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMonthlyExpences" layoutX="865.0" layoutY="-275.0" prefHeight="60.0" prefWidth="219.0">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="44.0" prefHeight="60.0" prefWidth="189.0" text="Customers :" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="400.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="181.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/man.png" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="c002" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="554.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
-         <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/man.png" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="c003" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="705.0" layoutY="475.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #353b48;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
-         <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/man.png" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="c004" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="246.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
-         <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="i001" textFill="WHITE">
+            <Label fx:id="lblItem1" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="8.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="396.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="281.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="i002" textFill="WHITE">
+            <Label fx:id="lblItem2" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="8.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="546.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="381.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="i003" textFill="WHITE">
+            <Label fx:id="lblItem3" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="8.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="696.0" layoutY="270.0" prefHeight="108.0" prefWidth="125.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="481.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
-            <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="13.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="22.0" layoutY="55.0" prefHeight="23.0" prefWidth="85.0" text="i004" textFill="WHITE">
+            <Label fx:id="lblItem4" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="581.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem5" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="681.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem6" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="781.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem7" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="881.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem8" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="981.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem9" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="1079.0" layoutY="250.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #718093;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblItem10" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="181.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus1" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="281.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus2" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="381.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus3" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="481.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus4" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="581.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus5" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="681.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus6" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="781.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus7" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="881.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus8" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="981.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus9" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="1081.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/man.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblCus10" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="291.0" layoutY="513.0" prefHeight="80.0" prefWidth="63.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="3.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#ff3f34">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="4.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#ff3f34">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="181.0" layoutY="513.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/item.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblLessThanFive" alignment="CENTER" layoutX="3.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#f53b57">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="4.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#f53b57">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="779.0" layoutY="500.0" prefHeight="135.0" prefWidth="396.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <Label layoutX="93.0" layoutY="99.0" prefHeight="25.0" prefWidth="264.0" text="Total sales of last two months" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="422.0" layoutY="500.0" prefHeight="135.0" prefWidth="344.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <Label layoutX="36.0" layoutY="91.0" prefHeight="45.0" prefWidth="102.0" text="Order Count" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="206.0" layoutY="91.0" prefHeight="45.0" prefWidth="102.0" text="Return Count" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="136.0" layoutY="1.0" prefHeight="45.0" prefWidth="102.0" text="Today's" textFill="WHITE">
+               <font>
+                  <Font name="Dyuthi Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblOrderCount" alignment="CENTER" layoutX="26.0" layoutY="43.0" prefHeight="45.0" prefWidth="102.0" textFill="#d2dae2">
+               <font>
+                  <Font name="Dyuthi Regular" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblReturnCount" alignment="CENTER" layoutX="196.0" layoutY="43.0" prefHeight="45.0" prefWidth="102.0" textFill="#d2dae2">
+               <font>
+                  <Font name="Dyuthi Regular" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="790.0" layoutY="515.0" prefHeight="79.0" prefWidth="182.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/cachier.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblLastMonth2" alignment="CENTER" layoutX="3.0" layoutY="35.0" prefHeight="24.0" prefWidth="172.0">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDateMonth2" alignment="CENTER" layoutX="95.0" layoutY="4.0" prefHeight="24.0" prefWidth="80.0" textFill="GREY">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="983.0" layoutY="514.0" prefHeight="79.0" prefWidth="182.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/cachier.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblLastMonth1" alignment="CENTER" layoutX="3.0" layoutY="35.0" prefHeight="24.0" prefWidth="172.0">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDateMonth1" alignment="CENTER" layoutX="97.0" layoutY="3.0" prefHeight="24.0" prefWidth="80.0" textFill="GREY">
+               <font>
+                  <Font name="Dyuthi Regular" size="14.0" />
                </font>
             </Label>
          </children>

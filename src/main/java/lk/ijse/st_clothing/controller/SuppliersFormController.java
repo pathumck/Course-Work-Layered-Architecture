@@ -59,9 +59,6 @@ public class SuppliersFormController {
     private JFXTextField txtAddress;
 
     @FXML
-    private JFXTextField txtId;
-
-    @FXML
     private JFXTextField txtName;
 
     @FXML
@@ -71,12 +68,16 @@ public class SuppliersFormController {
     private JFXTextField txtTp;
 
     private ObservableList<SupplierTm> toTable;
+
+    @FXML
+    private Label lblSupId;
     public void initialize() throws SQLException {
         setTableSuppliers();
         vitualize();
         searchFilter();
         setDate();
         searchFilter();
+        generateNextSupplierId();
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
@@ -91,9 +92,19 @@ public class SuppliersFormController {
         }
     }
 
+    private void generateNextSupplierId() {
+        try {
+            String supplierId = SupplierModel.generateNextSupplierId();
+            lblSupId.setText(supplierId);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+
     public void setDate() {
         lblDate.setText(String.valueOf(LocalDate.now()));
-        lblDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
+    //    lblDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     public void setTableSuppliers() {
@@ -188,7 +199,7 @@ public class SuppliersFormController {
 
     @FXML
     void addSupplierBtnOnAction(ActionEvent event) {
-        String id = txtId.getText();
+        String id = lblSupId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
         String tp = txtTp.getText();
@@ -215,7 +226,7 @@ public class SuppliersFormController {
 
     @FXML
     void updateSupplierBtnOnAction(ActionEvent event) {
-        String id = txtId.getText();
+        String id = lblSupId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
         String tp = txtTp.getText();
@@ -244,7 +255,7 @@ public class SuppliersFormController {
         }
 
         txtName.setText(colName.getCellData(index).toString());
-        txtId.setText(colId.getCellData(index).toString());
+        lblSupId.setText(colId.getCellData(index).toString());
         txtAddress.setText(colAddress.getCellData(index).toString());
         txtTp.setText(colTp.getCellData(index).toString());
         lblDate.setText(colDate.getCellData(index).toString());
@@ -278,7 +289,6 @@ public class SuppliersFormController {
 
     public void clearAllFields() throws SQLException {
         txtSearchId.clear();
-        txtId.clear();
         txtTp.clear();
         txtName.clear();
         txtAddress.clear();

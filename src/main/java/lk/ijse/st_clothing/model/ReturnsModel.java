@@ -6,10 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ReturnsModel {
-    public static String generateNextOrderId() throws SQLException {
+    public static String generateNextReturnId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT returnId FROM Returns ORDER BY returnId DESC LIMIT 1";
+        String sql = "SELECT returnId FROM Returns WHERE returnId LIKE 'r00%' ORDER BY CAST(SUBSTRING(returnId, 4) AS UNSIGNED) DESC LIMIT 1";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
         ResultSet resultSet = pstm.executeQuery();
@@ -19,25 +19,20 @@ public class ReturnsModel {
         return splitReturnId(null);
     }
 
-    public static String splitReturnId(String currentId) {
-        if(currentId != null) {
-            String[] strings = currentId.split("r0");
-            int id = Integer.parseInt(strings[1]);
-            id++;
-            String ID = String.valueOf(id);
-            int length = ID.length();
-            if (length < 2){
-                return "r00"+id;
-            }else {
-                if (length < 3){
-                    return "r0"+id;
-                }else {
-                    return "r"+id;
-                }
-            }
+    private static String splitReturnId(String currentReturnId) {
+        if (currentReturnId == null || currentReturnId.isEmpty() || !currentReturnId.matches("^r\\d+$")) {
+            return "r001";
+        } else {
+            String numericPart = currentReturnId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "r00" + nextNumericPart;
         }
-        return "r001";
     }
+
     public boolean saveReturn(String returnId, String customerId, String date, String time) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

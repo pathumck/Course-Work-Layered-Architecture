@@ -11,6 +11,34 @@ import java.util.ArrayList;
 
 public class EmployeeModel {
 
+    public static String generateNextEmployeeId() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT employeeId FROM Employee WHERE employeeId LIKE 'e00%' ORDER BY CAST(SUBSTRING(employeeId, 4) AS UNSIGNED) DESC LIMIT 1";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return splitEmployeeId(resultSet.getString(1));
+        }
+        return splitEmployeeId(null);
+    }
+
+    private static String splitEmployeeId(String currentEmpId) {
+        if (currentEmpId == null || currentEmpId.isEmpty() || !currentEmpId.matches("^e\\d+$")) {
+            return "e001";
+        } else {
+            String numericPart = currentEmpId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "e00" + nextNumericPart;
+        }
+    }
+
+
     public static ArrayList<EmployeeDto> getAllEmployee() throws SQLException {
         DbConnection db = DbConnection.getInstance();
         Connection con = db.getConnection();

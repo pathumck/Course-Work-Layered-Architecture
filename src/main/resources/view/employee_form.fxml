@@ -105,6 +105,10 @@
          </font>
       </Label>
       <JFXTextField fx:id="txtTp" layoutX="552.0" layoutY="248.0" prefWidth="300.0" />
-      <JFXTextField fx:id="txtId" layoutX="100.0" layoutY="157.0" prefWidth="300.0" />
+      <Label fx:id="lblEmpId" layoutX="100.0" layoutY="158.0" prefHeight="24.0" prefWidth="292.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

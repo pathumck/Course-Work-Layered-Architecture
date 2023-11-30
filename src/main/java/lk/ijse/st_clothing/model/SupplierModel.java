@@ -10,6 +10,34 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierModel {
+    public static String generateNextSupplierId() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT supplierId FROM Suppliers WHERE supplierId LIKE 's00%' ORDER BY CAST(SUBSTRING(supplierId, 4) AS UNSIGNED) DESC LIMIT 1";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return splitSupplierId(resultSet.getString(1));
+        }
+        return splitSupplierId(null);
+    }
+
+    private static String splitSupplierId(String supplierId) {
+        if (supplierId == null || supplierId.isEmpty() || !supplierId.matches("^s\\d+$")) {
+            return "s001";
+        } else {
+            String numericPart = supplierId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "s00" + nextNumericPart;
+        }
+    }
+
+
     public static ArrayList<SupplierDto> getAllSuppliers() throws SQLException {
         DbConnection db = DbConnection.getInstance();
         Connection con = db.getConnection();

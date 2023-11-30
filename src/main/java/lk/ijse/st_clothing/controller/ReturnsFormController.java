@@ -201,7 +201,7 @@ public class ReturnsFormController {
 
     private void generateNextReturnId() {
         try {
-            String returnId = ReturnsModel.generateNextOrderId();
+            String returnId = ReturnsModel.generateNextReturnId();
             lblReturnId.setText(returnId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -351,7 +351,14 @@ public class ReturnsFormController {
     }
 
     @FXML
-    void btnPlaceReturnOnAction(ActionEvent event) {
+    void btnPlaceReturnOnAction(ActionEvent event) throws SQLException {
+        String id = lblReturnId.getText();
+        String checkId = ReturnsModel.isReturnSaved(id);
+        if(checkId!=null) {
+            new Alert(Alert.AlertType.ERROR,"This cart already placed!").show();
+            return;
+        }
+
         String returnId = lblReturnId.getText();
         String date = lblDate.getText();
         String customerId = lblCusId.getText();

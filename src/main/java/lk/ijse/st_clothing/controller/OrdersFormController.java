@@ -523,7 +523,14 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
+    void btnPlaceOrderOnAction(ActionEvent event) throws SQLException {
+        String id = lblOrderId.getText();
+        String checkId = OrdersModel.isOrderSaved(id);
+        if(checkId!=null) {
+            new Alert(Alert.AlertType.ERROR,"This cart already placed!").show();
+            return;
+        }
+
         if (tblCart.getItems().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Cart is Empty!").show();
             return;

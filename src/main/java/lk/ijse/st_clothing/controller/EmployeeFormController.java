@@ -82,12 +82,15 @@ public class EmployeeFormController {
     private JFXTextField txtSearchId;
     @FXML
     private JFXTextField txtTp;
+
     @FXML
-    private JFXTextField txtId;
+    private Label lblEmpId;
+
 
     private ObservableList<EmployeeTm> toTable;
 
     public void initialize() throws SQLException {
+        generateNextEmpId();
         String[] genders = {"Male", "Female", "Other"};
         cmbGender.setItems(FXCollections.observableArrayList(genders));
         dpDOB.setEditable(false);
@@ -108,6 +111,16 @@ public class EmployeeFormController {
             ReturnsFormController.scanning1 = false;
         }
     }
+
+    private void generateNextEmpId() {
+        try {
+            String empId = EmployeeModel.generateNextEmployeeId();
+            lblEmpId.setText(empId);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
 
     private void searchFilter() {
         FilteredList<EmployeeTm> filterData= new FilteredList<>(toTable, e->true);
@@ -151,7 +164,7 @@ public class EmployeeFormController {
 
     public void setDate() {
         lblRegDate.setText(String.valueOf(LocalDate.now()));
-        lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
+        //lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     public void setTableEmployee() {
@@ -214,7 +227,7 @@ public class EmployeeFormController {
 
     @FXML
     void addBtnOnAction(ActionEvent event) {
-        String id = txtId.getText();
+        String id = lblEmpId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
         String nic = txtNIC.getText();
@@ -243,7 +256,7 @@ public class EmployeeFormController {
 
     @FXML
     void updateBtnOnAction(ActionEvent event) {
-        String id = txtId.getText();
+        String id = lblEmpId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
         String nic = txtNIC.getText();
@@ -275,7 +288,7 @@ public class EmployeeFormController {
             return;
         }
 
-        txtId.setText(colId.getCellData(index).toString());
+        lblEmpId.setText(colId.getCellData(index).toString());
         txtName.setText(colName.getCellData(index).toString());
         txtAddress.setText(colAddress.getCellData(index).toString());
         txtNIC.setText(colNIC.getCellData(index).toString());
@@ -290,7 +303,6 @@ public class EmployeeFormController {
 
 
     public void clearAllFields() throws SQLException {
-        txtId.clear();;
         txtName.clear();
         txtAddress.clear();
         txtNIC.clear();

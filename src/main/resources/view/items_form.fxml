@@ -71,7 +71,6 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtItemCode" layoutX="90.0" layoutY="80.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtSupplierId" layoutX="90.0" layoutY="130.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtDescription" layoutX="90.0" layoutY="180.0" prefWidth="200.0" />
       <JFXTextField fx:id="txtUnitPrice" layoutX="370.0" layoutY="80.0" prefWidth="200.0" />
@@ -86,6 +85,17 @@
                </image>
             </ImageView>
          </graphic>
+      </JFXButton>
+      <Label fx:id="lblItemCode" layoutX="96.0" layoutY="87.0" prefHeight="24.0" prefWidth="192.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgViewer" fitHeight="100.0" fitWidth="100.0" layoutX="944.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
+      <JFXButton fx:id="btnUpdate1" buttonType="RAISED" layoutX="960.0" layoutY="235.0" onAction="#printQrOnAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #3498db;" text="Save QR">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
       </JFXButton>
    </children>
 </AnchorPane>

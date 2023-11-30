@@ -64,7 +64,6 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="txtId" layoutX="60.0" layoutY="163.0" prefWidth="350.0" />
       <JFXTextField fx:id="txtTp" layoutX="61.0" layoutY="230.0" prefWidth="350.0" />
       <JFXTextField fx:id="txtName" layoutX="537.0" layoutY="162.0" prefWidth="350.0" />
       <JFXTextField fx:id="txtAddress" layoutX="539.0" layoutY="230.0" prefWidth="350.0" />
@@ -83,5 +82,10 @@
             </ImageView>
          </graphic>
       </JFXButton>
+      <Label fx:id="lblSupId" layoutX="62.0" layoutY="163.0" prefHeight="24.0" prefWidth="336.0">
+         <font>
+            <Font name="Dyuthi Regular" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

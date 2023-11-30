@@ -13,6 +13,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsModel {
+    public static String generateNextItemCode() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT itemCode FROM Items WHERE itemCode LIKE 'i00%' ORDER BY CAST(SUBSTRING(itemCode, 4) AS UNSIGNED) DESC LIMIT 1";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return splitItemCode(resultSet.getString(1));
+        }
+        return splitItemCode(null);
+    }
+
+    private static String splitItemCode(String currentItemCode) {
+        if (currentItemCode == null || currentItemCode.isEmpty() || !currentItemCode.matches("^i\\d+$")) {
+            return "i001";
+        } else {
+            String numericPart = currentItemCode.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "i00" + nextNumericPart;
+        }
+    }
+
     public static ArrayList<ItemDto> getAllItems() throws SQLException {
         DbConnection db = DbConnection.getInstance();
         Connection con = db.getConnection();

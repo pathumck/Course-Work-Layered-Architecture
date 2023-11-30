@@ -1,25 +1,51 @@
 package lk.ijse.st_clothing.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.st_clothing.dto.ItemDto;
 import lk.ijse.st_clothing.dto.tm.ItemTm;
 import lk.ijse.st_clothing.model.ItemsModel;
+import lk.ijse.st_clothing.model.SupplierModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.controlsfx.control.textfield.TextFields;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class ItemsFormController {
+    @FXML
+    private Label lblItemCode;
+
     @FXML
     private JFXButton btnAdd;
 
@@ -56,8 +82,6 @@ public class ItemsFormController {
     @FXML
     private JFXTextField txtDescription;
 
-    @FXML
-    private JFXTextField txtItemCode;
 
     @FXML
     private JFXTextField txtQty;
@@ -72,7 +96,14 @@ public class ItemsFormController {
     @FXML
     private JFXTextField txtUnitPrice;
     private ObservableList<ItemTm> toTable;
+
+    @FXML
+    private ImageView imgViewer;
+
+    private Integer index = null;
     public void initialize() throws SQLException {
+        loadAllSupplierIds();
+        generateNextItemCode();
         setTableItems();
         vitualize();
         searchFilter();
@@ -90,6 +121,20 @@ public class ItemsFormController {
             ReturnsFormController.webcam1.close();
             ReturnsFormController.scanning1 = false;
         }
+    }
+
+    private void generateNextItemCode() {
+        try {
+            String itemCode = ItemsModel.generateNextItemCode();
+            lblItemCode.setText(itemCode);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    public void loadAllSupplierIds() throws SQLException {
+        ArrayList<String> supIds = SupplierModel.getSupplierIds();
+        TextFields.bindAutoCompletion(txtSupplierId, supIds);
     }
 
     public void setTableItems() {
@@ -184,7 +229,7 @@ public class ItemsFormController {
 
     @FXML
     void addBtnOnAction(ActionEvent event) {
-        String id = txtItemCode.getText();
+        String id = lblItemCode.getText();
         String qty = txtQty.getText();
         String description = txtDescription.getText();
         String unitPrice = txtUnitPrice.getText();
@@ -215,7 +260,7 @@ public class ItemsFormController {
 
     @FXML
     void updateBtnOnAction(ActionEvent event) {
-        String itemCode = txtItemCode.getText();
+        String itemCode = lblItemCode.getText();
         String supId = txtSupplierId.getText();
         String description = txtDescription.getText();
         String unitPrice = txtUnitPrice.getText();
@@ -244,27 +289,93 @@ public class ItemsFormController {
 
     @FXML
     void mouseClickOnAction(MouseEvent event) {
-        Integer index = tblItems.getSelectionModel().getSelectedIndex();
+        index = tblItems.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
         }
 
-        txtItemCode.setText(colItemCode.getCellData(index).toString());
+        lblItemCode.setText(colItemCode.getCellData(index).toString());
         txtSupplierId.setText(colSupplierId.getCellData(index).toString());
         txtDescription.setText(colDescription.getCellData(index).toString());
         txtUnitPrice.setText(colUnitPrice.getCellData(index).toString());
         txtQty.setText(colQty.getCellData(index).toString());
         cmbSize.setValue(colSize.getCellData(index).toString());
+        try {
+            String str = colItemCode.getCellData(index).toString();
+            String path = System.getProperty("user.dir") + "/";
+            String charset = "UTF-8";
+            Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<>();
+            hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            generateQRcode(str, path + str + ".png", charset, hashMap, 200, 200);
+
+            File file = new File(path + str + ".png");
+            Image image = new Image(file.toURI().toString());
+            imgViewer.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateQRcode(String data, String path, String charset, Map map, int h, int w) throws WriterException, IOException {
+        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);
+        MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));
+    }
+
+    @FXML
+    void printQrOnAction(ActionEvent event) {
+        try {
+            if(index==null) {
+                new Alert(Alert.AlertType.ERROR,"Please select a item table's row to genarate item's QR!").show();
+                return;
+            }
+            // Get the image from the ImageView
+            Image img = imgViewer.getImage();
+            BufferedImage bImage = SwingFXUtils.fromFXImage(img, null);
+
+            // Create a new PDF document
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            // Create a content stream to draw onto the page
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            // Add text at the top of the page with the QR code data
+            String qrData = colItemCode.getCellData(index).toString(); // Get the QR code text
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA, 12); // Set font and font size
+            contentStream.newLineAtOffset(100, 700); // Set position (adjust as needed)
+            contentStream.showText("Item Code: " + qrData);
+            contentStream.endText();
+
+            // Draw the image on the PDF page
+            PDImageXObject pdImage = LosslessFactory.createFromImage(document, bImage);
+            contentStream.drawImage(pdImage, 100, 500); // Adjust the coordinates as needed
+
+            // Close the content stream
+            contentStream.close();
+
+            // Save the PDF document
+            File outputFile = new File("/home/pathum/Desktop/"+qrData+".pdf");
+            document.save(outputFile);
+            new Alert(Alert.AlertType.CONFIRMATION,"QR code saved successfully to your device's storage!").show();
+            // Close the document
+            document.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clearAllFields() throws SQLException {
-        txtItemCode.clear();
+//        lblItemCode.setText("");
         txtSupplierId.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
         txtQty.clear();
         txtSearchItemByItemCode.clear();
         cmbSize.setValue(null);
+        imgViewer.setImage(null);
+        index=null;
         initialize();
     }
 

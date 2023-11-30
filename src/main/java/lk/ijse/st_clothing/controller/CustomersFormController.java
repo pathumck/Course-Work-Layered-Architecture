@@ -182,7 +182,7 @@ public class CustomersFormController {
 
     public void setDate() {
         lblRegDate.setText(String.valueOf(LocalDate.now()));
-        lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
+       // lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     @FXML

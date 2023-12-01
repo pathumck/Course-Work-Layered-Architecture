@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class ItemsFormController {
     @FXML
@@ -266,27 +267,31 @@ public class ItemsFormController {
                 return;
             }
 
-            Double unitPrice1 = Double.parseDouble(unitPrice);
-            Integer qty1 = Integer.parseInt(qty);
+            Boolean isValidate = validateItems();
+            if (isValidate) {
 
-            ItemDto dto = new ItemDto(id, supplierId, description, unitPrice1, qty1, size);
+                Double unitPrice1 = Double.parseDouble(unitPrice);
+                Integer qty1 = Integer.parseInt(qty);
+
+                ItemDto dto = new ItemDto(id, supplierId, description, unitPrice1, qty1, size);
 
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new item \"" + lblItemCode.getText() + "\" ?", yes, no).showAndWait();
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new item \"" + lblItemCode.getText() + "\" ?", yes, no).showAndWait();
 
-            if (type.orElse(no) == yes) {
+                if (type.orElse(no) == yes) {
 
-                try {
-                    Boolean flag = ItemsModel.addItems(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Item Saved!").show();
-                        clearAllFields();
+                    try {
+                        Boolean flag = ItemsModel.addItems(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Item Saved!").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
         });
@@ -326,26 +331,27 @@ public class ItemsFormController {
                 return;
             }
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Boolean isValidate = validateItems();
+            if (isValidate) {
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update item \""+lblItemCode.getText()+"\" ?", yes, no).showAndWait();
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update item \"" + lblItemCode.getText() + "\" ?", yes, no).showAndWait();
 
-            if (type.orElse(no) == yes) {
+                if (type.orElse(no) == yes) {
+                    Double unitPrice1 = Double.parseDouble(unitPrice);
+                    Integer qty1 = Integer.parseInt(qty);
 
-
-                Double unitPrice1 = Double.parseDouble(unitPrice);
-                Integer qty1 = Integer.parseInt(qty);
-
-                ItemDto dto = new ItemDto(itemCode, supId, description, unitPrice1, qty1, size);
-                try {
-                    Boolean flag = ItemsModel.updateItem(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
-                        clearAllFields();
+                    ItemDto dto = new ItemDto(itemCode, supId, description, unitPrice1, qty1, size);
+                    try {
+                        Boolean flag = ItemsModel.updateItem(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
         });
@@ -455,5 +461,27 @@ public class ItemsFormController {
         clearAllFields();
     }
 
+    public Boolean validateItems() {
+        String description = txtDescription.getText();
+        boolean descriptionMatch = Pattern.matches("^[\\w\\s.,!?'\"()-]+",description);
+        if (!descriptionMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid description!").show();
+            return false;
+        }
 
+        String amount = txtUnitPrice.getText();
+        boolean amountMatch = Pattern.matches("^\\d+(\\.\\d+)?$",amount);
+        if (!amountMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid unit price!").show();
+            return false;
+        }
+
+        String qty = txtQty.getText();
+        boolean qtyMatch = Pattern.matches("^[1-9]\\d*$",qty);
+        if (!qtyMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid qty!").show();
+            return false;
+        }
+        return true;
+    }
 }

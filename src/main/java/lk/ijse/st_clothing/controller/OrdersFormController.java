@@ -49,6 +49,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class OrdersFormController {
     @FXML
@@ -171,6 +172,8 @@ public class OrdersFormController {
 
     private static long lastPlayTime = 0;
     private static final long SOUND_DELAY_MS = 1000;
+
+    private JasperPrint jasperPrint;
 
     public void initialize() throws SQLException {
         generateNextOrderId();
@@ -349,57 +352,59 @@ public class OrdersFormController {
             new Alert(Alert.AlertType.ERROR,"Please check itemCode!").show();
             return;
         }
+        Boolean isValidate = validateQty();
+        if (isValidate) {
+            String itemCode = txtItemCode.getText();
+            String description = lblDescription.getText();
+            int qty = Integer.parseInt(txtQty.getText());
+            double unitPrice = Double.parseDouble(lblUnitPrice.getText());
+            double tot = unitPrice * qty;
 
-        String itemCode = txtItemCode.getText();
-        String description = lblDescription.getText();
-        int qty = Integer.parseInt(txtQty.getText());
-        double unitPrice = Double.parseDouble(lblUnitPrice.getText());
-        double tot = unitPrice * qty;
+            int qtyOnHand = Integer.parseInt(lblQtyOnHand.getText());
 
-        int qtyOnHand = Integer.parseInt(lblQtyOnHand.getText());
+            if (qtyOnHand < qty) {
+                new Alert(Alert.AlertType.ERROR, "Over the Item's quantity limit!").show();
+                return;
+            }
 
-        if(qtyOnHand<qty) {
-            new Alert(Alert.AlertType.ERROR,"Over the Item's quantity limit!").show();
-            return;
-        }
+            Button btn = new Button("Remove");
+            btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
+            setRemoveBtnAction(btn);
+            btn.setCursor(Cursor.HAND);
 
-        Button btn = new Button("Remove");
-        btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-        setRemoveBtnAction(btn);
-        btn.setCursor(Cursor.HAND);
+            if (!obList.isEmpty()) {
+                for (int i = 0; i < tblCart.getItems().size(); i++) {
+                    if (colCode.getCellData(i).equals(itemCode)) {
+                        int col_qty = (int) colQty.getCellData(i);
+                        qty += col_qty;
+                        if (qty > qtyOnHand) {
+                            new Alert(Alert.AlertType.ERROR, "Over the item's quantity limit!").show();
+                            return;
+                        }
+                        tot = unitPrice * qty;
 
-        if (!obList.isEmpty()) {
-            for (int i = 0; i < tblCart.getItems().size(); i++) {
-                if (colCode.getCellData(i).equals(itemCode)) {
-                    int col_qty = (int) colQty.getCellData(i);
-                    qty += col_qty;
-                    if (qty > qtyOnHand) {
-                        new Alert(Alert.AlertType.ERROR, "Over the item's quantity limit!").show();
+                        obList.get(i).setQty(qty);
+                        obList.get(i).setTotal(tot);
+                        calculateTotal();
+                        netTotal();
+                        checkBalance();
+                        txtQty.setText("");
+                        tblCart.refresh();
                         return;
                     }
-                    tot = unitPrice * qty;
-
-                    obList.get(i).setQty(qty);
-                    obList.get(i).setTotal(tot);
-                    calculateTotal();
-                    netTotal();
-                    checkBalance();
-                    txtQty.setText("");
-                    tblCart.refresh();
-                    return;
                 }
             }
+            var cartTm = new CartTm(itemCode, description, qty, unitPrice, tot, btn);
+
+            obList.add(cartTm);
+
+            tblCart.setItems(obList);
+            FXCollections.reverse(obList);
+            calculateTotal();
+            netTotal();
+            checkBalance();
+            txtQty.clear();
         }
-        var cartTm = new CartTm(itemCode, description, qty, unitPrice, tot, btn);
-
-        obList.add(cartTm);
-
-        tblCart.setItems(obList);
-        FXCollections.reverse(obList);
-        calculateTotal();
-        netTotal();
-        checkBalance();
-        txtQty.clear();
     }
 
     private void setRemoveBtnAction(Button btn) {
@@ -544,61 +549,88 @@ public class OrdersFormController {
             return;
         }
 
-        if (netTotal < 0) {
-            new Alert(Alert.AlertType.ERROR, "Ask customer to buy some items!").show();
-            return;
-        }
-
         if (txtPayment.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Input Customer's Payment!").show();
             return;
         }
-        Double blnce = Double.valueOf(lblBalance.getText());
-        if (blnce < 0) {
-            new Alert(Alert.AlertType.ERROR, "Payment is not Enough!").show();
-            return;
-        }
 
+        Boolean isValidate = validatePayment();
+        if (isValidate) {
 
-        String orderId = lblOrderId.getText();
-        String date = String.valueOf(LocalDate.parse(lblOrderDate.getText()));
-        String customerId = txtCustomerId.getText();
-        String time = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-
-        List<CartTm> cartTmList = new ArrayList<>();
-        System.out.println(tblCart.getItems().size());
-        for (int i = 0; i < tblCart.getItems().size(); i++) {
-            CartTm cartTm = obList.get(i);
-            CartTm tm2 = new CartTm();
-            tm2.setItemCode(cartTm.getItemCode());
-            tm2.setDescription(cartTm.getDescription());
-            tm2.setQty(cartTm.getQty());
-            tm2.setUnitPrice(cartTm.getUnitPrice());
-            tm2.setTotal(cartTm.getTotal());
-            list2.add(tm2);
-            cartTmList.add(cartTm);
-        }
-
-        System.out.println("Place order form controller: " + cartTmList);
-        var placeOrderDto = new PlaceOrderDto(orderId, date, time, customerId, cartTmList);
-        try {
-            boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
-            if (isSuccess) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Order Success!").show();
+            if (netTotal < 0) {
+                new Alert(Alert.AlertType.ERROR, "Ask customer to buy some items!").show();
+                return;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+            Double blnce = Double.valueOf(lblBalance.getText());
+            if (blnce < 0) {
+                new Alert(Alert.AlertType.ERROR, "Payment is not Enough!").show();
+                return;
+            }
+
+
+            String orderId = lblOrderId.getText();
+            String date = String.valueOf(LocalDate.parse(lblOrderDate.getText()));
+            String customerId = txtCustomerId.getText();
+            String time = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+
+            List<CartTm> cartTmList = new ArrayList<>();
+            System.out.println(tblCart.getItems().size());
+            for (int i = 0; i < tblCart.getItems().size(); i++) {
+                CartTm cartTm = obList.get(i);
+                CartTm tm2 = new CartTm();
+                tm2.setItemCode(cartTm.getItemCode());
+                tm2.setDescription(cartTm.getDescription());
+                tm2.setQty(cartTm.getQty());
+                tm2.setUnitPrice(cartTm.getUnitPrice());
+                tm2.setTotal(cartTm.getTotal());
+                list2.add(tm2);
+                cartTmList.add(cartTm);
+            }
+
+            System.out.println("Place order form controller: " + cartTmList);
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Are you sure you want to place the order?");
+            alert.setContentText("Click OK to confirm.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                var placeOrderDto = new PlaceOrderDto(orderId, date, time, customerId, cartTmList);
+                try {
+                    boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
+                    if (isSuccess) {
+                        orderJasper();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Order Success!").show();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
     @FXML
     void btnPrintOnAction(ActionEvent event) throws JRException, FileNotFoundException, SQLException {
+
         String id = lblOrderId.getText();
         String checkId = OrdersModel.isOrderSaved(id);
         if(checkId!=null) {
-            orderJasper();
-            return;
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Are you sure you want to print the order?");
+            alert.setContentText("Click OK to confirm.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                print();
+                return;
+            }else {
+                return;
+            }
         }
         new Alert(Alert.AlertType.ERROR,"Please place order first!").show();
     }
@@ -642,7 +674,7 @@ public class OrdersFormController {
             parameters.put("bal",balance);
 
             /* Using compiled version(.jasper) of Jasper report to generate PDF */
-            JasperPrint jasperPrint = JasperFillManager.fillReport("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/report/paycart.jasper", parameters, new JREmptyDataSource());
+            jasperPrint = JasperFillManager.fillReport("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/report/paycart.jasper", parameters, new JREmptyDataSource());
 
             /* outputStream to create PDF */
             OutputStream outputStream = null;
@@ -656,13 +688,17 @@ public class OrdersFormController {
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
 
             // Open the generated PDF in JasperViewer
-            JasperViewer.viewReport(jasperPrint, false);
 
 
             System.out.println("File Generated");
         } catch (JRException ex) {
             ex.printStackTrace();
         }
+
+    }
+
+    public void print() {
+        JasperViewer.viewReport(jasperPrint, false);
 
     }
 
@@ -702,6 +738,23 @@ public class OrdersFormController {
         }
         });
     }
+    private Boolean validateQty() {
+        String qty = txtQty.getText();
+        boolean qtyMatch = Pattern.matches("^[1-9]\\d*$",qty);
+        if (!qtyMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid qty!").show();
+            return false;
+        }
+        return true;
+    }
 
-
+    private Boolean validatePayment() {
+        String amount = txtPayment.getText();
+        boolean amountMatch = Pattern.matches("^\\d+(\\.\\d+)?$",amount);
+        if (!amountMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid payment!").show();
+            return false;
+        }
+        return true;
+    }
 }

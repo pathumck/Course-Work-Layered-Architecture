@@ -49,8 +49,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class ReturnsFormController {
+    @FXML
+    private JFXButton btnResetCarts;
     @FXML
     private JFXButton btnAdd;
     @FXML
@@ -121,6 +124,8 @@ public class ReturnsFormController {
 
     private List<ReturnCartTm> list = new ArrayList<>();
 
+    private JasperPrint jasperPrint;
+
     public void initialize() throws SQLException {
         generateNextReturnId();
         lblDate.setText(String.valueOf(LocalDate.now()));
@@ -128,6 +133,7 @@ public class ReturnsFormController {
         loadAllItemCodes();
         vitualize();
         lblTotal.setText("0.0");
+        btnResetCartAction();
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
@@ -258,65 +264,68 @@ public class ReturnsFormController {
             return;
         }
 
-        ArrayList<String> temp = OrdersModel.getOrderIds();
-        boolean flag = false;
-        for (String s : temp) {
-            if(s.equals(txtSelectOrderId.getText())) {
-                flag = true;
-            }
-        }
-        if(flag==false) {
-            new Alert(Alert.AlertType.ERROR,"Please check order id!!").show();
-            return;
-        }
-
-        ArrayList<String> temp1 = ItemsModel.getItemCodes();
-        boolean flag1 = false;
-        for (String s : temp1) {
-            if(s.equals(txtSelectItemCode.getText())) {
-                flag1 = true;
-            }
-        }
-        if(flag1==false) {
-            new Alert(Alert.AlertType.ERROR,"Please check item code!!").show();
-            return;
-        }
-
-        String code = txtSelectItemCode.getText();
-        String description = lblDescription.getText();
-        int qty = Integer.parseInt(txtQty.getText());
-        double unitPrice = Double.parseDouble(lblUnitPrice.getText());
-        double tot = unitPrice * qty;
-        Button btn = new Button("Remove");
-        btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
-        setRemoveBtnAction(btn);
-        btn.setCursor(Cursor.HAND);
-
-
-        if (!obList.isEmpty()) {
-            for (int i = 0; i < tblReturnCart.getItems().size(); i++) {
-                if (colItemCode.getCellData(i).equals(code)) {
-                    int col_qty = (int) colQty.getCellData(i);
-                    qty += col_qty;
-                    tot = unitPrice * qty;
-
-                    obList.get(i).setQty(qty);
-                    obList.get(i).setTotal(tot);
-
-                    calculateTotal();
-                    tblReturnCart.refresh();
-                    return;
+        Boolean isValidate = validateReturn();
+        if (isValidate) {
+            ArrayList<String> temp = OrdersModel.getOrderIds();
+            boolean flag = false;
+            for (String s : temp) {
+                if (s.equals(txtSelectOrderId.getText())) {
+                    flag = true;
                 }
             }
+            if (flag == false) {
+                new Alert(Alert.AlertType.ERROR, "Please check order id!!").show();
+                return;
+            }
+
+            ArrayList<String> temp1 = ItemsModel.getItemCodes();
+            boolean flag1 = false;
+            for (String s : temp1) {
+                if (s.equals(txtSelectItemCode.getText())) {
+                    flag1 = true;
+                }
+            }
+            if (flag1 == false) {
+                new Alert(Alert.AlertType.ERROR, "Please check item code!!").show();
+                return;
+            }
+
+            String code = txtSelectItemCode.getText();
+            String description = lblDescription.getText();
+            int qty = Integer.parseInt(txtQty.getText());
+            double unitPrice = Double.parseDouble(lblUnitPrice.getText());
+            double tot = unitPrice * qty;
+            Button btn = new Button("Remove");
+            btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
+            setRemoveBtnAction(btn);
+            btn.setCursor(Cursor.HAND);
+
+
+            if (!obList.isEmpty()) {
+                for (int i = 0; i < tblReturnCart.getItems().size(); i++) {
+                    if (colItemCode.getCellData(i).equals(code)) {
+                        int col_qty = (int) colQty.getCellData(i);
+                        qty += col_qty;
+                        tot = unitPrice * qty;
+
+                        obList.get(i).setQty(qty);
+                        obList.get(i).setTotal(tot);
+
+                        calculateTotal();
+                        tblReturnCart.refresh();
+                        return;
+                    }
+                }
+            }
+            var ReturnCartTm = new ReturnCartTm(code, unitPrice, qty, tot, btn);
+
+            obList.add(ReturnCartTm);
+
+            tblReturnCart.setItems(obList);
+            FXCollections.reverse(obList);
+            calculateTotal();
+            txtQty.clear();
         }
-        var ReturnCartTm = new ReturnCartTm(code,unitPrice , qty, tot, btn);
-
-        obList.add(ReturnCartTm);
-
-        tblReturnCart.setItems(obList);
-        FXCollections.reverse(obList);
-        calculateTotal();
-        txtQty.clear();
     }
     private void setRemoveBtnAction(Button btn) {
         btn.setOnAction((e) -> {
@@ -389,13 +398,24 @@ public class ReturnsFormController {
         System.out.println("Place order form controller: " + cartTmList);
         var placeReturnDto = new PlaceReturnDto(returnId,customerId,date,currentTimeString,cartTmList);
         System.out.println(returnId);
-        try {
-            Boolean isSuccess = PlaceReturnModel.placeReturn(placeReturnDto);
-            if (isSuccess) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Return Success!").show();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to place the return?");
+        alert.setContentText("Click OK to confirm.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            try {
+                Boolean isSuccess = PlaceReturnModel.placeReturn(placeReturnDto);
+                if (isSuccess) {
+                    returnJasper();
+                    new Alert(Alert.AlertType.CONFIRMATION, "Return Success!").show();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -416,8 +436,18 @@ public class ReturnsFormController {
         String id = lblReturnId.getText();
         String checkId = ReturnsModel.isReturnSaved(id);
         if(checkId!=null) {
-            returnJasper();
-            return;
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Are you sure you want to print the return?");
+            alert.setContentText("Click OK to confirm.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                print();
+                return;
+            }else {
+                return;
+            }
         }
         new Alert(Alert.AlertType.ERROR,"Please place return first!").show();
     }
@@ -451,7 +481,7 @@ public class ReturnsFormController {
             parameters.put("deduc",deduction);
 
             /* Using compiled version(.jasper) of Jasper report to generate PDF */
-            JasperPrint jasperPrint = JasperFillManager.fillReport("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/report/retuns.jasper", parameters, new JREmptyDataSource());
+            jasperPrint = JasperFillManager.fillReport("/home/pathum/IdeaProjects/SemesterOneFinalProject/src/main/resources/report/retuns.jasper", parameters, new JREmptyDataSource());
 
             /* outputStream to create PDF */
             OutputStream outputStream = null;
@@ -464,15 +494,52 @@ public class ReturnsFormController {
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
 
-            // Open the generated PDF in JasperViewer
-            JasperViewer.viewReport(jasperPrint, false);
-
-
             System.out.println("File Generated");
         } catch (JRException ex) {
             ex.printStackTrace();
         }
     }
 
+    public void print() {
+        // Open the generated PDF in JasperViewer
+        JasperViewer.viewReport(jasperPrint, false);
+    }
 
+    public void btnResetCartAction() {
+        btnResetCarts.setOnAction((e) -> {
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to reset carts?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+                lblOrderDate.setText("");
+                lblCusId.setText("");
+                lblTime.setText("");
+                txtSelectOrderId.setText("");
+                txtSelectItemCode.setText("");
+                lblDescription.setText("");
+                lblUnitPrice.setText("");
+                txtQty.setText("");
+                tblReturnCart.refresh();
+                obList.clear();
+                list.clear();
+                try {
+                    initialize();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    private Boolean validateReturn() {
+        String qty = txtQty.getText();
+        boolean qtyMatch = Pattern.matches("^[1-9]\\d*$",qty);
+        if (!qtyMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid qty!").show();
+            return false;
+        }
+        return true;
+    }
 }

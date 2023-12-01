@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class ExpencesFormController {
     @FXML
@@ -214,35 +215,39 @@ public class ExpencesFormController {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-        String id = txtId.getText();
-        String description = txtDescription.getText();
-        String type = txtType.getText();
-        String amount = txtAmount.getText();
-        String date = String.valueOf(dpDate.getValue());
 
-        if (id.isEmpty()||description.isEmpty()||type.isEmpty()||amount.isEmpty()||dpDate.getValue()==null){
-            new Alert(Alert.AlertType.ERROR,"Fields Empty!").show();
-            return;
-        }
+            Boolean isValidate = validateExpences();
+            if(isValidate) {
+                String id = txtId.getText();
+                String description = txtDescription.getText();
+                String type = txtType.getText();
+                String amount = txtAmount.getText();
+                String date = String.valueOf(dpDate.getValue());
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+                if (id.isEmpty() || description.isEmpty() || type.isEmpty() || amount.isEmpty() || dpDate.getValue() == null) {
+                    new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
+                    return;
+                }
 
-            Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add expence \"" + txtId.getText()+ "\" ?", yes, no).showAndWait();
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            if (type1.orElse(no) == yes) {
+                Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add expence \"" + txtId.getText() + "\" ?", yes, no).showAndWait();
 
-                Double amount1 = Double.parseDouble(amount);
-                ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
+                if (type1.orElse(no) == yes) {
 
-                try {
-                    Boolean flag = ExpenceModel.addExpence(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Expence Saved!").show();
-                        clearAllFields();
+                    Double amount1 = Double.parseDouble(amount);
+                    ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
+
+                    try {
+                        Boolean flag = ExpenceModel.addExpence(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Expence Saved!").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR,"Error!").show();
                 }
             }
         });
@@ -280,24 +285,26 @@ public class ExpencesFormController {
                 new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
                 return;
             }
+
+            Boolean isValidate = validateExpences();
             Double amount1 = Double.parseDouble(amount);
+            if(isValidate) {
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
+                Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update expence \"" + txtId.getText() + "\" ?", yes, no).showAndWait();
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update expence \"" + txtId.getText() + "\" ?", yes, no).showAndWait();
-
-            if (type1.orElse(no) == yes) {
-                ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
-                try {
-                    Boolean flag = ExpenceModel.updateExpences(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Expence Updated").show();
-                        clearAllFields();
+                if (type1.orElse(no) == yes) {
+                    ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
+                    try {
+                        Boolean flag = ExpenceModel.updateExpences(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Expence Updated").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Check Expence ID!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Check Expence ID!").show();
                 }
             }
         });
@@ -330,4 +337,36 @@ public class ExpencesFormController {
     void txtIdOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();
     }
+
+    private Boolean validateExpences() {
+        String id = txtId.getText();
+        boolean idMatch = Pattern.matches("^[\\w\\s.,!?'\"()-]+",id);
+        if (!idMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid expence id!").show();
+            return false;
+        }
+
+        String description = txtDescription.getText();
+        boolean descriptionMatch = Pattern.matches("^[\\w\\s.,!?'\"()-]+",description);
+        if (!descriptionMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid description!").show();
+            return false;
+        }
+
+        String type = txtType.getText();
+        boolean typeMatch = Pattern.matches("^[\\w\\s.,!?'\"()-]+",type);
+        if (!typeMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid type!").show();
+            return false;
+        }
+
+        String amount = txtAmount.getText();
+        boolean amountMatch = Pattern.matches("^\\d+(\\.\\d+)?$",amount);
+        if (!amountMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid amount!").show();
+            return false;
+        }
+        return true;
+    }
 }
+

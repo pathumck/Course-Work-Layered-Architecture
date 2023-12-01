@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class EmployeeFormController {
     @FXML
@@ -255,36 +256,39 @@ public class EmployeeFormController {
                 throw new RuntimeException(ex);
             }
 
-            String id = lblEmpId.getText();
-            String name = txtName.getText();
-            String address = txtAddress.getText();
-            String nic = txtNIC.getText();
-            String gender = String.valueOf(cmbGender.getValue());
-            String dob = String.valueOf(dpDOB.getValue());
-            String date = String.valueOf(LocalDate.now());
-            String tp = txtTp.getText();
+                String id = lblEmpId.getText();
+                String name = txtName.getText();
+                String address = txtAddress.getText();
+                String nic = txtNIC.getText();
+                String gender = String.valueOf(cmbGender.getValue());
+                String dob = String.valueOf(dpDOB.getValue());
+                String date = String.valueOf(LocalDate.now());
+                String tp = txtTp.getText();
 
-            if (id.isEmpty() || name.isEmpty() || address.isEmpty() || tp.isEmpty() || nic.isEmpty() || cmbGender.getValue() == null || dpDOB.getValue() == null) {
-                new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
-                return;
-            }
+                if (id.isEmpty() || name.isEmpty() || address.isEmpty() || tp.isEmpty() || nic.isEmpty() || cmbGender.getValue() == null || dpDOB.getValue() == null) {
+                    new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
+                    return;
+                }
 
-            EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, date, tp);
+            Boolean isValidate = validateEmployee();
+            if (isValidate) {
+                EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, date, tp);
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new Employee \"" + lblEmpId.getText() + "\" ?", yes, no).showAndWait();
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new Employee \"" + lblEmpId.getText() + "\" ?", yes, no).showAndWait();
 
-            if (type.orElse(no) == yes) {
-                try {
-                    Boolean flag = EmployeeModel.addEmployee(dto);
-                    if (flag) {
-                        clearAllFields();
-                        new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
+                if (type.orElse(no) == yes) {
+                    try {
+                        Boolean flag = EmployeeModel.addEmployee(dto);
+                        if (flag) {
+                            clearAllFields();
+                            new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
         });
@@ -324,22 +328,25 @@ public class EmployeeFormController {
             return;
         }
 
-        ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-        ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Boolean isValidate = validateEmployee();
+        if (isValidate) {
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update employee \""+lblEmpId.getText()+"\" ?", yes, no).showAndWait();
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update employee \"" + lblEmpId.getText() + "\" ?", yes, no).showAndWait();
 
-        if (type.orElse(no) == yes) {
+            if (type.orElse(no) == yes) {
 
-            EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, tp);
-            try {
-                Boolean flag = EmployeeModel.updateEmployee(dto);
-                if (flag) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
-                    clearAllFields();
+                EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, tp);
+                try {
+                    Boolean flag = EmployeeModel.updateEmployee(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
-            } catch (SQLException exception) {
-                new Alert(Alert.AlertType.ERROR, "Error!").show();
             }
         }
         });
@@ -377,9 +384,6 @@ public class EmployeeFormController {
         initialize();
     }
 
-
-
-
     @FXML
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
@@ -387,5 +391,36 @@ public class EmployeeFormController {
     @FXML
     void txtSearchEmployeeOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();
+    }
+
+    private Boolean validateEmployee() {
+        String id = txtNIC.getText();
+        boolean idMatch = Pattern.matches("^(?:19|20)?\\d{2}[0-9]{10}|[0-9]{9}[x|X|v|V]$",id);
+        if (!idMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid NIC!").show();
+            return false;
+        }
+
+        String address= txtAddress.getText();
+        boolean addressMatch = Pattern.matches("^[\\w\\s.,#-]+$",address);
+        if (!addressMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid address!").show();
+            return false;
+        }
+
+        String name= txtName.getText();
+        boolean nameMatch = Pattern.matches("[A-za-z\\s]{4,}",name);
+        if (!nameMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid name!").show();
+            return false;
+        }
+
+        String tp = txtTp.getText();
+        boolean telMatch = Pattern.matches("[0-9]{10}",tp);
+        if (!telMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid telphone!").show();
+            return false;
+        }
+        return true;
     }
 }

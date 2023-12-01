@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class SuppliersFormController {
     @FXML
@@ -225,36 +226,38 @@ public class SuppliersFormController {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+            Boolean isValidate = validateSupplier();
+            if(isValidate) {
+                String id = lblSupId.getText();
+                String name = txtName.getText();
+                String address = txtAddress.getText();
+                String tp = txtTp.getText();
+                String date = String.valueOf(LocalDate.now());
 
-            String id = lblSupId.getText();
-            String name = txtName.getText();
-            String address = txtAddress.getText();
-            String tp = txtTp.getText();
-            String date = String.valueOf(LocalDate.now());
+                if (id.isEmpty() || name.isEmpty() || address.isEmpty() || tp.isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Text Fields Empty!").show();
+                    return;
+                }
 
-            if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
-                new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-                return;
-            }
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
+                if (type.orElse(no) == yes) {
 
-            if (type.orElse(no) == yes) {
-
-                SupplierDto dto = new SupplierDto(id, name, address, tp, date);
+                    SupplierDto dto = new SupplierDto(id, name, address, tp, date);
 
 
-                try {
-                    Boolean flag = SupplierModel.addSupplier(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
-                        clearAllFields();
+                    try {
+                        Boolean flag = SupplierModel.addSupplier(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
         });
@@ -292,23 +295,25 @@ public class SuppliersFormController {
             return;
         }
 
+            Boolean isValidate = validateSupplier();
+            if (isValidate) {
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
+                if (type.orElse(no) == yes) {
 
-            if (type.orElse(no) == yes) {
-
-                SupplierDto dto = new SupplierDto(id, name, address, tp);
-                try {
-                    Boolean flag = SupplierModel.updateSupplier(dto);
-                    if (flag) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated").show();
-                        clearAllFields();
+                    SupplierDto dto = new SupplierDto(id, name, address, tp);
+                    try {
+                        Boolean flag = SupplierModel.updateSupplier(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
-                } catch (SQLException exception) {
-                    new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
         });
@@ -369,6 +374,25 @@ public class SuppliersFormController {
         clearAllFields();
     }
 
-
-
+    private Boolean validateSupplier() {
+        String name= txtName.getText();
+        boolean nameMatch = Pattern.matches("[A-za-z\\s]{4,}",name);
+        if (!nameMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid name!").show();
+            return false;
+        }
+        String address= txtAddress.getText();
+        boolean addressMatch = Pattern.matches("^[\\w\\s.,#-]+$",address);
+        if (!addressMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid address!").show();
+            return false;
+        }
+        String tp = txtTp.getText();
+        boolean telMatch = Pattern.matches("[0-9]{10}",tp);
+        if (!telMatch) {
+            new Alert(Alert.AlertType.ERROR,"invalid telphone!").show();
+            return false;
+        }
+        return true;
+    }
 }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,9 +9,9 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="1374.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginForumController">
    <children>
-      <AnchorPane prefHeight="710.0" prefWidth="687.0" styleClass="gradient">
+      <AnchorPane layoutX="-9.0" prefHeight="710.0" prefWidth="704.0" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <ImageView fitHeight="224.0" fitWidth="393.0" layoutX="158.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="150.0">
+            <ImageView fitHeight="224.0" fitWidth="393.0" layoutX="168.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/2008.i305.015_women_clothing_store_set-05-removebg-preview.png" />
                </image>
@@ -24,20 +22,12 @@
          </children>
       </AnchorPane>
       <AnchorPane fx:id="subAnchorPaneRight" layoutX="699.0" prefHeight="710.0" prefWidth="687.0" style="-fx-background-color: white;" />
-      <Label layoutX="241.0" layoutY="384.7172752043597" prefHeight="24.0" prefWidth="239.0" stylesheets="@../styles/backgrounds.css" text="Outfits that reflect your inner spark" textFill="#150c0c" AnchorPane.bottomAnchor="301.0">
-         <font>
-            <Font name="Gayathri Bold" size="14.0" />
-         </font>
-         <effect>
-            <Glow level="0.13" />
-         </effect>
-      </Label>
-      <Label layoutX="158.0" layoutY="334.0" prefHeight="47.0" prefWidth="416.0" stylesheets="@../styles/backgrounds.css" text="ＳＴ Ｃｌｏｔｈｉｎｇ" textFill="#1f0f0f">
+      <Label layoutX="144.0" layoutY="334.0" prefHeight="47.0" prefWidth="416.0" stylesheets="@../styles/backgrounds.css" text="ＳＴ Ｃｌｏｔｈｉｎｇ" textFill="#1f0f0f">
          <font>
             <Font name="FreeSans" size="40.0" />
          </font>
          <effect>
-            <InnerShadow />
+            <Reflection />
          </effect>
       </Label>
    </children>

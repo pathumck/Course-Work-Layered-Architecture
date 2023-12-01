@@ -8,27 +8,22 @@
 
 <AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb; -fx-border-radius: 12;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.HomeFormController">
    <children>
-      <AnchorPane layoutX="12.0" layoutY="500.0" prefHeight="135.0" prefWidth="396.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="8.0" layoutY="500.0" prefHeight="135.0" prefWidth="396.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
-            <Label layoutX="17.0" layoutY="39.0" prefHeight="60.0" prefWidth="125.0" text="Items' Qty :" textFill="WHITE">
+            <Label layoutX="47.0" layoutY="89.0" prefHeight="45.0" prefWidth="132.0" text="Qty less than 5" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="173.0" layoutY="89.0" prefHeight="45.0" prefWidth="102.0" text="Less than 5" textFill="WHITE">
-               <font>
-                  <Font name="Dyuthi Regular" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="279.0" layoutY="89.0" prefHeight="45.0" prefWidth="102.0" text="Out of stock" textFill="WHITE">
+            <Label layoutX="239.0" layoutY="89.0" prefHeight="45.0" prefWidth="122.0" text="Qty out of stock" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="13.0" layoutY="225.0" prefHeight="123.0" prefWidth="1164.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
-      <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="200.0" prefWidth="570.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="7.0" layoutY="225.0" prefHeight="124.0" prefWidth="1170.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css" />
+      <AnchorPane layoutX="7.0" layoutY="11.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <AnchorPane layoutX="513.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
                <children>
@@ -40,7 +35,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="598.0" layoutY="11.0" prefHeight="200.0" prefWidth="580.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="599.0" layoutY="11.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <AnchorPane layoutX="512.0" layoutY="9.0" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: #4b4b4b;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
                <children>
@@ -52,7 +47,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane layoutX="12.0" layoutY="361.0" prefHeight="124.0" prefWidth="1164.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="7.0" layoutY="362.0" prefHeight="124.0" prefWidth="1169.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <Label layoutX="25.0" layoutY="14.0" prefHeight="60.0" prefWidth="189.0" text="Most Active" textFill="WHITE">
                <font>
@@ -64,12 +59,12 @@
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="-275.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
+            <Label layoutX="25.0" layoutY="-273.0" prefHeight="60.0" prefWidth="189.0" text="Total Sales This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="619.0" layoutY="-275.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
+            <Label layoutX="619.0" layoutY="-273.0" prefHeight="60.0" prefWidth="219.0" text="Total Expences This Month :" textFill="WHITE">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
@@ -79,7 +74,7 @@
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblMonthlyExpences" layoutX="865.0" layoutY="-275.0" prefHeight="60.0" prefWidth="219.0">
+            <Label fx:id="lblMonthlyExpences" layoutX="865.0" layoutY="-273.0" prefHeight="60.0" prefWidth="219.0">
                <font>
                   <Font name="Dyuthi Regular" size="18.0" />
                </font>
@@ -100,7 +95,7 @@
             </ImageView>
             <Label fx:id="lblItem1" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -114,7 +109,7 @@
             </ImageView>
             <Label fx:id="lblItem2" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -128,7 +123,7 @@
             </ImageView>
             <Label fx:id="lblItem3" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -142,7 +137,7 @@
             </ImageView>
             <Label fx:id="lblItem4" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -156,7 +151,7 @@
             </ImageView>
             <Label fx:id="lblItem5" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -170,7 +165,7 @@
             </ImageView>
             <Label fx:id="lblItem6" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -184,7 +179,7 @@
             </ImageView>
             <Label fx:id="lblItem7" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -198,7 +193,7 @@
             </ImageView>
             <Label fx:id="lblItem8" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -212,7 +207,7 @@
             </ImageView>
             <Label fx:id="lblItem9" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
@@ -226,12 +221,12 @@
             </ImageView>
             <Label fx:id="lblItem10" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="181.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="181.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -240,12 +235,12 @@
             </ImageView>
             <Label fx:id="lblCus1" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="281.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="281.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -254,12 +249,12 @@
             </ImageView>
             <Label fx:id="lblCus2" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="381.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="381.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -268,12 +263,12 @@
             </ImageView>
             <Label fx:id="lblCus3" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="481.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="481.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -282,12 +277,12 @@
             </ImageView>
             <Label fx:id="lblCus4" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="581.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="581.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -296,12 +291,12 @@
             </ImageView>
             <Label fx:id="lblCus5" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="681.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="681.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -310,12 +305,12 @@
             </ImageView>
             <Label fx:id="lblCus6" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="781.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="781.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -324,12 +319,12 @@
             </ImageView>
             <Label fx:id="lblCus7" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="881.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="881.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -338,12 +333,12 @@
             </ImageView>
             <Label fx:id="lblCus8" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="981.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="981.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -352,12 +347,12 @@
             </ImageView>
             <Label fx:id="lblCus9" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="1081.0" layoutY="384.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #3c6382;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="1081.0" layoutY="386.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #747d8c;" styleClass="most_Wanted" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -366,43 +361,43 @@
             </ImageView>
             <Label fx:id="lblCus10" alignment="CENTER" layoutX="3.0" layoutY="34.0" prefHeight="23.0" prefWidth="85.0" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Dyuthi Regular" size="12.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="291.0" layoutY="513.0" prefHeight="80.0" prefWidth="63.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="212.0" layoutY="513.0" prefHeight="79.0" prefWidth="182.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="3.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#ff3f34">
+            <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="43.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#ff3f34">
                <font>
                   <Font name="Dyuthi Regular" size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="4.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#ff3f34">
+            <Label alignment="CENTER" layoutX="44.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#ff3f34">
                <font>
                   <Font name="Dyuthi Regular" size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="181.0" layoutY="513.0" prefHeight="79.0" prefWidth="63.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="20.0" layoutY="513.0" prefHeight="79.0" prefWidth="182.0" style="-fx-background-color: #d2dae2; -fx-background-radius: 10;" stylesheets="@../styles/backgrounds.css">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/item.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblLessThanFive" alignment="CENTER" layoutX="3.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#f53b57">
+            <Label fx:id="lblLessThanFive" alignment="CENTER" layoutX="53.0" layoutY="30.0" prefHeight="23.0" prefWidth="85.0" textFill="#f53b57">
                <font>
                   <Font name="Dyuthi Regular" size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="4.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#f53b57">
+            <Label alignment="CENTER" layoutX="54.0" layoutY="48.0" prefHeight="23.0" prefWidth="85.0" text="items" textFill="#f53b57">
                <font>
                   <Font name="Dyuthi Regular" size="14.0" />
                </font>
@@ -418,7 +413,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="422.0" layoutY="500.0" prefHeight="135.0" prefWidth="344.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
+      <AnchorPane layoutX="420.0" layoutY="500.0" prefHeight="135.0" prefWidth="344.0" style="-fx-background-radius: 10;" styleClass="gradientwhitgrey" stylesheets="@../styles/backgrounds.css">
          <children>
             <Label layoutX="36.0" layoutY="91.0" prefHeight="45.0" prefWidth="102.0" text="Order Count" textFill="WHITE">
                <font>

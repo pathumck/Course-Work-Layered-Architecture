@@ -19,10 +19,10 @@
          <columns>
             <TableColumn fx:id="colExpenceId" prefWidth="146.6672797203064" style="-fx-alignment: center;" text="Expence Id" />
             <TableColumn fx:id="colType" prefWidth="159.04824829101562" style="-fx-alignment: center;" text="Type" />
-            <TableColumn fx:id="colDescription" prefWidth="195.95327758789062" style="-fx-alignment: center;" text="Description" />
-            <TableColumn fx:id="colDate" prefWidth="198.81036376953125" style="-fx-alignment: center;" text="Date" />
-            <TableColumn fx:id="colAmount" prefWidth="196.90557861328125" style="-fx-alignment: center;" text="Amount" />
-            <TableColumn fx:id="colAction" prefWidth="243.09619140625" style="-fx-alignment: center;" text="Action" />
+            <TableColumn fx:id="colDescription" prefWidth="283.5726318359375" style="-fx-alignment: center;" text="Description" />
+            <TableColumn fx:id="colDate" prefWidth="193.5723876953125" style="-fx-alignment: center;" text="Date" />
+            <TableColumn fx:id="colAmount" prefWidth="234.286865234375" style="-fx-alignment: center;" text="Amount(Lkr)" />
+            <TableColumn fx:id="colAction" prefWidth="125.0006103515625" style="-fx-alignment: center;" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="12.0" layoutY="25.0" prefHeight="24.0" prefWidth="112.0" text="Search Expences :">

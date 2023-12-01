@@ -267,6 +267,25 @@ public class ItemsFormController {
                 return;
             }
 
+            List<String> supIds = new ArrayList<>();
+            Boolean flagg = false;
+            try {
+                supIds = SupplierModel.getSupplierIds();
+                for (String supId : supIds) {
+                    if(supId.equals(txtSupplierId.getText())) {
+                        flagg = true;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (!flagg) {
+                new Alert(Alert.AlertType.ERROR,"Supplier not found!").show();
+                return;
+            }
+
             Boolean isValidate = validateItems();
             if (isValidate) {
 
@@ -373,25 +392,28 @@ public class ItemsFormController {
         try {
             String str = colItemCode.getCellData(index).toString();
             lblQrId.setText(str);
-            String path = System.getProperty("user.dir") + "/";
-            String charset = "UTF-8";
-            Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<>();
-            hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-            generateQRcode(str, path + str + ".png", charset, hashMap, 200, 200);
 
-            File file = new File(path + str + ".png");
-            Image image = new Image(file.toURI().toString());
-            imgViewer.setImage(image);
+            Image qrImage = generateQRcodeImage(str, 200, 200);
+            imgViewer.setImage(qrImage);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void generateQRcode(String data, String path, String charset, Map map, int h, int w) throws WriterException, IOException {
-        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);
-        MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));
-    }
+    public Image generateQRcodeImage(String data, int h, int w) throws WriterException {
+        String charset = "UTF-8";
+        Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<>();
+        hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 
+        try {
+            BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
+            return SwingFXUtils.toFXImage(bufferedImage, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @FXML
     void printQrOnAction(ActionEvent event) {
         try {
@@ -427,7 +449,7 @@ public class ItemsFormController {
             contentStream.close();
 
             // Save the PDF document
-            File outputFile = new File("/home/pathum/Desktop/"+qrData+".pdf");
+            File outputFile = new File("/home/pathum/Desktop/printableItemQRs/"+qrData+".pdf");
             document.save(outputFile);
             new Alert(Alert.AlertType.CONFIRMATION,"QR code saved successfully to your device's storage!").show();
             // Close the document

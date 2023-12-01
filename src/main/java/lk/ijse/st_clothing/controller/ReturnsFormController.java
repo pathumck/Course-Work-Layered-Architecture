@@ -468,7 +468,7 @@ public class ReturnsFormController {
             String userHomeDirectory = System.getProperty("user.home");
             String name = lblReturnId.getText();
             /* Output file location */
-            String outputFile = userHomeDirectory + File.separatorChar +name+".pdf";
+            String outputFile = "/home/pathum/Desktop/returnBills/"+name+".pdf";
 
             LocalTime currentTime = LocalTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");

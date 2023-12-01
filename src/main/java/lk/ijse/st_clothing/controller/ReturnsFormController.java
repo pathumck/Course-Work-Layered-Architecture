@@ -127,6 +127,7 @@ public class ReturnsFormController {
         loadAllOrderIds();
         loadAllItemCodes();
         vitualize();
+        lblTotal.setText("0.0");
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();

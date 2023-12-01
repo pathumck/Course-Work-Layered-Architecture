@@ -8,6 +8,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +19,8 @@ import lk.ijse.st_clothing.model.ExpenceModel;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class ExpencesFormController {
@@ -72,6 +75,8 @@ public class ExpencesFormController {
         setTableExpences();
         vitualize();
         searchFilter();
+        addExpenceAction();
+        updateBtnAction();
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
@@ -97,6 +102,7 @@ public class ExpencesFormController {
                 tm.setDate(dto.getDate());
                 tm.setAmount(dto.getAmount());
                 Button btn = new Button("Delete");
+                btn.setCursor(Cursor.HAND);
                 btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
@@ -160,18 +166,27 @@ public class ExpencesFormController {
         btn.setOnAction((e) -> {
             Integer index = tblExpence.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a row from expences' table to delete an expence!").show();
                 return;
             }
             String id = colExpenceId.getCellData(index).toString();
-            try {
-                Boolean flag = ExpenceModel.deleteExpence(id);
-                if(flag){
-                    clearAllFields();
-                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted!").show();
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove \""+id+"\" ?", yes, no).showAndWait();
+
+                if (type.orElse(no) == yes) {
+
+                    try {
+                        Boolean flag = ExpenceModel.deleteExpence(id);
+                        if (flag) {
+                            clearAllFields();
+                            new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
+                        }
+                    } catch (SQLException ex) {
+                        new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
+                    }
                 }
-            } catch (SQLException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
-            }
         });
     }
 
@@ -185,8 +200,20 @@ public class ExpencesFormController {
         initialize();
     }
 
-    @FXML
-    void addExpenceBtnOnAction(ActionEvent event) {
+
+    public void addExpenceAction() {
+        btnAdd.setOnAction((e) -> {
+            try {
+                List<String> temp = ExpenceModel.getExpenceIds();
+                for (String s : temp) {
+                    if(txtId.getText().equals(s)){
+                        new Alert(Alert.AlertType.ERROR,"Expence already saved!").show();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         String id = txtId.getText();
         String description = txtDescription.getText();
         String type = txtType.getText();
@@ -197,44 +224,83 @@ public class ExpencesFormController {
             new Alert(Alert.AlertType.ERROR,"Fields Empty!").show();
             return;
         }
-        Double amount1 = Double.parseDouble(amount);
-        ExpenceDto dto = new ExpenceDto(id,type,description,date,amount1);
 
-        try {
-            Boolean flag = ExpenceModel.addExpence(dto);
-            if (flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Expence Saved!").show();
-                clearAllFields();
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add expence \"" + txtId.getText()+ "\" ?", yes, no).showAndWait();
+
+            if (type1.orElse(no) == yes) {
+
+                Double amount1 = Double.parseDouble(amount);
+                ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
+
+                try {
+                    Boolean flag = ExpenceModel.addExpence(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Expence Saved!").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR,"Error!").show();
+                }
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+        });
     }
 
-    @FXML
-    void updateBtnOnAction(ActionEvent event) {
-        String id = txtId.getText();
-        String description = txtDescription.getText();
-        String type = txtType.getText();
-        String amount = txtAmount.getText();
-        String date = String.valueOf(dpDate.getValue());
 
-        if (id.isEmpty()||description.isEmpty()||type.isEmpty()||amount.isEmpty()||dpDate.getValue()==null){
-            new Alert(Alert.AlertType.ERROR,"Fields Empty!").show();
-            return;
-        }
-        Double amount1 = Double.parseDouble(amount);
+    public void updateBtnAction() {
+        btnUpdate.setOnAction((e) -> {
 
-        ExpenceDto dto = new ExpenceDto(id,type,description,date,amount1);
-        try {
-            Boolean flag = ExpenceModel.updateExpences(dto);
-            if(flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Expence Updated").show();
-                setTableExpences();
+            String id = txtId.getText();
+            String description = txtDescription.getText();
+            String type = txtType.getText();
+            String amount = txtAmount.getText();
+            String date = String.valueOf(dpDate.getValue());
+
+            try {
+                List<String> temp = new ArrayList<>();
+                temp = ExpenceModel.getExpenceIds();
+                Boolean flag = false;
+                for (String s : temp) {
+                    if(txtId.getText().equals(s)) {
+                        flag = true;
+                    }
+                }
+                if (flag.equals(false)) {
+                    new Alert(Alert.AlertType.ERROR,"Please select a row from expences' table to update a expence!").show();
+                    return;
+                }
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Check Expence ID!").show();
-        }
+
+            if (id.isEmpty() || description.isEmpty() || type.isEmpty() || amount.isEmpty() || dpDate.getValue() == null) {
+                new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
+                return;
+            }
+            Double amount1 = Double.parseDouble(amount);
+
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type1 = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update expence \"" + txtId.getText() + "\" ?", yes, no).showAndWait();
+
+            if (type1.orElse(no) == yes) {
+                ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
+                try {
+                    Boolean flag = ExpenceModel.updateExpences(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Expence Updated").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Check Expence ID!").show();
+                }
+            }
+        });
     }
 
     @FXML
@@ -257,6 +323,11 @@ public class ExpencesFormController {
     }
     @FXML
     void txtSearchByExpenceIdOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+    }
+
+    @FXML
+    void txtIdOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();
     }
 }

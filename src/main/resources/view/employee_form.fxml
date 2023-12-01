@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -34,56 +35,74 @@
          </font>
       </Label>
       <Line endX="909.2908935546875" endY="7.62939453125E-6" layoutX="250.0" layoutY="79.0" opacity="0.38" startX="-223.8093719482422" startY="7.62939453125E-6" />
-      <Label layoutX="51.0" layoutY="204.0" prefHeight="24.0" prefWidth="74.0" text="Name :">
+      <Label layoutX="469.0" layoutY="136.0" prefHeight="24.0" prefWidth="74.0" text="Name :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="39.0" layoutY="249.0" prefHeight="24.0" prefWidth="94.0" text="Address :">
+      <Label layoutX="39.0" layoutY="186.0" prefHeight="24.0" prefWidth="94.0" text="Address :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="66.0" layoutY="110.0" prefHeight="24.0" prefWidth="78.0" text="NIC :">
+      <Label layoutX="65.0" layoutY="136.0" prefHeight="24.0" prefWidth="78.0" text="NIC :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="482.0" layoutY="156.0" prefHeight="24.0" prefWidth="60.0" text="Gender :">
+      <Label layoutX="873.0" layoutY="136.0" prefHeight="24.0" prefWidth="60.0" text="Gender :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="498.0" layoutY="205.0" prefHeight="24.0" prefWidth="103.0" text="DOB :">
+      <Label layoutX="888.0" layoutY="186.0" prefHeight="24.0" prefWidth="103.0" text="DOB :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="922.0" layoutY="149.0" onAction="#addBtnOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #2ecc71;" text="Add Employee">
+      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="830.0" layoutY="234.0" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #2ecc71;" text="Add Employee">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="922.0" layoutY="225.0" onAction="#updateBtnOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #3498db;" text="Update Employee">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="1000.0" layoutY="234.0" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #3498db;" text="Update Employee">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <Label layoutX="15.0" layoutY="156.0" prefHeight="24.0" prefWidth="81.0" text="Employee ID :">
+      <Label layoutX="15.0" layoutY="90.0" prefHeight="24.0" prefWidth="81.0" text="Employee ID :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtSearchId" layoutX="130.0" layoutY="23.0" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="350.0" />
-      <JFXTextField fx:id="txtName" layoutX="100.0" layoutY="198.0" prefWidth="300.0" />
-      <JFXTextField fx:id="txtAddress" layoutX="100.0" layoutY="242.0" prefWidth="300.0" />
-      <JFXTextField fx:id="txtNIC" layoutX="99.0" layoutY="111.0" prefWidth="300.0" />
-      <Label layoutX="433.0" layoutY="110.0" prefHeight="24.0" prefWidth="104.0" text="Registered Date :">
+      <JFXTextField fx:id="txtSearchId" alignment="CENTER" layoutX="130.0" layoutY="23.0" onMouseClicked="#txtSearchEmployeeOnMouseClicked" prefWidth="350.0" promptText="Search Employee">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></JFXTextField>
+      <JFXTextField fx:id="txtName" layoutX="520.0" layoutY="131.0" prefWidth="300.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></JFXTextField>
+      <JFXTextField fx:id="txtAddress" layoutX="100.0" layoutY="180.0" prefWidth="300.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></JFXTextField>
+      <JFXTextField fx:id="txtNIC" layoutX="99.0" layoutY="133.0" prefWidth="300.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></JFXTextField>
+      <Label layoutX="413.0" layoutY="94.0" prefHeight="24.0" prefWidth="104.0" text="Registered Date :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblRegDate" layoutX="548.0" layoutY="111.0" prefHeight="24.0" prefWidth="193.0">
+      <Label fx:id="lblRegDate" layoutX="523.0" layoutY="94.0" prefHeight="24.0" prefWidth="193.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -96,16 +115,28 @@
                </image>
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <DatePicker fx:id="dpDOB" layoutX="550.0" layoutY="207.0" prefWidth="300.0" />
-      <ComboBox fx:id="cmbGender" layoutX="550.0" layoutY="154.0" prefWidth="300.0" />
-      <Label layoutX="508.0" layoutY="248.0" prefHeight="24.0" prefWidth="78.0" text="Tp :">
+      <DatePicker fx:id="dpDOB" layoutX="933.0" layoutY="187.0" prefWidth="150.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></DatePicker>
+      <ComboBox fx:id="cmbGender" layoutX="933.0" layoutY="137.0" prefWidth="150.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ComboBox>
+      <Label layoutX="487.0" layoutY="186.0" prefHeight="24.0" prefWidth="78.0" text="Tp :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtTp" layoutX="552.0" layoutY="248.0" prefWidth="300.0" />
-      <Label fx:id="lblEmpId" layoutX="100.0" layoutY="158.0" prefHeight="24.0" prefWidth="292.0">
+      <JFXTextField fx:id="txtTp" layoutX="520.0" layoutY="180.0" prefWidth="300.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></JFXTextField>
+      <Label fx:id="lblEmpId" layoutX="100.0" layoutY="91.0" prefHeight="24.0" prefWidth="300.0">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>

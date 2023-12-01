@@ -16,6 +16,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -37,12 +38,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class ItemsFormController {
+    @FXML
+    private Label lblQrId;
     @FXML
     private Label lblItemCode;
 
@@ -107,6 +108,8 @@ public class ItemsFormController {
         setTableItems();
         vitualize();
         searchFilter();
+        addBtnAction();
+        updateBtnAction();
         String[] sizes = {"S","M","L","XL","XXL"};
         cmbSize.setItems(FXCollections.observableArrayList(sizes));
 
@@ -150,6 +153,7 @@ public class ItemsFormController {
                 tm.setUnitPrice(dto.getUnitPrice());
                 tm.setQty(dto.getQty());
                 Button btn = new Button("Delete");
+                btn.setCursor(Cursor.HAND);
                 btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
@@ -212,79 +216,139 @@ public class ItemsFormController {
         btn.setOnAction((e) -> {
             Integer index = tblItems.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a item table's row to delete an item!").show();
                 return;
             }
             String id = colItemCode.getCellData(index).toString();
-            try {
-                Boolean flag = ItemsModel.deleteItem(id);
-                if(flag){
-                    clearAllFields();
-                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete item \""+id+"\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                try {
+                    Boolean flag = ItemsModel.deleteItem(id);
+                    if (flag) {
+                        clearAllFields();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+                    }
+                } catch (SQLException ex) {
+                    new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
-            } catch (SQLException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
             }
         });
     }
 
-    @FXML
-    void addBtnOnAction(ActionEvent event) {
-        String id = lblItemCode.getText();
-        String qty = txtQty.getText();
-        String description = txtDescription.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String supplierId = txtSupplierId.getText();
-        String size = cmbSize.getValue();
-
-        if (id.isEmpty()||qty.isEmpty()||description.isEmpty()||unitPrice.isEmpty()||supplierId.isEmpty()||cmbSize.getValue()==null){
-            new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-            return;
-        }
-
-        Double unitPrice1 = Double.parseDouble(unitPrice);
-        Integer qty1 = Integer.parseInt(qty);
-
-        ItemDto dto = new ItemDto(id,supplierId,description,unitPrice1,qty1,size);
-
-        try {
-            Boolean flag = ItemsModel.addItems(dto);
-            if (flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Item Saved!").show();
-                clearAllFields();
+    public void addBtnAction() {
+        btnAdd.setOnAction((e) -> {
+            try {
+                List<String> temp = ItemsModel.getItemCodes();
+                for (String s : temp) {
+                    if(lblItemCode.getText().equals(s)){
+                        new Alert(Alert.AlertType.ERROR,"Item already saved!").show();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
 
+            String id = lblItemCode.getText();
+            String qty = txtQty.getText();
+            String description = txtDescription.getText();
+            String unitPrice = txtUnitPrice.getText();
+            String supplierId = txtSupplierId.getText();
+            String size = cmbSize.getValue();
+
+            if (id.isEmpty() || qty.isEmpty() || description.isEmpty() || unitPrice.isEmpty() || supplierId.isEmpty() || cmbSize.getValue() == null) {
+                new Alert(Alert.AlertType.ERROR, "Text Fields Empty!").show();
+                return;
+            }
+
+            Double unitPrice1 = Double.parseDouble(unitPrice);
+            Integer qty1 = Integer.parseInt(qty);
+
+            ItemDto dto = new ItemDto(id, supplierId, description, unitPrice1, qty1, size);
+
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new item \"" + lblItemCode.getText() + "\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                try {
+                    Boolean flag = ItemsModel.addItems(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Item Saved!").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
+                }
+            }
+        });
     }
 
-    @FXML
-    void updateBtnOnAction(ActionEvent event) {
-        String itemCode = lblItemCode.getText();
-        String supId = txtSupplierId.getText();
-        String description = txtDescription.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String size = cmbSize.getValue();
-        String qty = txtQty.getText();
 
-        if (itemCode.isEmpty()||qty.isEmpty()||description.isEmpty()||unitPrice.isEmpty()||supId.isEmpty()||cmbSize.getValue()==null){
-            new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-            return;
-        }
+   public void updateBtnAction() {
 
-        Double unitPrice1 = Double.parseDouble(unitPrice);
-        Integer qty1 = Integer.parseInt(qty);
+        btnUpdate.setOnAction((e) -> {
+            String itemCode = lblItemCode.getText();
+            String supId = txtSupplierId.getText();
+            String description = txtDescription.getText();
+            String unitPrice = txtUnitPrice.getText();
+            String size = cmbSize.getValue();
+            String qty = txtQty.getText();
 
-        ItemDto dto = new ItemDto(itemCode,supId,description,unitPrice1,qty1,size);
-        try {
-            Boolean flag = ItemsModel.updateItem(dto);
-            if(flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
-                setTableItems();
+            try {
+                List<String> temp = new ArrayList<>();
+                temp = ItemsModel.getItemCodes();
+                Boolean flag = false;
+                for (String s : temp) {
+                    if(lblItemCode.getText().equals(s)) {
+                       flag = true;
+                    }
+                }
+                if (flag.equals(false)) {
+                    new Alert(Alert.AlertType.ERROR,"Please select a row from items' table to update an item!").show();
+                    return;
+                }
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Check Item ID!").show();
-        }
+
+            if (itemCode.isEmpty()||qty.isEmpty()||description.isEmpty()||unitPrice.isEmpty()||supId.isEmpty()||cmbSize.getValue()==null){
+                new Alert(Alert.AlertType.ERROR,"Check empty fields!").show();
+                return;
+            }
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update item \""+lblItemCode.getText()+"\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+
+                Double unitPrice1 = Double.parseDouble(unitPrice);
+                Integer qty1 = Integer.parseInt(qty);
+
+                ItemDto dto = new ItemDto(itemCode, supId, description, unitPrice1, qty1, size);
+                try {
+                    Boolean flag = ItemsModel.updateItem(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
+                }
+            }
+        });
     }
 
     @FXML
@@ -302,6 +366,7 @@ public class ItemsFormController {
         cmbSize.setValue(colSize.getCellData(index).toString());
         try {
             String str = colItemCode.getCellData(index).toString();
+            lblQrId.setText(str);
             String path = System.getProperty("user.dir") + "/";
             String charset = "UTF-8";
             Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<>();
@@ -376,6 +441,7 @@ public class ItemsFormController {
         cmbSize.setValue(null);
         imgViewer.setImage(null);
         index=null;
+        lblQrId.setText("");
         initialize();
     }
 
@@ -383,5 +449,11 @@ public class ItemsFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
+
+    @FXML
+    void txtSearchItemsOnMouseClicked(MouseEvent event) throws SQLException {
+        clearAllFields();
+    }
+
 
 }

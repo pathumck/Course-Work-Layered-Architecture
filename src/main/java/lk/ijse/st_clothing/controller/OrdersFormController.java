@@ -52,6 +52,9 @@ import java.util.List;
 
 public class OrdersFormController {
     @FXML
+    private JFXButton btnResetCarts;
+
+    @FXML
     private JFXButton btnPrint;
 
     @FXML
@@ -177,10 +180,15 @@ public class OrdersFormController {
         vitualize();
         vilualizeDeductions();
         loadAllReturnIds();
+        btnResetCartsAction();
+
+        total = 0.0;
+        deduction = 0.0;
+        netTotal = 0.0;
+        lblBalance.setText("0.0");
         lblOrderTotal.setText(String.valueOf(total));
         lblDeduction.setText(String.valueOf(deduction));
         lblNetTotal.setText(String.valueOf(netTotal));
-        txtReturnId.setText("r");
 
         if(ReturnsFormController.scanning1==true) {
             ReturnsFormController.webcamPanel1.stop();
@@ -656,6 +664,43 @@ public class OrdersFormController {
             ex.printStackTrace();
         }
 
+    }
+
+
+    public void btnResetCartsAction() {
+        btnResetCarts.setOnAction((e) -> {
+        ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to reset carts?", yes, no).showAndWait();
+
+        if (type.orElse(no) == yes) {
+            obList.clear();
+            obList2.clear();
+            list2.clear();
+            txtCustomerId.setText("");
+            lblCustomerName.setText("");
+            txtItemCode.setText("");
+            lblDescription.setText("");
+            lblUnitPrice.setText("");
+            lblQtyOnHand.setText("");
+            txtQty.setText("");
+            tblCart.refresh();
+            tblReturn.refresh();
+            txtReturnId.setText("");
+            lblOrderTotal.setText("0.0");
+            lblDeduction.setText("0.0");
+            lblNetTotal.setText("0.0");
+            txtPayment.setText("");
+            lblBalance.setText("0.0");
+            try {
+                initialize();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        }
+        });
     }
 
 

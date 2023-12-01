@@ -8,6 +8,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -18,12 +19,17 @@ import lk.ijse.st_clothing.model.CustomerModel;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class CustomersFormController {
     @FXML
-    private JFXButton btnUpdate;
+    private JFXButton btnAddCus;
+
+    @FXML
+    private JFXButton btnUpdateCus;
 
     @FXML
     private JFXButton btnClearAllFields;
@@ -75,18 +81,9 @@ public class CustomersFormController {
         vitualize();
         setDate();
         searchFilter();
+        btnAddAction();
+        btnUpdateAction();
 
-        if(OrdersFormController.scanning==true) {
-            OrdersFormController.webcamPanel.stop();
-            OrdersFormController.webcam.close();
-            OrdersFormController.scanning = false;
-        }
-
-        if(ReturnsFormController.scanning1==true) {
-            ReturnsFormController.webcamPanel1.stop();
-            ReturnsFormController.webcam1.close();
-            ReturnsFormController.scanning1 = false;
-        }
     }
 
     private void searchFilter() {
@@ -136,6 +133,7 @@ public class CustomersFormController {
                 tm.setTp(dto.getTp());
                 tm.setDate(dto.getDate());
                 Button deleteButton = new Button("Delete");
+                deleteButton.setCursor(Cursor.HAND);
                 deleteButton.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(deleteButton);
                 tm.setBtn(deleteButton);
@@ -153,17 +151,26 @@ public class CustomersFormController {
         btn.setOnAction((e) -> {
             Integer index = tblCustomers.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR, "Please select a customers' table row to delete a customer!").show();
                 return;
             }
             String id = colId.getCellData(index).toString();
-            try {
-                Boolean flag = CustomerModel.deleteCustomer(id);
-                if(flag){
-                    clearAllFields();
-                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted!").show();
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete customer \"" + id + "\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                try {
+                    Boolean flag = CustomerModel.deleteCustomer(id);
+                    if (flag) {
+                        clearAllFields();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
+                    }
+                } catch (SQLException ex) {
+                    new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
-            } catch (SQLException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
             }
         });
     }
@@ -185,41 +192,79 @@ public class CustomersFormController {
        // lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
-    @FXML
-    void addCustomerBtnOnAction(ActionEvent event) throws SQLException {
-        Boolean isValidate = validateCustomer();
-        if(isValidate) {
-        String id = txtId.getText();
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String tp = txtTp.getText();
-        String date = String.valueOf(LocalDate.now());
-
-        if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
-            new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-            return;
-        }
-
-        CustomerDto dto = new CustomerDto(id,name,address,tp,date);
+    public void btnAddAction() {
+        btnAddCus.setOnAction((e) -> {
+            String id = txtId.getText();
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String tp = txtTp.getText();
+            String date = String.valueOf(LocalDate.now());
 
 
-        try {
+            if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
+                new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
+                return;
+            }
+
+            try {
+                List<String> temp = CustomerModel.getCustomerIds();
+                for (String s : temp) {
+                    if(txtId.getText().equals(s)){
+                        new Alert(Alert.AlertType.ERROR,"Customer already saved!").show();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            Boolean isValidate = validateCustomer();
+            if(isValidate) {
+                CustomerDto dto = new CustomerDto(id,name,address,tp,date);
+
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new customer \""+txtId.getText()+"\" ?", yes, no).showAndWait();
+
+                if (type.orElse(no) == yes) {
+
+                    try {
             Boolean flag = CustomerModel.addCustomer(dto);
             if (flag) {
                 clearAllFields();
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved!").show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (SQLException exception) {
+            new Alert(Alert.AlertType.ERROR,"Error!").show();
         }
 
         }
     }
+        });
+    }
 
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        Boolean isValidate = validateCustomer();
-        if(isValidate) {
+    public void btnUpdateAction() {
+        btnUpdateCus.setOnAction((e) -> {
+
+        try {
+            List<String> temp = new ArrayList<>();
+            temp = CustomerModel.getCustomerIds();
+            Boolean flag = false;
+            for (String s : temp) {
+                if(txtId.getText().equals(s)) {
+                    flag = true;
+                }
+            }
+            if (flag.equals(false)) {
+                new Alert(Alert.AlertType.ERROR,"Please select a row from customers' table to update acustomer!").show();
+                return;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
             String id = txtId.getText();
             String name = txtName.getText();
             String address = txtAddress.getText();
@@ -230,24 +275,37 @@ public class CustomersFormController {
                 return;
             }
 
-            CustomerDto dto = new CustomerDto(id, name, address, tp);
-            try {
-                Boolean flag = CustomerModel.updateCustomer(dto);
-                if (flag) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
-                    setTableCustomers();
+            Boolean isValidate = validateCustomer();
+            if (isValidate) {
+
+                CustomerDto dto = new CustomerDto(id, name, address, tp);
+
+                ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update customer \""+txtId.getText()+"\" ?", yes, no).showAndWait();
+
+                if (type.orElse(no) == yes) {
+
+                    try {
+                        Boolean flag = CustomerModel.updateCustomer(dto);
+                        if (flag) {
+                            new Alert(Alert.AlertType.CONFIRMATION, "Customer Updated").show();
+                            clearAllFields();
+                        }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR, "Error!").show();
+                    }
                 }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Check Item Code!").show();
             }
-        }
+        });
     }
+
     public void mouseClickOnAction(javafx.scene.input.MouseEvent mouseEvent) {
         Integer index = tblCustomers.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
         }
-        txtId.setEditable(false);
         txtName.setText(colName.getCellData(index).toString());
         txtId.setText(colId.getCellData(index).toString());
         txtAddress.setText(colAddress.getCellData(index).toString());
@@ -306,9 +364,8 @@ public class CustomersFormController {
     }
 
     @FXML
-    void txtIdOnMouseClicked(MouseEvent event) throws SQLException {
+    void idOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();
-        txtId.setEditable(true);
     }
 
 }

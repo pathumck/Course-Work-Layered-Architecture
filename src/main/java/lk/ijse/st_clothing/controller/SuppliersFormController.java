@@ -8,6 +8,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -19,6 +20,8 @@ import lk.ijse.st_clothing.model.SupplierModel;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class SuppliersFormController {
@@ -78,6 +81,8 @@ public class SuppliersFormController {
         setDate();
         searchFilter();
         generateNextSupplierId();
+        addBtnAction();
+        updateBtnAction();
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
@@ -119,6 +124,7 @@ public class SuppliersFormController {
                 tm.setAddress(dto.getAddress());
                 tm.setDate(dto.getDate());
                 Button btn = new Button("Delete");
+                btn.setCursor(Cursor.HAND);
                 btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
@@ -172,17 +178,26 @@ public class SuppliersFormController {
         btn.setOnAction((e) -> {
             Integer index = tblSupplier.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a supplier table's row to delete a supplier!").show();
                 return;
             }
             String id = colId.getCellData(index).toString();
-            try {
-                Boolean flag = SupplierModel.deleteSupplier(id);
-                if(flag){
-                    clearAllFields();
-                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete supplier \""+id+"\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                try {
+                    Boolean flag = SupplierModel.deleteSupplier(id);
+                    if (flag) {
+                        clearAllFields();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+                    }
+                } catch (SQLException ex) {
+                    new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
-            } catch (SQLException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
             }
         });
     }
@@ -197,55 +212,106 @@ public class SuppliersFormController {
         colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
 
-    @FXML
-    void addSupplierBtnOnAction(ActionEvent event) {
-        String id = lblSupId.getText();
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String tp = txtTp.getText();
-        String date = String.valueOf(LocalDate.now());
-
-        if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
-            new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
-            return;
-        }
-
-        SupplierDto dto = new SupplierDto(id,name,address,tp,date);
-
-
-        try {
-            Boolean flag = SupplierModel.addSupplier(dto);
-            if (flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
-                clearAllFields();
+    public void addBtnAction() {
+        btnAddSupplier.setOnAction((e) -> {
+            try {
+                List<String> temp = SupplierModel.getSupplierIds();
+                for (String s : temp) {
+                    if(lblSupId.getText().equals(s)){
+                        new Alert(Alert.AlertType.ERROR,"Supplier already saved!").show();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+
+            String id = lblSupId.getText();
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String tp = txtTp.getText();
+            String date = String.valueOf(LocalDate.now());
+
+            if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
+                new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
+                return;
+            }
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                SupplierDto dto = new SupplierDto(id, name, address, tp, date);
+
+
+                try {
+                    Boolean flag = SupplierModel.addSupplier(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
+                }
+            }
+        });
     }
 
-    @FXML
-    void updateSupplierBtnOnAction(ActionEvent event) {
+
+
+    public void updateBtnAction() {
+        btnUpdateSupplier.setOnAction((e) -> {
         String id = lblSupId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
         String tp = txtTp.getText();
+
+        try {
+            List<String> temp = new ArrayList<>();
+            temp = SupplierModel.getSupplierIds();
+            Boolean flag = false;
+            for (String s : temp) {
+                if(lblSupId.getText().equals(s)) {
+                    flag = true;
+                }
+            }
+            if (flag.equals(false)) {
+                new Alert(Alert.AlertType.ERROR,"Please select a row from suppliers' table to update a supplier!").show();
+                return;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
 
         if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
             new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
             return;
         }
 
-        SupplierDto dto = new SupplierDto(id,name,address,tp);
-        try {
-            Boolean flag = SupplierModel.updateSupplier(dto);
-            if(flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated").show();
-                setTableSuppliers();
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update supplier \"" + lblSupId.getText() + "\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                SupplierDto dto = new SupplierDto(id, name, address, tp);
+                try {
+                    Boolean flag = SupplierModel.updateSupplier(dto);
+                    if (flag) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated").show();
+                        clearAllFields();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
+                }
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Check Supplier ID!").show();
-        }
+        });
     }
 
     public void mouseClickOnAction(javafx.scene.input.MouseEvent mouseEvent) {

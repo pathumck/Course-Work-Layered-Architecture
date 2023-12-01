@@ -362,6 +362,18 @@ public class DashBoardController {
 
     @FXML
     void customersBtnOnAction(ActionEvent event) throws IOException {
+        if(OrdersFormController.scanning==true) {
+            OrdersFormController.webcamPanel.stop();
+            OrdersFormController.webcam.close();
+            OrdersFormController.scanning = false;
+        }
+
+        if(ReturnsFormController.scanning1==true) {
+            ReturnsFormController.webcamPanel1.stop();
+            ReturnsFormController.webcam1.close();
+            ReturnsFormController.scanning1 = false;
+        }
+
         // Set corner radius and change color when pressed
         btnCustomers.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnCustomers.setOnMousePressed(e -> btnCustomers.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));

@@ -13,9 +13,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="subAnchorPaneRight" prefHeight="585.0" prefWidth="520.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginFormController">
+<AnchorPane fx:id="subAnchorPaneRight" prefHeight="710.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginFormController">
    <children>
-      <JFXButton fx:id="btnLogin" layoutX="205.0" layoutY="400.0" onAction="#btnLoginOnAction" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2ed573;" text="Login">
+      <JFXButton fx:id="btnLogin" layoutX="285.0" layoutY="440.0" onAction="#btnLoginOnAction" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2ed573;" text="Login">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -39,7 +39,7 @@
             <Bloom />
          </effect>
       </JFXButton>
-      <JFXButton fx:id="btnChangeCredentials" layoutY="554.0" onAction="#btnChangeCredentialsOnAction" prefHeight="25.0" prefWidth="156.0" text="Change Credentials">
+      <JFXButton fx:id="btnChangeCredentials" layoutY="674.0" onAction="#btnChangeCredentialsOnAction" prefHeight="25.0" prefWidth="156.0" text="Change Credentials">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -57,7 +57,7 @@
             </LinearGradient>
          </textFill>
       </JFXButton>
-      <JFXPasswordField fx:id="txtPassword" layoutX="138.0" layoutY="306.0" prefHeight="30.0" prefWidth="280.0" promptText="Password">
+      <JFXPasswordField fx:id="txtPassword" layoutX="218.0" layoutY="346.0" prefHeight="30.0" prefWidth="280.0" promptText="Password">
          <font>
             <Font size="16.0" />
          </font>
@@ -65,12 +65,12 @@
             <Bloom />
          </effect>
       </JFXPasswordField>
-      <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="92.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="172.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icon/user%20(1).png" />
          </image>
       </ImageView>
-      <JFXTextField fx:id="txtUsername" layoutX="138.0" layoutY="230.0" prefHeight="30.0" prefWidth="280.0" promptText="Userame">
+      <JFXTextField fx:id="txtUsername" layoutX="218.0" layoutY="260.0" prefHeight="30.0" prefWidth="280.0" promptText="Userame">
          <font>
             <Font size="16.0" />
          </font>
@@ -78,17 +78,17 @@
             <Bloom />
          </effect>
       </JFXTextField>
-      <ImageView fitHeight="30.0" fitWidth="34.0" layoutX="89.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="30.0" fitWidth="34.0" layoutX="169.0" layoutY="346.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icon/password.png" />
          </image>
       </ImageView>
-      <Label layoutX="192.0" layoutY="107.0" stylesheets="@../styles/backgrounds.css" text="Secure Login" textFill="#9bc61a">
+      <Label layoutX="272.0" layoutY="147.0" stylesheets="@../styles/backgrounds.css" text="Secure Login" textFill="#9bc61a">
          <font>
             <Font name="Dyuthi Regular" size="28.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnFogotPassword" layoutX="304.0" layoutY="343.0" onAction="#btnFogotPasswordOnAction" prefHeight="25.0" prefWidth="127.0" text="Fogot Password?">
+      <JFXButton fx:id="btnFogotPassword" layoutX="384.0" layoutY="383.0" onAction="#btnFogotPasswordOnAction" prefHeight="25.0" prefWidth="127.0" text="Fogot Password?">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>

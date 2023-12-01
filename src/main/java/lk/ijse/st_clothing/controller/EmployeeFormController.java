@@ -8,6 +8,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +19,8 @@ import lk.ijse.st_clothing.model.EmployeeModel;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class EmployeeFormController {
@@ -98,6 +101,8 @@ public class EmployeeFormController {
         setTableEmployee();
         vitualize();
         searchFilter();
+        addBtnAction();
+        updateBtnAction();
 
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
@@ -182,6 +187,7 @@ public class EmployeeFormController {
                 tm.setDate(dto.getDate());
                 tm.setTp(dto.getTp());
                 Button btn = new Button("Delete");
+                btn.setCursor(Cursor.HAND);
                 btn.setStyle("-fx-background-color: #e84118; -fx-text-fill: #ffffff;");
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
@@ -210,52 +216,82 @@ public class EmployeeFormController {
         btn.setOnAction((e) -> {
             Integer index = tblEmployee.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a employee table's row to delete an employee!").show();
                 return;
             }
             String id = colId.getCellData(index).toString();
-            try {
-                Boolean flag = EmployeeModel.deleteEmployee(id);
-                if(flag){
-                    clearAllFields();
-                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete employee \""+id+"\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+
+                try {
+                    Boolean flag = EmployeeModel.deleteEmployee(id);
+                    if (flag) {
+                        clearAllFields();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+                    }
+                } catch (SQLException ex) {
+                    new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
-            } catch (SQLException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
             }
         });
     }
 
-    @FXML
-    void addBtnOnAction(ActionEvent event) {
-        String id = lblEmpId.getText();
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String nic = txtNIC.getText();
-        String gender = String.valueOf(cmbGender.getValue());
-        String dob = String.valueOf(dpDOB.getValue());
-        String date = String.valueOf(LocalDate.now());
-        String tp = txtTp.getText();
-
-        if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()||nic.isEmpty()|| cmbGender.getValue()==null||dpDOB.getValue()==null){
-            new Alert(Alert.AlertType.ERROR,"Fields Empty!").show();
-            return;
-        }
-
-        EmployeeDto dto = new EmployeeDto(id,name,address,nic,gender,dob,date,tp);
-
-        try {
-            Boolean flag = EmployeeModel.addEmployee(dto);
-            if (flag) {
-                clearAllFields();
-                new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
+    public void addBtnAction() {
+        btnAdd.setOnAction((e) -> {
+            try {
+                List<String> temp = EmployeeModel.getEmmployeeIds();
+                for (String s : temp) {
+                    if (lblEmpId.getText().equals(s)) {
+                        new Alert(Alert.AlertType.ERROR, "Employee already saved!").show();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+
+            String id = lblEmpId.getText();
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String nic = txtNIC.getText();
+            String gender = String.valueOf(cmbGender.getValue());
+            String dob = String.valueOf(dpDOB.getValue());
+            String date = String.valueOf(LocalDate.now());
+            String tp = txtTp.getText();
+
+            if (id.isEmpty() || name.isEmpty() || address.isEmpty() || tp.isEmpty() || nic.isEmpty() || cmbGender.getValue() == null || dpDOB.getValue() == null) {
+                new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
+                return;
+            }
+
+            EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, date, tp);
+
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new Employee \"" + lblEmpId.getText() + "\" ?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+                try {
+                    Boolean flag = EmployeeModel.addEmployee(dto);
+                    if (flag) {
+                        clearAllFields();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
+                    }
+                } catch (SQLException exception) {
+                    new Alert(Alert.AlertType.ERROR, "Error!").show();
+                }
+            }
+        });
     }
 
-    @FXML
-    void updateBtnOnAction(ActionEvent event) {
+    public void updateBtnAction() {
+        btnUpdate.setOnAction((e) -> {
         String id = lblEmpId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
@@ -264,21 +300,49 @@ public class EmployeeFormController {
         String dob = String.valueOf(dpDOB.getValue());
         String tp = txtTp.getText();
 
+        try {
+            List<String> temp = new ArrayList<>();
+            temp = EmployeeModel.getEmmployeeIds();
+            Boolean flag = false;
+            for (String s : temp) {
+                if(lblEmpId.getText().equals(s)) {
+                    flag = true;
+                }
+            }
+            if (flag.equals(false)) {
+                new Alert(Alert.AlertType.ERROR,"Please select a row from employee' table to update an employee!").show();
+                return;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+
         if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()||nic.isEmpty()|| cmbGender.getValue()==null||dpDOB.getValue()==null){
             new Alert(Alert.AlertType.ERROR,"Fields Empty!").show();
             return;
         }
 
-        EmployeeDto dto = new EmployeeDto(id,name,address,nic,gender,dob,tp);
-        try {
-            Boolean flag = EmployeeModel.updateEmployee(dto);
-            if(flag) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated").show();
-                setTableEmployee();
+        ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update employee \""+lblEmpId.getText()+"\" ?", yes, no).showAndWait();
+
+        if (type.orElse(no) == yes) {
+
+            EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, tp);
+            try {
+                Boolean flag = EmployeeModel.updateEmployee(dto);
+                if (flag) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
+                    clearAllFields();
+                }
+            } catch (SQLException exception) {
+                new Alert(Alert.AlertType.ERROR, "Error!").show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Check Employee ID!").show();
         }
+        });
     }
 
     @FXML

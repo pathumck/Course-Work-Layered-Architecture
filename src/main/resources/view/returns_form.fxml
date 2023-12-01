@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.ReturnsFormController">
    <children>
-      <TableView fx:id="tblReturnCart" layoutX="6.0" layoutY="277.0" prefHeight="317.0" prefWidth="1169.0">
+      <TableView fx:id="tblReturnCart" layoutX="6.0" layoutY="255.0" prefHeight="338.0" prefWidth="1169.0">
          <columns>
             <TableColumn fx:id="colItemCode" prefWidth="222.85809564590454" style="-fx-alignment: center;" text="ItemCode" />
             <TableColumn fx:id="colUnitPrice" prefWidth="280.0011444091797" style="-fx-alignment: center;" text="Unit Price" />
@@ -35,12 +35,12 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="932.0" layoutY="187.0" prefHeight="24.0" prefWidth="88.0" text="Qty :">
+      <Label layoutX="932.0" layoutY="177.0" prefHeight="24.0" prefWidth="88.0" text="Qty :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQty" layoutX="1010.0" layoutY="187.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-radius: 5;" />
+      <TextField fx:id="txtQty" layoutX="1010.0" layoutY="177.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-radius: 5;" />
       <Label layoutX="20.0" layoutY="178.0" prefHeight="24.0" prefWidth="103.0" text="Time :">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
@@ -96,7 +96,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="968.0" layoutY="231.0" onAction="#btnAddOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #3498db;" text="Add To Cart">
+      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="968.0" layoutY="214.0" onAction="#btnAddOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #3498db;" text="Add To Cart">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
@@ -128,7 +128,7 @@
             <Font name="Dyuthi Regular" size="14.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="setPane" layoutX="404.0" layoutY="18.0" prefHeight="240.0" prefWidth="320.0" />
+      <AnchorPane fx:id="setPane" layoutX="354.0" layoutY="8.0" prefHeight="240.0" prefWidth="320.0" />
       <JFXButton fx:id="btnPrint" buttonType="RAISED" layoutX="748.0" layoutY="604.0" onAction="#btnPrintOnAction" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #2ecc71;" text="Print">
          <font>
             <Font name="Dyuthi Regular" size="14.0" />

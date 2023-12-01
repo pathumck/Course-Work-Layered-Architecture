@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="710.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginForumController">
+<AnchorPane prefHeight="710.0" prefWidth="1374.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginForumController">
    <children>
-      <AnchorPane prefHeight="710.0" prefWidth="700.0" styleClass="gradient" AnchorPane.bottomAnchor="0.0">
+      <AnchorPane prefHeight="710.0" prefWidth="687.0" styleClass="gradient">
          <children>
             <ImageView fitHeight="224.0" fitWidth="393.0" layoutX="158.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="150.0">
                <image>
@@ -23,7 +23,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="subAnchorPaneRight" layoutX="699.0" prefHeight="710.0" prefWidth="700.0" style="-fx-background-color: white;" />
+      <AnchorPane fx:id="subAnchorPaneRight" layoutX="699.0" prefHeight="710.0" prefWidth="687.0" style="-fx-background-color: white;" />
       <Label layoutX="241.0" layoutY="384.7172752043597" prefHeight="24.0" prefWidth="239.0" stylesheets="@../styles/backgrounds.css" text="Outfits that reflect your inner spark" textFill="#150c0c" AnchorPane.bottomAnchor="301.0">
          <font>
             <Font name="Gayathri Bold" size="14.0" />

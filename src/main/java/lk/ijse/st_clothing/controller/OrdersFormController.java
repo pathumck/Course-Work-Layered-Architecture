@@ -412,10 +412,17 @@ public class OrdersFormController {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+            Integer index = tblCart.getSelectionModel().getSelectedIndex();
+            if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a cart's row to remove!").show();
+                return;
+            }
+            String description = colDescription.getCellData(index).toString();
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove \""+description+"\" ?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblCart.getSelectionModel().getSelectedIndex();
+
                 obList.remove(focusedIndex);
                 calculateTotal();
                 netTotal();
@@ -521,7 +528,13 @@ public class OrdersFormController {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+            Integer index = tblReturn.getSelectionModel().getSelectedIndex();
+            if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a return cart's row to remove!").show();
+                return;
+            }
+            String id = colReturnId.getCellData(index).toString();
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove \""+id+"\" ?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblReturn.getSelectionModel().getSelectedIndex();

@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="subAnchorPaneRight" prefHeight="710.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginFormController">
+<AnchorPane fx:id="subAnchorPaneRight" prefHeight="710.0" prefWidth="687.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.LoginFormController">
    <children>
       <JFXButton fx:id="btnLogin" layoutX="285.0" layoutY="440.0" onAction="#btnLoginOnAction" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #2ed573;" text="Login">
          <textFill>
@@ -38,6 +39,9 @@
          <effect>
             <Bloom />
          </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXButton fx:id="btnChangeCredentials" layoutY="674.0" onAction="#btnChangeCredentialsOnAction" prefHeight="25.0" prefWidth="156.0" text="Change Credentials">
          <textFill>
@@ -56,6 +60,9 @@
                </stops>
             </LinearGradient>
          </textFill>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXPasswordField fx:id="txtPassword" layoutX="218.0" layoutY="346.0" prefHeight="30.0" prefWidth="280.0" promptText="Password">
          <font>
@@ -64,6 +71,9 @@
          <effect>
             <Bloom />
          </effect>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
       </JFXPasswordField>
       <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="172.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -77,6 +87,9 @@
          <effect>
             <Bloom />
          </effect>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
       </JFXTextField>
       <ImageView fitHeight="30.0" fitWidth="34.0" layoutX="169.0" layoutY="346.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -105,6 +118,9 @@
                </stops>
             </LinearGradient>
          </textFill>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
    </children>
 </AnchorPane>

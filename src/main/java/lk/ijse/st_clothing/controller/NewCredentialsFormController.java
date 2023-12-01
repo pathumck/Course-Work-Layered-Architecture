@@ -13,6 +13,7 @@ import lk.ijse.st_clothing.model.LoginModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 import static lk.ijse.Launcher.rootNode;
 
@@ -41,6 +42,10 @@ public class NewCredentialsFormController {
 
         if (userName1.isEmpty() || userName2.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Fields Empty!").show();
+            return;
+        }
+
+        if(!validateCredentials()) {
             return;
         }
         if (!userName1.equals(userName2)) {
@@ -72,5 +77,21 @@ public class NewCredentialsFormController {
             }
           //  new Alert(Alert.AlertType.ERROR, "Somthing Wrong!").show();
         }
+    }
+
+    private Boolean validateCredentials() {
+        String name1= txtUserName1.getText();
+        String name2= txtUserName2.getText();
+        String pwd1 = txtPassword1.getText();
+        String pwd2 = txtPassword2.getText();
+        boolean name1Match = Pattern.matches("^.{8,}$",name1);
+        boolean name2Match = Pattern.matches("^.{8,}$",name2);
+        boolean pwd1Match = Pattern.matches("^.{8,}$",pwd1);
+        boolean pwd2Match = Pattern.matches("^.{8,}$",pwd2);
+        if (!name1Match||!name2Match||!pwd1Match||!pwd2Match) {
+            new Alert(Alert.AlertType.ERROR,"User Name Or Password should contain atleast 8 characters!").show();
+            return false;
+        }
+        return true;
     }
 }

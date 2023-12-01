@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="710.0" prefWidth="1400.0" style="-fx-background-color: #e4e6eb#e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.DashBoardController">
+<AnchorPane fx:id="mainAnchor" prefHeight="710.0" prefWidth="1374.0" style="-fx-background-color: #e4e6eb#e4e6eb;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.st_clothing.controller.DashBoardController">
    <children>
       <AnchorPane fx:id="subAnchorPaneRight" layoutX="180.0" layoutY="51.0" prefHeight="649.0" prefWidth="1181.0" style="-fx-background-color: #3A3B3C; -fx-background-radius: 10;" />
       <AnchorPane fx:id="subAnchorPaneTop" layoutX="6.0" layoutY="6.0" prefHeight="39.0" prefWidth="1354.0" style="-fx-background-radius: 10;" styleClass="gradient">

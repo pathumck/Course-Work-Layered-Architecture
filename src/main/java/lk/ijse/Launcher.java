@@ -21,7 +21,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         rootNode = FXMLLoader.load(this.getClass().getResource("/view/login_forum.fxml"));
-        Scene scene = new Scene(rootNode);
+        Scene scene = new Scene(rootNode,1374,710);
         stage.setScene(scene);
         stage.setTitle("ST Clothing");
         stage.centerOnScreen();

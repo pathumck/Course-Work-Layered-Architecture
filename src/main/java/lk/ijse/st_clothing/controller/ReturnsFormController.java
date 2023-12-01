@@ -148,6 +148,9 @@ public class ReturnsFormController {
 
         txtSelectItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
+                lblDescription.setText("");
+                lblUnitPrice.setText("");
+                txtQty.clear();
                 setLabelsOfSelectedItem();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -332,7 +335,14 @@ public class ReturnsFormController {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+
+            Integer index = tblReturnCart.getSelectionModel().getSelectedIndex();
+            if (index <= -1) {
+                new Alert(Alert.AlertType.ERROR,"Please select a return cart's row to remove!").show();
+                return;
+            }
+            String id = colItemCode.getCellData(index).toString();
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove \""+id+"\" ?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblReturnCart.getSelectionModel().getSelectedIndex();

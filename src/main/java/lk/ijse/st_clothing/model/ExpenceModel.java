@@ -83,27 +83,4 @@ public class ExpenceModel {
         }
         return expences;
     }
-
-    public static ExpenceDto getExpenceById(String id) throws SQLException {
-        DbConnection db = DbConnection.getInstance();
-        Connection con = db.getConnection();
-        ExpenceDto dto = null;
-        PreparedStatement pst = con.prepareStatement("SELECT * FROM Expences WHERE expenceId = ?");
-        pst.setString(1,id);
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            dto = new ExpenceDto();
-            String expenceId = rs.getString(1);
-            String type = rs.getString(2);
-            String description = rs.getString(3);
-            String date = rs.getString(4);
-            Double amount = rs.getDouble(5);
-            dto.setId(expenceId);
-            dto.setType(type);
-            dto.setDescription(description);
-            dto.setDate(date);
-            dto.setAmount(amount);
-        }
-        return dto;
-    }
 }

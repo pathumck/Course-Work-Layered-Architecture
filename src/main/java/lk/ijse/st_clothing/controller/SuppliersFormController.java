@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 public class SuppliersFormController {
     @FXML
     private JFXButton btnAddSupplier;
-
     @FXML
     private ImageView btnRefresh;
 
@@ -110,7 +109,6 @@ public class SuppliersFormController {
 
     public void setDate() {
         lblDate.setText(String.valueOf(LocalDate.now()));
-    //    lblDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     public void setTableSuppliers() {
@@ -143,8 +141,6 @@ public class SuppliersFormController {
     private void searchFilter() {
         FilteredList<SupplierTm> filterData= new FilteredList<>(toTable, e->true);
         txtSearchId.setOnKeyReleased(e->{
-
-
             txtSearchId.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterData.setPredicate((Predicate<? super SupplierTm >) cust->{
                     if(newValue==null){
@@ -174,7 +170,6 @@ public class SuppliersFormController {
 
     }
 
-
     public void setRemoveBtnAction(Button btn) {
         btn.setOnAction((e) -> {
             Integer index = tblSupplier.getSelectionModel().getSelectedIndex();
@@ -202,7 +197,6 @@ public class SuppliersFormController {
             }
         });
     }
-
 
     public void vitualize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -262,8 +256,6 @@ public class SuppliersFormController {
             }
         });
     }
-
-
 
     public void updateBtnAction() {
         btnUpdateSupplier.setOnAction((e) -> {

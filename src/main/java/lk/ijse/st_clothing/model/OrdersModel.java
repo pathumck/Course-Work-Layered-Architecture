@@ -37,7 +37,6 @@ public class OrdersModel {
             dto.setDate(date);
             dto.setTime(time);
             dto.setCustomerId(customerId);
-
         }
         return dto;
     }

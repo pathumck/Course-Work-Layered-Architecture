@@ -95,7 +95,7 @@ public class FogotPasswordController {
             new Alert(Alert.AlertType.CONFIRMATION,"Otp Sent to your email successfully!").show();
             System.out.println("Email sent successfully!");
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,"No internet connection").show();
         }
     }
 
@@ -124,5 +124,4 @@ public class FogotPasswordController {
             targetAnchorPane.getChildren().setAll(subContent);
         }
     }
-
 }

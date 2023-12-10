@@ -148,9 +148,7 @@ public class ExpencesFormController {
             final SortedList<ExpenceTm> customers = new SortedList<>(filterData);
             customers.comparatorProperty().bind(tblExpence.comparatorProperty());
             tblExpence.setItems(customers);
-            //ok let's check it
         });
-
     }
 
 

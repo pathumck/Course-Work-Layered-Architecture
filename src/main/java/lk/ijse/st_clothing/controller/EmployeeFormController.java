@@ -84,6 +84,7 @@ public class EmployeeFormController {
 
     @FXML
     private JFXTextField txtSearchId;
+
     @FXML
     private JFXTextField txtTp;
 
@@ -131,8 +132,6 @@ public class EmployeeFormController {
     private void searchFilter() {
         FilteredList<EmployeeTm> filterData= new FilteredList<>(toTable, e->true);
         txtSearchId.setOnKeyReleased(e->{
-
-
             txtSearchId.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterData.setPredicate((Predicate<? super EmployeeTm >) cust->{
                     if(newValue==null){
@@ -164,13 +163,10 @@ public class EmployeeFormController {
             customers.comparatorProperty().bind(tblEmployee.comparatorProperty());
             tblEmployee.setItems(customers);
         });
-
     }
-
 
     public void setDate() {
         lblRegDate.setText(String.valueOf(LocalDate.now()));
-        //lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     public void setTableEmployee() {
@@ -367,11 +363,7 @@ public class EmployeeFormController {
         lblRegDate.setText(colDate.getCellData(index).toString());
         cmbGender.setValue(colGender.getCellData(index).toString());
         dpDOB.setValue(LocalDate.parse(colDOB.getCellData(index).toString()));
-
     }
-
-
-
 
     public void clearAllFields() throws SQLException {
         txtName.clear();

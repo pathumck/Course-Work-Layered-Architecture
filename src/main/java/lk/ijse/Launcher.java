@@ -56,7 +56,4 @@ public class Launcher extends Application {
         }
         System.exit(0);
     }
-
-
-
 }

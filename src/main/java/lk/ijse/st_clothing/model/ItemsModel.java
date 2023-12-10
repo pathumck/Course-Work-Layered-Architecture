@@ -142,44 +142,6 @@ public class ItemsModel {
         return dto;
     }
 
-    public static ArrayList<String> getSupplierIds() throws SQLException {
-        DbConnection db = DbConnection.getInstance();
-        Connection con = db.getConnection();
-        ArrayList<String> suppliers = new ArrayList<>();
-        PreparedStatement pst = con.prepareStatement("SELECT supplierId FROM Suppliers");
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            String id = rs.getString(1);
-            suppliers.add(id);
-        }
-        return suppliers;
-    }
-
-    public static ArrayList<ItemDto> getItemBySupID(String id) throws SQLException {
-        DbConnection db = DbConnection.getInstance();
-        Connection con = db.getConnection();
-        ArrayList<ItemDto> dtos = new ArrayList<>();
-        PreparedStatement pst = con.prepareStatement("SELECT * FROM Items WHERE supplierId = ?");
-        pst.setString(1,id);
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            ItemDto dto = new ItemDto();
-            String itemCode = rs.getString(1);
-            Integer qty = rs.getInt(2);
-            String supplierId = rs.getString(3);
-            String description = rs.getString(4);
-            Double unitPrice = rs.getDouble(5);
-            String size = rs.getString(6);
-            dto.setItemCode(itemCode);
-            dto.setSupplierId(supplierId);
-            dto.setDescription(description);
-            dto.setUnitPrice(unitPrice);
-            dto.setSize(size);
-            dto.setQty(qty);
-            dtos.add(dto);
-        }
-        return dtos;
-    }
 
     public boolean updateItems(List<ReturnCartTm> cartTmList) throws SQLException {
         for(ReturnCartTm tm : cartTmList) {
@@ -224,7 +186,4 @@ public class ItemsModel {
 
         return pstm.executeUpdate() > 0;
     }
-
-
-
 }

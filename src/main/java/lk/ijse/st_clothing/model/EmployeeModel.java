@@ -123,35 +123,4 @@ public class EmployeeModel {
         }
         return employee;
     }
-
-    public static EmployeeDto getEmployeeById(String id) throws SQLException {
-        DbConnection db = DbConnection.getInstance();
-        Connection con = db.getConnection();
-        EmployeeDto dto = null;
-        PreparedStatement pst = con.prepareStatement("SELECT * FROM Employee WHERE employeeId = ?");
-        pst.setString(1,id);
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            dto = new EmployeeDto();
-            String empId = rs.getString(1);
-            String name = rs.getString(2);
-            String address = rs.getString(3);
-            String nic = rs.getString(4);
-            String gender = rs.getString(5);
-            String dob = rs.getString(6);
-            String date = rs.getString(7);
-            String tp = rs.getString(8);
-            dto.setId(empId);
-            dto.setName(name);
-            dto.setAddress(address);
-            dto.setNic(nic);
-            dto.setDob(dob);
-            dto.setGender(gender);
-            dto.setDate(date);
-            dto.setTp(tp);
-        }
-        return dto;
-    }
-
-
 }

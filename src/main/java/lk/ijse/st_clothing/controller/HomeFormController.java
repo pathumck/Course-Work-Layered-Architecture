@@ -26,8 +26,10 @@ public class HomeFormController {
 
     @FXML
     private Label lblLastMonth2;
+
     @FXML
     private Label lblOutOfStock;
+
     @FXML
     private Label lblOrderCount;
 
@@ -36,6 +38,7 @@ public class HomeFormController {
 
     @FXML
     private Label lblMonthlySales;
+
     @FXML
     private Label lblMonthlyExpences;
 

@@ -54,8 +54,10 @@ import java.util.regex.Pattern;
 public class ReturnsFormController {
     @FXML
     private JFXButton btnResetCarts;
+
     @FXML
     private JFXButton btnAdd;
+
     @FXML
     private Label lblTotal;
 
@@ -156,8 +158,6 @@ public class ReturnsFormController {
                 throw new RuntimeException(e);
             }
         });
-
-
     }
 
     public void triggerScanning() {
@@ -207,8 +207,6 @@ public class ReturnsFormController {
             }
         }
     }
-
-
     private void generateNextReturnId() {
         try {
             String returnId = ReturnsModel.generateNextReturnId();
@@ -303,7 +301,6 @@ public class ReturnsFormController {
             setRemoveBtnAction(btn);
             btn.setCursor(Cursor.HAND);
 
-
             if (!obList.isEmpty()) {
                 for (int i = 0; i < tblReturnCart.getItems().size(); i++) {
                     if (colItemCode.getCellData(i).equals(code)) {
@@ -323,7 +320,6 @@ public class ReturnsFormController {
             var ReturnCartTm = new ReturnCartTm(code, unitPrice, qty, tot, btn);
 
             obList.add(ReturnCartTm);
-
             tblReturnCart.setItems(obList);
             FXCollections.reverse(obList);
             calculateTotal();

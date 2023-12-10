@@ -10,7 +10,6 @@ public class PlaceOrderModel {
     private OrdersModel orderModel = new OrdersModel();
     private ItemsModel itemModel = new ItemsModel();
     private OrderDetailsModel orderDetailModel = new OrderDetailsModel();
-
     public boolean placeOrder(PlaceOrderDto placeOrderDto) throws SQLException {
         System.out.println(placeOrderDto);
 
@@ -40,5 +39,4 @@ public class PlaceOrderModel {
         }
         return true;
     }
-
 }

@@ -36,7 +36,6 @@ public class LoginFormController {
 
     @FXML
     private JFXTextField txtUsername;
-
     @FXML
     void btnChangeCredentialsOnAction(ActionEvent event) throws IOException {
         // Locate the AnchorPane within dashboard_form.fxml

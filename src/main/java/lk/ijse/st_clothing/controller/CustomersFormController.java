@@ -74,8 +74,6 @@ public class CustomersFormController {
     private JFXTextField txtSearchByID;
 
     private ObservableList<CustomerTm> objects;
-
-
     public void initialize() throws SQLException {
         setTableCustomers();
         vitualize();
@@ -83,14 +81,11 @@ public class CustomersFormController {
         searchFilter();
         btnAddAction();
         btnUpdateAction();
-
     }
 
     private void searchFilter() {
         FilteredList<CustomerTm> filterData= new FilteredList<>(objects, e->true);
         txtSearchByID.setOnKeyReleased(e->{
-
-
             txtSearchByID.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterData.setPredicate((Predicate<? super CustomerTm >) cust->{
                     if(newValue==null){
@@ -108,7 +103,6 @@ public class CustomersFormController {
                     }else  if(cust.getName().toLowerCase().contains(toLowerCaseFilter)){
                         return true;
                     }
-
                     return false;
                 });
             });
@@ -117,10 +111,7 @@ public class CustomersFormController {
             customers.comparatorProperty().bind(tblCustomers.comparatorProperty());
             tblCustomers.setItems(customers);
         });
-
     }
-
-
     public void setTableCustomers() {
         try {
             ArrayList<CustomerDto> dtos = CustomerModel.getAllCustomers();
@@ -141,7 +132,6 @@ public class CustomersFormController {
             }
              objects = FXCollections.observableArrayList(tms);
             tblCustomers.setItems(objects);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,13 +145,11 @@ public class CustomersFormController {
                 return;
             }
             String id = colId.getCellData(index).toString();
-
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
             Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete customer \"" + id + "\" ?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
-
                 try {
                     Boolean flag = CustomerModel.deleteCustomer(id);
                     if (flag) {
@@ -175,9 +163,6 @@ public class CustomersFormController {
         });
     }
 
-
-
-
     public void vitualize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -189,7 +174,6 @@ public class CustomersFormController {
 
     public void setDate() {
         lblRegDate.setText(String.valueOf(LocalDate.now()));
-       // lblRegDate.setStyle("-fx-text-fill: black; -fx-font-family: 'Diyuthi'; -fx-font-size: 12; -fx-font-weight: regular;");
     }
 
     public void btnAddAction() {
@@ -199,7 +183,6 @@ public class CustomersFormController {
             String address = txtAddress.getText();
             String tp = txtTp.getText();
             String date = String.valueOf(LocalDate.now());
-
 
             if (id.isEmpty()||name.isEmpty()||address.isEmpty()||tp.isEmpty()){
                 new Alert(Alert.AlertType.ERROR,"Text Fields Empty!").show();
@@ -221,32 +204,28 @@ public class CustomersFormController {
             Boolean isValidate = validateCustomer();
             if(isValidate) {
                 CustomerDto dto = new CustomerDto(id,name,address,tp,date);
-
                 ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                 ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
-
                 Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to add new customer \""+txtId.getText()+"\" ?", yes, no).showAndWait();
 
                 if (type.orElse(no) == yes) {
-
                     try {
-            Boolean flag = CustomerModel.addCustomer(dto);
-            if (flag) {
-                clearAllFields();
-                new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved!").show();
-            }
-        } catch (SQLException exception) {
-            new Alert(Alert.AlertType.ERROR,"Error!").show();
-        }
+                        Boolean flag = CustomerModel.addCustomer(dto);
+                            if (flag) {
+                                clearAllFields();
+                                new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved!").show();
+                            }
+                    } catch (SQLException exception) {
+                        new Alert(Alert.AlertType.ERROR,"Error!").show();
+                    }
 
-        }
-    }
+                }
+            }
         });
     }
 
     public void btnUpdateAction() {
         btnUpdateCus.setOnAction((e) -> {
-
         try {
             List<String> temp = new ArrayList<>();
             temp = CustomerModel.getCustomerIds();
@@ -277,16 +256,13 @@ public class CustomersFormController {
 
             Boolean isValidate = validateCustomer();
             if (isValidate) {
-
                 CustomerDto dto = new CustomerDto(id, name, address, tp);
-
                 ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                 ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
                 Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to update customer \""+txtId.getText()+"\" ?", yes, no).showAndWait();
 
                 if (type.orElse(no) == yes) {
-
                     try {
                         Boolean flag = CustomerModel.updateCustomer(dto);
                         if (flag) {
@@ -317,7 +293,6 @@ public class CustomersFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
         clearAllFields();
     }
-
     public void clearAllFields() throws SQLException {
         txtSearchByID.clear();
         txtId.clear();
@@ -362,7 +337,6 @@ public class CustomersFormController {
         }
         return true;
     }
-
     @FXML
     void idOnMouseClicked(MouseEvent event) throws SQLException {
         clearAllFields();

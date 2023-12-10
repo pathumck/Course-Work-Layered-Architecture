@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 public class ItemsFormController {
     @FXML
     private Label lblQrId;
+
     @FXML
     private Label lblItemCode;
 
@@ -84,25 +85,25 @@ public class ItemsFormController {
     @FXML
     private JFXTextField txtDescription;
 
-
     @FXML
     private JFXTextField txtQty;
 
     @FXML
     private JFXTextField txtSearchItemByItemCode;
 
-
     @FXML
     private JFXTextField txtSupplierId;
 
     @FXML
     private JFXTextField txtUnitPrice;
+
     private ObservableList<ItemTm> toTable;
 
     @FXML
     private ImageView imgViewer;
 
     private Integer index = null;
+
     public void initialize() throws SQLException {
         loadAllSupplierIds();
         generateNextItemCode();
@@ -159,7 +160,6 @@ public class ItemsFormController {
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
-
             }
 
             toTable = FXCollections.observableArrayList(tms);
@@ -318,7 +318,6 @@ public class ItemsFormController {
 
 
    public void updateBtnAction() {
-
         btnUpdate.setOnAction((e) -> {
             String itemCode = lblItemCode.getText();
             String supId = txtSupplierId.getText();

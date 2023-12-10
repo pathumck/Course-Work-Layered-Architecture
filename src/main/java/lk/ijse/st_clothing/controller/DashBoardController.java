@@ -104,7 +104,6 @@ public class DashBoardController {
         btnEmployee.setOnMouseExited(e -> btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
-
     }
 
     @FXML
@@ -112,10 +111,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnHome.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnHome.setOnMousePressed(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnHome.setOnMouseReleased(e -> btnHome.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -125,7 +124,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -149,10 +148,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Home");
-
     }
 
     @FXML
@@ -167,10 +165,9 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnOrder.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnOrder.setOnMousePressed(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnOrder.setOnMouseReleased(e -> btnOrder.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
-
-// Set the initial styles
+        // Set the initial styles
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -180,7 +177,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
@@ -204,10 +201,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Order");
-
     }
 
     @FXML
@@ -221,10 +217,9 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnReturns.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnReturns.setOnMousePressed(e -> btnReturns.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnReturns.setOnMouseReleased(e -> btnReturns.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
-
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -234,7 +229,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -258,10 +253,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Returns");
-
     }
 
     @FXML
@@ -269,10 +263,9 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnSuppliers.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnSuppliers.setOnMousePressed(e -> btnSuppliers.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnSuppliers.setOnMouseReleased(e -> btnSuppliers.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
-
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -282,7 +275,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -306,10 +299,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Suppliers");
-
     }
 
     @FXML
@@ -317,10 +309,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnItems.setStyle("-fx-background-color:  #e4e6eb; -fx-background-radius: 0;");
         btnItems.setOnMousePressed(e -> btnItems.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnItems.setOnMouseReleased(e -> btnItems.setStyle("-fx-background-color:  #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -330,7 +322,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -354,10 +346,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Items");
-
     }
 
     @FXML
@@ -377,10 +368,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnCustomers.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnCustomers.setOnMousePressed(e -> btnCustomers.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnCustomers.setOnMouseReleased(e -> btnCustomers.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -390,7 +381,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -414,10 +405,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Customers");
-
     }
 
 
@@ -430,10 +420,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnExpences.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnExpences.setOnMousePressed(e -> btnExpences.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnExpences.setOnMouseReleased(e -> btnExpences.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -443,7 +433,7 @@ public class DashBoardController {
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -467,7 +457,7 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Expences");
 
@@ -478,10 +468,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnEmployee.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnEmployee.setOnMousePressed(e -> btnEmployee.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnEmployee.setOnMouseReleased(e -> btnEmployee.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -491,7 +481,7 @@ public class DashBoardController {
         btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnLogout.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -515,10 +505,9 @@ public class DashBoardController {
         this.subAnchorPaneRight.getChildren().clear();
         this.subAnchorPaneRight.getChildren().add(rootNode);
 
-// Get the stage from the button's Scene and change the title
+        // Get the stage from the button's Scene and change the title
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         setTitle("Employee");
-
     }
 
     public void setTitle(String title) {
@@ -542,15 +531,11 @@ public class DashBoardController {
         // Format the time using a DateTimeFormatter
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = currentTime.format(formatter);
-
         // Update the Label with the formatted time
-
         lblTime.setText("Time : "+formattedTime);
-
     }
     @FXML
     void btnLogoutOnAction(ActionEvent event) throws IOException {
-
         if(OrdersFormController.scanning==true) {
             OrdersFormController.webcamPanel.stop();
             OrdersFormController.webcam.close();
@@ -566,10 +551,10 @@ public class DashBoardController {
         // Set corner radius and change color when pressed
         btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;");
         btnLogout.setOnMousePressed(e -> btnLogout.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
-// Reset corner radius and revert color when released
+        // Reset corner radius and revert color when released
         btnLogout.setOnMouseReleased(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
 
-// Set the initial styles
+        // Set the initial styles
         btnOrder.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnReturns.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
@@ -579,7 +564,7 @@ public class DashBoardController {
         btnSuppliers.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
         btnEmployee.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;");
 
-// Set the button's style on mouse enter and revert on mouse exit
+        // Set the button's style on mouse enter and revert on mouse exit
         btnHome.setOnMouseEntered(e -> btnHome.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
         btnHome.setOnMouseExited(e -> btnHome.setStyle("-fx-background-color: #B0B3B8; -fx-background-radius: 0;"));
         btnOrder.setOnMouseEntered(e -> btnOrder.setStyle("-fx-background-color: #FFFF00; -fx-background-radius: 0;"));
@@ -598,12 +583,6 @@ public class DashBoardController {
         btnEmployee.setOnMouseExited(e -> btnEmployee.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
         btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
         btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #e4e6eb; -fx-background-radius: 0;"));
-
-
-
-
-
-
 
         ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
         ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -642,6 +621,5 @@ public class DashBoardController {
 
         // Add the subContent to the targetAnchorPane
         targetAnchorPane.getChildren().setAll(subContent);
-
     }
 }

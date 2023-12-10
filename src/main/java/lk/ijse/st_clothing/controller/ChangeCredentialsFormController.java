@@ -70,5 +70,4 @@ public class ChangeCredentialsFormController {
             new Alert(Alert.AlertType.ERROR, "Check Credentials!").show();
         }
     }
-
 }

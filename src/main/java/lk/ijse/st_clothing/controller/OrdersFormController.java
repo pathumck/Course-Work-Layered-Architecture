@@ -239,9 +239,9 @@ public class OrdersFormController {
                     String messageText = result.getText();
                     Platform.runLater(() -> txtItemCode.setText(messageText));
                     playSound();
-                    //    getItemByItemCode();
+                    //getItemByItemCode();
                 }
-                //  Thread.sleep(100); // Adjust sleep time if needed
+                //Thread.sleep(100); // Adjust sleep time if needed
             } catch (Exception e) {
                 // e.printStackTrace();
             }
@@ -265,8 +265,6 @@ public class OrdersFormController {
             }
         }
     }
-
-
 
     private void generateNextOrderId() {
         try {
@@ -650,8 +648,6 @@ public class OrdersFormController {
 
     public void orderJasper() {
         try {
-
-
             /* User home directory location */
             String userHomeDirectory = System.getProperty("user.home");
             String name = lblOrderId.getText();
@@ -707,12 +703,10 @@ public class OrdersFormController {
         } catch (JRException ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void print() {
         JasperViewer.viewReport(jasperPrint, false);
-
     }
 
 
@@ -747,7 +741,6 @@ public class OrdersFormController {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-
         }
         });
     }

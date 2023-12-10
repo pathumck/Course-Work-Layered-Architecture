@@ -18,7 +18,6 @@ public class ReturnDetailsModel {
         }
         return true;
     }
-
     private boolean saveReturnDetails(String returnId, ReturnCartTm tm) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

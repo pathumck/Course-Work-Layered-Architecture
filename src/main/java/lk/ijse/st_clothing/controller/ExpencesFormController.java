@@ -308,6 +308,7 @@ public class ExpencesFormController {
     void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
+
     @FXML
     void txtSearchByExpenceIdOnMouseClicked(MouseEvent event) {
         clearAllFields();

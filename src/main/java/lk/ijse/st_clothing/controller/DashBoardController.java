@@ -29,52 +29,36 @@ import static lk.ijse.Launcher.rootNode;
 public class DashBoardController {
     @FXML
     private JFXButton btnHome;
-
     @FXML
     private JFXButton btnOrder;
-
     @FXML
     private JFXButton btnReturns;
-
     @FXML
     private JFXButton btnItems;
-
     @FXML
     private JFXButton btnCustomers;
-
     @FXML
     private JFXButton btnEmployee;
-
     @FXML
     private JFXButton btnExpences;
-
     @FXML
     private JFXButton btnSuppliers;
-
     @FXML
     private JFXButton btnLogout;
-
     @FXML
     private AnchorPane mainAnchor;
-
     @FXML
     private AnchorPane subAnchorPaneLeft;
-
     @FXML
     private AnchorPane subAnchorPaneRight;
-
     @FXML
     private Label lblDate;
-
     @FXML
     private Label lblTitle;
-
     @FXML
     private AnchorPane subAnchorPaneTop;
-
     @FXML
     private Label lblTime;
-
     public void initialize() {
         setTitle("Home");
         setDate();

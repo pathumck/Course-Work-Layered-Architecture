@@ -24,14 +24,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.ReturnBO;
+import lk.ijse.st_clothing.bo.custom.impl.ReturnBOImpl;
 import lk.ijse.st_clothing.dto.ItemDto;
 import lk.ijse.st_clothing.dto.PlaceOrderDto;
 import lk.ijse.st_clothing.dto.PlaceReturnDto;
 import lk.ijse.st_clothing.dto.tm.ReturnCartTm;
-import lk.ijse.st_clothing.model.ItemsModel;
-import lk.ijse.st_clothing.model.OrdersModel;
-import lk.ijse.st_clothing.model.PlaceReturnModel;
-import lk.ijse.st_clothing.model.ReturnsModel;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -54,81 +53,57 @@ import java.util.regex.Pattern;
 public class ReturnsFormController {
     @FXML
     private JFXButton btnResetCarts;
-
     @FXML
     private JFXButton btnAdd;
-
     @FXML
     private Label lblTotal;
-
     @FXML
     private JFXButton btnPlaceReturn;
-
     @FXML
     private TableColumn<ReturnCartTm, Button> colAction;
-
     @FXML
     private TableColumn<ReturnCartTm, String> colItemCode;
-
     @FXML
     private TableColumn<ReturnCartTm, Integer> colQty;
-
     @FXML
     private TableColumn<ReturnCartTm, Double> colTotal;
-
     @FXML
     private TableColumn<ReturnCartTm, Double> colUnitPrice;
-
     @FXML
     private TableView<ReturnCartTm> tblReturnCart;
-
     @FXML
     private Label lblCusId;
-
     @FXML
     private Label lblDate;
-
     @FXML
     private Label lblDescription;
-
     @FXML
     private Label lblTime;
-
     @FXML
     private Label lblOrderDate;
-
     @FXML
     private Label lblUnitPrice;
-
     @FXML
     private TextField txtQty;
-
     @FXML
     private Label lblReturnId;
-
     @FXML
     private JFXTextField txtSelectItemCode;
-
     @FXML
     private JFXTextField txtSelectOrderId;
     private ObservableList<ReturnCartTm> obList = FXCollections.observableArrayList();
-
     @FXML
     private AnchorPane setPane;
-
     public static volatile boolean scanning1 = false;
-
     public static Webcam webcam1;
     public static WebcamPanel webcamPanel1;
-
     private static long lastPlayTime = 0;
     private static final long SOUND_DELAY_MS = 1000;
-
     private List<ReturnCartTm> list = new ArrayList<>();
-
     private JasperPrint jasperPrint;
+    ReturnBO returnBO = (ReturnBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.RETURN);
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         generateNextReturnId();
         lblDate.setText(String.valueOf(LocalDate.now()));
         loadAllOrderIds();
@@ -149,14 +124,10 @@ public class ReturnsFormController {
         }
 
         txtSelectItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                lblDescription.setText("");
-                lblUnitPrice.setText("");
-                txtQty.clear();
-                setLabelsOfSelectedItem();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            lblDescription.setText("");
+            lblUnitPrice.setText("");
+            txtQty.clear();
+            setLabelsOfSelectedItem();
         });
     }
 
@@ -185,7 +156,7 @@ public class ReturnsFormController {
                 }
                 //  Thread.sleep(100); // Adjust sleep time if needed
             } catch (Exception e) {
-                // e.printStackTrace();
+                e.printStackTrace();
             }
         }
         webcamPanel1.stop();
@@ -209,54 +180,89 @@ public class ReturnsFormController {
     }
     private void generateNextReturnId() {
         try {
-            String returnId = ReturnsModel.generateNextReturnId();
+            String returnId = splitReturnId(returnBO.generateNextReturnId());
             lblReturnId.setText(returnId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
-    public void loadAllOrderIds() throws SQLException {
-        ArrayList<String> orderIds = OrdersModel.getOrderIds();
+    private static String splitReturnId(String currentReturnId) {
+        if (currentReturnId == null || currentReturnId.isEmpty() || !currentReturnId.matches("^r\\d+$")) {
+            return "r001";
+        } else {
+            String numericPart = currentReturnId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "r00" + nextNumericPart;
+        }
+    }
+
+    public void loadAllOrderIds() {
+        ArrayList<String> orderIds = null;
+        try {
+            orderIds = returnBO.getOrderIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtSelectOrderId,orderIds);
     }
 
-    public void loadAllItemCodes() throws SQLException {
-        ArrayList<String> itemCodes = ItemsModel.getItemCodes();
+    public void loadAllItemCodes() {
+        ArrayList<String> itemCodes = null;
+        try {
+            itemCodes = returnBO.getAllItemIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtSelectItemCode,itemCodes);
     }
 
-    public void setLabelsOfSelectedItem() throws SQLException {
-       ItemDto dto = ItemsModel.getItemById(txtSelectItemCode.getText());
-       lblDescription.setText(dto.getDescription());
+    public void setLabelsOfSelectedItem() {
+        ItemDto dto = null;
+        try {
+            dto = returnBO.searchReturnId(txtSelectItemCode.getText());
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        lblDescription.setText(dto.getDescription());
        lblUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
     }
 
-    public void setLabelsOfSelectedOrderId() throws SQLException {
-        PlaceOrderDto dto = OrdersModel.getOrderByorderId(txtSelectOrderId.getText());
+    public void setLabelsOfSelectedOrderId() {
+        PlaceOrderDto dto = null;
+        try {
+            dto = returnBO.searchOrder(txtSelectOrderId.getText());
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         lblOrderDate.setText(dto.getDate());
         lblCusId.setText(dto.getCustomerId());
         lblTime.setText(dto.getTime());
     }
+
     @FXML
-    void txtSelectItemCodeOnAction(ActionEvent event) throws SQLException {
+    void txtSelectItemCodeOnAction(ActionEvent event) {
         setLabelsOfSelectedItem();
     }
     @FXML
-    void txtSelectOrderIdOnAction(ActionEvent event) throws SQLException {
+    void txtSelectOrderIdOnAction(ActionEvent event) {
         setLabelsOfSelectedOrderId();
     }
     @FXML
-    void txtSelectItemCodeOnKeyReleased(KeyEvent event) throws SQLException {
+    void txtSelectItemCodeOnKeyReleased(KeyEvent event) {
         txtQty.clear();
         setLabelsOfSelectedItem();
     }
     @FXML
-    void txtSelectOrderIdOnKeyReleased(KeyEvent event) throws SQLException {
+    void txtSelectOrderIdOnKeyReleased(KeyEvent event) {
         setLabelsOfSelectedOrderId();
     }
 
     @FXML
-    void btnAddOnAction(ActionEvent event) throws SQLException {
+    void btnAddOnAction(ActionEvent event) {
         String selectId = txtSelectOrderId.getText();
         String selectCode = txtSelectItemCode.getText();
         String qty1 = txtQty.getText();
@@ -267,7 +273,12 @@ public class ReturnsFormController {
 
         Boolean isValidate = validateReturn();
         if (isValidate) {
-            ArrayList<String> temp = OrdersModel.getOrderIds();
+            ArrayList<String> temp = null;
+            try {
+                temp = returnBO.getOrderIds();
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
             boolean flag = false;
             for (String s : temp) {
                 if (s.equals(txtSelectOrderId.getText())) {
@@ -279,7 +290,12 @@ public class ReturnsFormController {
                 return;
             }
 
-            ArrayList<String> temp1 = ItemsModel.getItemCodes();
+            ArrayList<String> temp1 = null;
+            try {
+                temp1 = returnBO.getAllItemIds();
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
             boolean flag1 = false;
             for (String s : temp1) {
                 if (s.equals(txtSelectItemCode.getText())) {
@@ -331,7 +347,6 @@ public class ReturnsFormController {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-
             Integer index = tblReturnCart.getSelectionModel().getSelectedIndex();
             if (index <= -1) {
                 new Alert(Alert.AlertType.ERROR,"Please select a return cart's row to remove!").show();
@@ -367,9 +382,14 @@ public class ReturnsFormController {
     }
 
     @FXML
-    void btnPlaceReturnOnAction(ActionEvent event) throws SQLException {
+    void btnPlaceReturnOnAction(ActionEvent event) {
         String id = lblReturnId.getText();
-        String checkId = ReturnsModel.isReturnSaved(id);
+        String checkId = null;
+        try {
+            checkId = returnBO.isReturnSaved(id);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         if(checkId!=null) {
             new Alert(Alert.AlertType.ERROR,"This cart already placed!").show();
             return;
@@ -400,10 +420,8 @@ public class ReturnsFormController {
             list.add(tm);
             cartTmList.add(cartTm);
         }
-       // System.out.println(returnId);
-        System.out.println("Place order form controller: " + cartTmList);
+
         var placeReturnDto = new PlaceReturnDto(returnId,customerId,date,currentTimeString,cartTmList);
-        System.out.println(returnId);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
@@ -414,7 +432,7 @@ public class ReturnsFormController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
             try {
-                Boolean isSuccess = PlaceReturnModel.placeReturn(placeReturnDto);
+                Boolean isSuccess = returnBO.placeReturn(placeReturnDto);
                 if (isSuccess) {
                     returnJasper();
                     new Alert(Alert.AlertType.CONFIRMATION, "Return Success!").show();
@@ -424,23 +442,15 @@ public class ReturnsFormController {
             }
         }
     }
-
-    public void clearAllFields() throws SQLException {
-        lblOrderDate.setText("");
-        lblTime.setText("");
-        lblCusId.setText("");
-        txtSelectItemCode.clear();
-        txtSelectOrderId.clear();
-        lblDescription.setText("");
-        lblUnitPrice.setText("");
-        lblTotal.setText("");
-        initialize();
-    }
-
     @FXML
     void btnPrintOnAction(ActionEvent event) throws SQLException {
         String id = lblReturnId.getText();
-        String checkId = ReturnsModel.isReturnSaved(id);
+        String checkId = null;
+        try {
+            checkId = returnBO.isReturnSaved(id);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         if(checkId!=null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation Dialog");
@@ -457,7 +467,6 @@ public class ReturnsFormController {
         }
         new Alert(Alert.AlertType.ERROR,"Please place return first!").show();
     }
-
     public void returnJasper() {
         try {
             /* User home directory location */
@@ -499,18 +508,14 @@ public class ReturnsFormController {
             /* Write content to PDF file */
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
-
-            System.out.println("File Generated");
         } catch (JRException ex) {
             ex.printStackTrace();
         }
     }
-
     public void print() {
         // Open the generated PDF in JasperViewer
         JasperViewer.viewReport(jasperPrint, false);
     }
-
     public void btnResetCartAction() {
         btnResetCarts.setOnAction((e) -> {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
@@ -530,15 +535,10 @@ public class ReturnsFormController {
                 tblReturnCart.refresh();
                 obList.clear();
                 list.clear();
-                try {
-                    initialize();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                initialize();
             }
         });
     }
-
     private Boolean validateReturn() {
         String qty = txtQty.getText();
         boolean qtyMatch = Pattern.matches("^[1-9]\\d*$",qty);

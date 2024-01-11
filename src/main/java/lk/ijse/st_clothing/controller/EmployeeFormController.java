@@ -12,9 +12,11 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.EmployeeBO;
+import lk.ijse.st_clothing.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.st_clothing.dto.EmployeeDto;
 import lk.ijse.st_clothing.dto.tm.EmployeeTm;
-import lk.ijse.st_clothing.model.EmployeeModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -27,74 +29,52 @@ import java.util.regex.Pattern;
 public class EmployeeFormController {
     @FXML
     private JFXButton btnAdd;
-
     @FXML
     private JFXButton btnClearAllFields;
-
     @FXML
     private JFXButton btnUpdate;
-
     @FXML
     private ComboBox<String> cmbGender;
-
     @FXML
     private TableColumn<EmployeeTm, Button> colAction;
-
     @FXML
     private TableColumn<EmployeeTm, String> colAddress;
-
     @FXML
     private TableColumn<EmployeeTm, String> colDOB;
-
     @FXML
     private TableColumn<EmployeeTm, String> colDate;
-
     @FXML
     private TableColumn<EmployeeTm, String> colGender;
-
     @FXML
     private TableColumn<EmployeeTm, String> colId;
-
     @FXML
     private TableColumn<EmployeeTm, String> colNIC;
-
     @FXML
     private TableColumn<EmployeeTm, String> colName;
-
     @FXML
     private TableColumn<EmployeeTm, String> colTp;
-
     @FXML
     private DatePicker dpDOB;
-
     @FXML
     private Label lblRegDate;
-
     @FXML
     private TableView<EmployeeTm> tblEmployee;
-
     @FXML
     private JFXTextField txtAddress;
-
     @FXML
     private JFXTextField txtNIC;
-
     @FXML
     private JFXTextField txtName;
-
     @FXML
     private JFXTextField txtSearchId;
-
     @FXML
     private JFXTextField txtTp;
-
     @FXML
     private Label lblEmpId;
-
-
     private ObservableList<EmployeeTm> toTable;
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         generateNextEmpId();
         String[] genders = {"Male", "Female", "Other"};
         cmbGender.setItems(FXCollections.observableArrayList(genders));
@@ -121,10 +101,24 @@ public class EmployeeFormController {
 
     private void generateNextEmpId() {
         try {
-            String empId = EmployeeModel.generateNextEmployeeId();
+            String empId = splitEmployeeId(employeeBO.generateNextEmployeeId());
             lblEmpId.setText(empId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    private static String splitEmployeeId(String currentEmpId) {
+        if (currentEmpId == null || currentEmpId.isEmpty() || !currentEmpId.matches("^e\\d+$")) {
+            return "e001";
+        } else {
+            String numericPart = currentEmpId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "e00" + nextNumericPart;
         }
     }
 
@@ -171,7 +165,7 @@ public class EmployeeFormController {
 
     public void setTableEmployee() {
         try {
-            ArrayList<EmployeeDto> dtos = EmployeeModel.getAllEmployee();
+            ArrayList<EmployeeDto> dtos = employeeBO.getAllEmployee();
             ArrayList<EmployeeTm> tms = new ArrayList<>();
             for (EmployeeDto dto : dtos) {
                 EmployeeTm tm = new EmployeeTm();
@@ -192,7 +186,7 @@ public class EmployeeFormController {
             }
             toTable = FXCollections.observableArrayList(tms);
             tblEmployee.setItems(toTable);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -226,12 +220,12 @@ public class EmployeeFormController {
             if (type.orElse(no) == yes) {
 
                 try {
-                    Boolean flag = EmployeeModel.deleteEmployee(id);
+                    Boolean flag = employeeBO.deleteEmployee(id);
                     if (flag) {
                         clearAllFields();
                         new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
             }
@@ -241,14 +235,14 @@ public class EmployeeFormController {
     public void addBtnAction() {
         btnAdd.setOnAction((e) -> {
             try {
-                List<String> temp = EmployeeModel.getEmmployeeIds();
+                List<String> temp = employeeBO.getAllEmployeeIds();
                 for (String s : temp) {
                     if (lblEmpId.getText().equals(s)) {
                         new Alert(Alert.AlertType.ERROR, "Employee already saved!").show();
                         return;
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -277,12 +271,12 @@ public class EmployeeFormController {
 
                 if (type.orElse(no) == yes) {
                     try {
-                        Boolean flag = EmployeeModel.addEmployee(dto);
+                        Boolean flag = employeeBO.addEmployee(dto);
                         if (flag) {
                             clearAllFields();
                             new Alert(Alert.AlertType.CONFIRMATION, "Employee Saved!").show();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
@@ -301,8 +295,7 @@ public class EmployeeFormController {
         String tp = txtTp.getText();
 
         try {
-            List<String> temp = new ArrayList<>();
-            temp = EmployeeModel.getEmmployeeIds();
+            List<String> temp = employeeBO.getAllEmployeeIds();
             Boolean flag = false;
             for (String s : temp) {
                 if(lblEmpId.getText().equals(s)) {
@@ -314,7 +307,7 @@ public class EmployeeFormController {
                 return;
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -335,12 +328,12 @@ public class EmployeeFormController {
 
                 EmployeeDto dto = new EmployeeDto(id, name, address, nic, gender, dob, tp);
                 try {
-                    Boolean flag = EmployeeModel.updateEmployee(dto);
+                    Boolean flag = employeeBO.updateEmployee(dto);
                     if (flag) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
                         clearAllFields();
                     }
-                } catch (SQLException exception) {
+                } catch (SQLException | ClassNotFoundException exception) {
                     new Alert(Alert.AlertType.ERROR, "Error!").show();
                 }
             }
@@ -365,7 +358,7 @@ public class EmployeeFormController {
         dpDOB.setValue(LocalDate.parse(colDOB.getCellData(index).toString()));
     }
 
-    public void clearAllFields() throws SQLException {
+    public void clearAllFields() {
         txtName.clear();
         txtAddress.clear();
         txtNIC.clear();
@@ -377,11 +370,11 @@ public class EmployeeFormController {
     }
 
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
+    void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
     @FXML
-    void txtSearchEmployeeOnMouseClicked(MouseEvent event) throws SQLException {
+    void txtSearchEmployeeOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 

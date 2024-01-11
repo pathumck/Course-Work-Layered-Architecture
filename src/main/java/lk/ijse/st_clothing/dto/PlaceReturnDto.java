@@ -16,6 +16,13 @@ public class PlaceReturnDto {
     public PlaceReturnDto() {
     }
 
+    public PlaceReturnDto(String returnId, String customerId, String date, String currentTimeString) {
+        this.returnId = returnId;
+        this.customerId = customerId;
+        this.date = date;
+        this.currentTimeString = currentTimeString;
+    }
+
     public PlaceReturnDto(String returnId, String customerId, String date, String currentTimeString, List<ReturnCartTm> list) {
         this.returnId = returnId;
         this.customerId = customerId;

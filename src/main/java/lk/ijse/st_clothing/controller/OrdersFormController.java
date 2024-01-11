@@ -27,12 +27,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.OrderBO;
+import lk.ijse.st_clothing.bo.custom.impl.OrderBOImpl;
 import lk.ijse.st_clothing.dto.CustomerDto;
 import lk.ijse.st_clothing.dto.ItemDto;
 import lk.ijse.st_clothing.dto.PlaceOrderDto;
 import lk.ijse.st_clothing.dto.tm.CartTm;
 import lk.ijse.st_clothing.dto.tm.DeductionTm;
-import lk.ijse.st_clothing.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -54,128 +56,85 @@ import java.util.regex.Pattern;
 public class OrdersFormController {
     @FXML
     private JFXButton btnResetCarts;
-
     @FXML
     private JFXButton btnPrint;
-
     @FXML
     private JFXButton btnAddNewCus;
-
     @FXML
     private JFXButton btnAddReturn;
-
     @FXML
     private JFXButton btnAddToCart;
-
     @FXML
     private JFXButton btnPlaceOrder;
-
     @FXML
     private TableColumn<CartTm, Button> colAction;
-
     @FXML
     private TableColumn<?, ?> colAction2;
-
     @FXML
     private TableColumn<CartTm, String> colCode;
-
     @FXML
     private TableColumn<?, ?> colDeduction;
-
     @FXML
     private TableColumn<CartTm, String> colDescription;
-
     @FXML
     private TableColumn<CartTm, Integer> colQty;
-
     @FXML
     private TableColumn<?, ?> colReturnId;
-
     @FXML
     private TableColumn<CartTm, Double> colTotal;
-
     @FXML
     private TableColumn<CartTm, Double> colUnitPrice;
-
     @FXML
     private Label lblBalance;
-
     @FXML
     private Label lblCustomerName;
-
     @FXML
     private Label lblDeduction;
-
     @FXML
     private Label lblDescription;
-
     @FXML
     private Label lblNetTotal;
-
     @FXML
     private Label lblOrderDate;
-
     @FXML
     private Label lblOrderId;
-
     @FXML
     private Label lblOrderTotal;
-
     @FXML
     private TextField txtQty;
-
     @FXML
     private Label lblQtyOnHand;
-
     @FXML
     private Label lblUnitPrice;
-
     @FXML
     private TableView<CartTm> tblCart;
-
     @FXML
     private TableView<DeductionTm> tblReturn;
-
     @FXML
     private JFXTextField txtCustomerId;
-
     @FXML
     private JFXTextField txtItemCode;
-
     @FXML
     private TextField txtPayment;
-
     @FXML
     private JFXTextField txtReturnId;
-
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
-
     private ObservableList<DeductionTm> obList2 = FXCollections.observableArrayList();
-
     private List<CartTm> list2 = new ArrayList<>();
     private double total = 0;
     private double deduction = 0;
     private double netTotal = 0;
-
     @FXML
     private AnchorPane setPane;
-
-    private CustomerModel customerModel = new CustomerModel();
-    private ItemsModel itemModel = new ItemsModel();
-    private OrdersModel orderModel = new OrdersModel();
-    private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
-
     public static volatile boolean scanning = false;
-
     public static Webcam webcam;
     public static WebcamPanel webcamPanel;
-
     private static long lastPlayTime = 0;
     private static final long SOUND_DELAY_MS = 1000;
-
     private JasperPrint jasperPrint;
+    OrderBO orderBO = (OrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ORDER);
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         generateNextOrderId();
         lblOrderDate.setText(String.valueOf(LocalDate.now()));
         loadAllCustomerIds();
@@ -205,18 +164,13 @@ public class OrdersFormController {
         }
 
         txtItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                lblDescription.setText("");
-                lblQtyOnHand.setText("");
-                lblUnitPrice.setText("");
-                txtQty.clear();
-                getItemByItemCode();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            lblDescription.setText("");
+            lblQtyOnHand.setText("");
+            lblUnitPrice.setText("");
+            txtQty.clear();
+            getItemByItemCode();
         });
     }
-
 
     public void triggerScanning() {
         webcam = Webcam.getDefault();
@@ -243,7 +197,7 @@ public class OrdersFormController {
                 }
                 //Thread.sleep(100); // Adjust sleep time if needed
             } catch (Exception e) {
-                // e.printStackTrace();
+                e.printStackTrace();
             }
         }
         webcamPanel.stop();
@@ -268,31 +222,65 @@ public class OrdersFormController {
 
     private void generateNextOrderId() {
         try {
-            String orderId = OrdersModel.generateNextOrderId();
+            String orderId = splitOrderId(orderBO.generateNextOrderId());
             lblOrderId.setText(orderId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
-    public void loadAllCustomerIds() throws SQLException {
-        ArrayList<String> cusIds = CustomerModel.getCustomerIds();
+    private static String splitOrderId(String currentOrderId) {
+        if (currentOrderId == null || currentOrderId.isEmpty() || !currentOrderId.matches("^o\\d+$")) {
+            return "o001";
+        } else {
+            String numericPart = currentOrderId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "o00" + nextNumericPart;
+        }
+    }
+
+    public void loadAllCustomerIds() {
+        ArrayList<String> cusIds = null;
+        try {
+            cusIds = orderBO.getAllCustomerIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtCustomerId, cusIds);
     }
 
-    public void loadAllItemCodes() throws SQLException {
-        ArrayList<String> itemCodes = ItemsModel.getItemCodes();
+    public void loadAllItemCodes() {
+        ArrayList<String> itemCodes = null;
+        try {
+            itemCodes = orderBO.getAllItemIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtItemCode, itemCodes);
     }
 
-    public void loadAllReturnIds() throws SQLException {
-        ArrayList<String> returnIds = ReturnsModel.getAllReturnIds();
+    public void loadAllReturnIds() {
+        ArrayList<String> returnIds = null;
+        try {
+            returnIds = orderBO.getAllReturnIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtReturnId, returnIds);
     }
 
     @FXML
-    void btnAddNewCusOnAction(ActionEvent event) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/customers_form.fxml"));
+    void btnAddNewCusOnAction(ActionEvent event) {
+        AnchorPane rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(this.getClass().getResource("/view/customers_form.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Scene scene = new Scene(rootNode);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -301,37 +289,46 @@ public class OrdersFormController {
         stage.show();
     }
 
-    public void getCustomerNameById() throws SQLException {
+    public void getCustomerNameById() {
         lblCustomerName.setText("");
         String cusId = txtCustomerId.getText();
-        CustomerDto customerDto = CustomerModel.getCustomerById(cusId);
+        CustomerDto customerDto = null;
+        try {
+            customerDto = orderBO.searchCustomer(cusId);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         lblCustomerName.setText(customerDto.getName());
     }
 
     @FXML
-    void txtSelectCustomerKeyReleased(KeyEvent event) throws SQLException {
+    void txtSelectCustomerKeyReleased(KeyEvent event) {
         getCustomerNameById();
     }
 
-    public void getItemByItemCode() throws SQLException {
+    public void getItemByItemCode() {
         lblDescription.setText("");
         lblUnitPrice.setText("");
         lblQtyOnHand.setText("");
         String itemCode = txtItemCode.getText();
-        ItemDto dto = ItemsModel.getItemById(itemCode);
+        ItemDto dto = null;
+        try {
+            dto = orderBO.searchItem(itemCode);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         lblDescription.setText(dto.getDescription());
         lblUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
         lblQtyOnHand.setText(String.valueOf(dto.getQty()));
     }
 
     @FXML
-    void txtItemCodeOnKeyReleased(KeyEvent event) throws SQLException {
+    void txtItemCodeOnKeyReleased(KeyEvent event) {
         getItemByItemCode();
     }
 
     @FXML
-    void btnAddToCartOnAction(ActionEvent event) throws SQLException {
-
+    void btnAddToCartOnAction(ActionEvent event) {
         String itemCode1 = txtItemCode.getText();
         String qty1 = txtQty.getText();
         if (itemCode1.isEmpty() || qty1.isEmpty()) {
@@ -339,7 +336,12 @@ public class OrdersFormController {
             return;
         }
 
-        ArrayList<String> temp = ItemsModel.getItemCodes();
+        ArrayList<String> temp = null;
+        try {
+            temp = orderBO.getAllItemIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         boolean flag = false;
         for (String s : temp) {
             if(s.equals(txtItemCode.getText())) {
@@ -426,7 +428,6 @@ public class OrdersFormController {
                 netTotal();
                 checkBalance();
                 tblCart.refresh();
-
             }
         });
     }
@@ -478,8 +479,13 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnAddReturnOnAction(ActionEvent event) throws SQLException {
-        ArrayList<String> temp = ReturnsModel.getAllReturnIds();
+    void btnAddReturnOnAction(ActionEvent event) {
+        ArrayList<String> temp = null;
+        try {
+            temp = orderBO.getAllReturnIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         boolean flag = false;
         for (String s : temp) {
            if(s.equals(txtReturnId.getText())) {
@@ -496,7 +502,12 @@ public class OrdersFormController {
             new Alert(Alert.AlertType.ERROR, "Select ReturnId!").show();
             return;
         }
-        Double deduction = ReturnDetailsModel.getDeductionById(id);
+        Double deduction = null;
+        try {
+            deduction = orderBO.getDeductionById(id);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 
         DeductionTm tm = new DeductionTm();
         tm.setId(id);
@@ -547,9 +558,14 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) throws SQLException {
+    void btnPlaceOrderOnAction(ActionEvent event) {
         String id = lblOrderId.getText();
-        String checkId = OrdersModel.isOrderSaved(id);
+        String checkId = null;
+        try {
+            checkId = orderBO.isOrderSaved(id);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         if(checkId!=null) {
             new Alert(Alert.AlertType.ERROR,"This cart already placed!").show();
             return;
@@ -579,12 +595,10 @@ public class OrdersFormController {
                 return;
             }
 
-
             String orderId = lblOrderId.getText();
             String date = String.valueOf(LocalDate.parse(lblOrderDate.getText()));
             String customerId = txtCustomerId.getText();
             String time = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-
 
             List<CartTm> cartTmList = new ArrayList<>();
             System.out.println(tblCart.getItems().size());
@@ -612,7 +626,7 @@ public class OrdersFormController {
 
                 var placeOrderDto = new PlaceOrderDto(orderId, date, time, customerId, cartTmList);
                 try {
-                    boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
+                    boolean isSuccess = orderBO.placeOrder(placeOrderDto);
                     if (isSuccess) {
                         orderJasper();
                         new Alert(Alert.AlertType.CONFIRMATION, "Order Success!").show();
@@ -625,10 +639,14 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnPrintOnAction(ActionEvent event) throws JRException, FileNotFoundException, SQLException {
-
+    void btnPrintOnAction(ActionEvent event) {
         String id = lblOrderId.getText();
-        String checkId = OrdersModel.isOrderSaved(id);
+        String checkId = null;
+        try {
+            checkId = orderBO.isOrderSaved(id);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         if(checkId!=null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation Dialog");
@@ -695,11 +713,6 @@ public class OrdersFormController {
             /* Write content to PDF file */
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
-
-            // Open the generated PDF in JasperViewer
-
-
-            System.out.println("File Generated");
         } catch (JRException ex) {
             ex.printStackTrace();
         }
@@ -708,7 +721,6 @@ public class OrdersFormController {
     public void print() {
         JasperViewer.viewReport(jasperPrint, false);
     }
-
 
     public void btnResetCartsAction() {
         btnResetCarts.setOnAction((e) -> {
@@ -736,11 +748,7 @@ public class OrdersFormController {
             lblNetTotal.setText("0.0");
             txtPayment.setText("");
             lblBalance.setText("0.0");
-            try {
-                initialize();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+            initialize();
         }
         });
     }

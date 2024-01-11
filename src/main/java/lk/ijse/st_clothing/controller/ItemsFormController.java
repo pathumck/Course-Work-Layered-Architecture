@@ -22,10 +22,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.ItemBO;
+import lk.ijse.st_clothing.bo.custom.impl.ItemBOImpl;
 import lk.ijse.st_clothing.dto.ItemDto;
 import lk.ijse.st_clothing.dto.tm.ItemTm;
-import lk.ijse.st_clothing.model.ItemsModel;
-import lk.ijse.st_clothing.model.SupplierModel;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -45,66 +46,47 @@ import java.util.regex.Pattern;
 public class ItemsFormController {
     @FXML
     private Label lblQrId;
-
     @FXML
     private Label lblItemCode;
-
     @FXML
     private JFXButton btnAdd;
-
     @FXML
     private JFXButton btnUpdate;
-
     @FXML
     private ComboBox<String> cmbSize;
-
     @FXML
     private TableColumn<ItemTm, Button> colAction;
-
     @FXML
     private TableColumn<ItemTm, String> colDescription;
-
     @FXML
     private TableColumn<ItemTm, String> colItemCode;
-
     @FXML
     private TableColumn<ItemTm, Integer> colQty;
-
     @FXML
     private TableColumn<ItemTm, String> colSize;
-
     @FXML
     private TableColumn<ItemTm, String> colSupplierId;
-
     @FXML
     private TableColumn<ItemTm, Double> colUnitPrice;
-
     @FXML
     private TableView<ItemTm> tblItems;
-
     @FXML
     private JFXTextField txtDescription;
-
     @FXML
     private JFXTextField txtQty;
-
     @FXML
     private JFXTextField txtSearchItemByItemCode;
-
     @FXML
     private JFXTextField txtSupplierId;
-
     @FXML
     private JFXTextField txtUnitPrice;
-
     private ObservableList<ItemTm> toTable;
-
     @FXML
     private ImageView imgViewer;
-
     private Integer index = null;
+    ItemBO itemBO = (ItemBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         loadAllSupplierIds();
         generateNextItemCode();
         setTableItems();
@@ -130,21 +112,40 @@ public class ItemsFormController {
 
     private void generateNextItemCode() {
         try {
-            String itemCode = ItemsModel.generateNextItemCode();
+            String itemCode = splitItemCode(itemBO.generateNextItemId());
             lblItemCode.setText(itemCode);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
-    public void loadAllSupplierIds() throws SQLException {
-        ArrayList<String> supIds = SupplierModel.getSupplierIds();
+    private static String splitItemCode(String currentItemCode) {
+        if (currentItemCode == null || currentItemCode.isEmpty() || !currentItemCode.matches("^i\\d+$")) {
+            return "i001";
+        } else {
+            String numericPart = currentItemCode.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "i00" + nextNumericPart;
+        }
+    }
+
+    public void loadAllSupplierIds() {
+        ArrayList<String> supIds = null;
+        try {
+            supIds = itemBO.getAllSupplierIds();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         TextFields.bindAutoCompletion(txtSupplierId, supIds);
     }
 
     public void setTableItems() {
         try {
-            ArrayList<ItemDto> dtos = ItemsModel.getAllItems();
+            ArrayList<ItemDto> dtos = itemBO.getAllItems();
             ArrayList<ItemTm> tms = new ArrayList<>();
             for (ItemDto dto : dtos) {
                 ItemTm tm = new ItemTm();
@@ -161,18 +162,15 @@ public class ItemsFormController {
                 tm.setBtn(btn);
                 tms.add(tm);
             }
-
             toTable = FXCollections.observableArrayList(tms);
             tblItems.setItems(toTable);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
     private void searchFilter() {
         FilteredList<ItemTm> filterData= new FilteredList<>(toTable, e->true);
         txtSearchItemByItemCode.setOnKeyReleased(e->{
-
-
             txtSearchItemByItemCode.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterData.setPredicate((Predicate<? super ItemTm >) cust->{
                     if(newValue==null){
@@ -227,14 +225,13 @@ public class ItemsFormController {
             Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete item \""+id+"\" ?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
-
                 try {
-                    Boolean flag = ItemsModel.deleteItem(id);
+                    Boolean flag = itemBO.deleteItem(id);
                     if (flag) {
                         clearAllFields();
                         new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
             }
@@ -244,14 +241,14 @@ public class ItemsFormController {
     public void addBtnAction() {
         btnAdd.setOnAction((e) -> {
             try {
-                List<String> temp = ItemsModel.getItemCodes();
+                List<String> temp = itemBO.getAllItemIds();
                 for (String s : temp) {
                     if(lblItemCode.getText().equals(s)){
                         new Alert(Alert.AlertType.ERROR,"Item already saved!").show();
                         return;
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -270,14 +267,13 @@ public class ItemsFormController {
             List<String> supIds = new ArrayList<>();
             Boolean flagg = false;
             try {
-                supIds = SupplierModel.getSupplierIds();
+                supIds = itemBO.getAllSupplierIds();
                 for (String supId : supIds) {
                     if(supId.equals(txtSupplierId.getText())) {
                         flagg = true;
                     }
                 }
-
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -303,20 +299,18 @@ public class ItemsFormController {
                 if (type.orElse(no) == yes) {
 
                     try {
-                        Boolean flag = ItemsModel.addItems(dto);
+                        Boolean flag = itemBO.addItem(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Item Saved!").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
             }
         });
     }
-
-
    public void updateBtnAction() {
         btnUpdate.setOnAction((e) -> {
             String itemCode = lblItemCode.getText();
@@ -327,8 +321,7 @@ public class ItemsFormController {
             String qty = txtQty.getText();
 
             try {
-                List<String> temp = new ArrayList<>();
-                temp = ItemsModel.getItemCodes();
+                List<String> temp = itemBO.getAllItemIds();
                 Boolean flag = false;
                 for (String s : temp) {
                     if(lblItemCode.getText().equals(s)) {
@@ -340,7 +333,7 @@ public class ItemsFormController {
                     return;
                 }
 
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -362,12 +355,12 @@ public class ItemsFormController {
 
                     ItemDto dto = new ItemDto(itemCode, supId, description, unitPrice1, qty1, size);
                     try {
-                        Boolean flag = ItemsModel.updateItem(dto);
+                        boolean flag = itemBO.updateItem(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Item Updated").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
@@ -399,7 +392,7 @@ public class ItemsFormController {
         }
     }
 
-    public Image generateQRcodeImage(String data, int h, int w) throws WriterException {
+    public Image generateQRcodeImage(String data, int h, int w) {
         String charset = "UTF-8";
         Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<>();
         hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
@@ -458,8 +451,7 @@ public class ItemsFormController {
         }
     }
 
-    public void clearAllFields() throws SQLException {
-//        lblItemCode.setText("");
+    public void clearAllFields() {
         txtSupplierId.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
@@ -473,12 +465,12 @@ public class ItemsFormController {
     }
 
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
+    void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
 
     @FXML
-    void txtSearchItemsOnMouseClicked(MouseEvent event) throws SQLException {
+    void txtSearchItemsOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 

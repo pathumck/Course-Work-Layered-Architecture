@@ -12,9 +12,11 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.CustomerBO;
+import lk.ijse.st_clothing.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.st_clothing.dto.CustomerDto;
 import lk.ijse.st_clothing.dto.tm.CustomerTm;
-import lk.ijse.st_clothing.model.CustomerModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -27,54 +29,39 @@ import java.util.regex.Pattern;
 public class CustomersFormController {
     @FXML
     private JFXButton btnAddCus;
-
     @FXML
     private JFXButton btnUpdateCus;
-
     @FXML
     private JFXButton btnClearAllFields;
-
     @FXML
     private TableView<CustomerTm> tblCustomers;
-
     @FXML
     private TableColumn<CustomerTm, Button> colAction;
-
     @FXML
     private TableColumn<CustomerTm, String> colAddress;
-
     @FXML
     private TableColumn<CustomerTm, String> colId;
-
     @FXML
     private TableColumn<CustomerTm, String> colName;
-
     @FXML
     private TableColumn<CustomerTm, String> colRegDate;
-
     @FXML
     private TableColumn<CustomerTm, String> colTp;
-
     @FXML
     private Label lblRegDate;
-
     @FXML
     private JFXTextField txtAddress;
-
     @FXML
     private JFXTextField txtId;
-
     @FXML
     private JFXTextField txtName;
-
     @FXML
     private JFXTextField txtTp;
-
     @FXML
     private JFXTextField txtSearchByID;
-
     private ObservableList<CustomerTm> objects;
-    public void initialize() throws SQLException {
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+    public void initialize() {
         setTableCustomers();
         vitualize();
         setDate();
@@ -114,7 +101,7 @@ public class CustomersFormController {
     }
     public void setTableCustomers() {
         try {
-            ArrayList<CustomerDto> dtos = CustomerModel.getAllCustomers();
+            ArrayList<CustomerDto> dtos = customerBO.getAllCustomers();
             ArrayList<CustomerTm> tms = new ArrayList<>();
             for (CustomerDto dto : dtos) {
                 CustomerTm tm = new CustomerTm();
@@ -132,7 +119,7 @@ public class CustomersFormController {
             }
              objects = FXCollections.observableArrayList(tms);
             tblCustomers.setItems(objects);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -151,12 +138,12 @@ public class CustomersFormController {
 
             if (type.orElse(no) == yes) {
                 try {
-                    Boolean flag = CustomerModel.deleteCustomer(id);
+                    Boolean flag = customerBO.deleteCustomer(id);
                     if (flag) {
                         clearAllFields();
                         new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
             }
@@ -190,14 +177,14 @@ public class CustomersFormController {
             }
 
             try {
-                List<String> temp = CustomerModel.getCustomerIds();
+                List<String> temp = customerBO.getAllCustomerIds();
                 for (String s : temp) {
                     if(txtId.getText().equals(s)){
                         new Alert(Alert.AlertType.ERROR,"Customer already saved!").show();
                         return;
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -210,12 +197,12 @@ public class CustomersFormController {
 
                 if (type.orElse(no) == yes) {
                     try {
-                        Boolean flag = CustomerModel.addCustomer(dto);
+                        Boolean flag = customerBO.addCustomer(dto);
                             if (flag) {
                                 clearAllFields();
                                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved!").show();
                             }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR,"Error!").show();
                     }
 
@@ -227,8 +214,7 @@ public class CustomersFormController {
     public void btnUpdateAction() {
         btnUpdateCus.setOnAction((e) -> {
         try {
-            List<String> temp = new ArrayList<>();
-            temp = CustomerModel.getCustomerIds();
+            List<String> temp = customerBO.getAllCustomerIds();
             Boolean flag = false;
             for (String s : temp) {
                 if(txtId.getText().equals(s)) {
@@ -240,7 +226,7 @@ public class CustomersFormController {
                 return;
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -264,12 +250,12 @@ public class CustomersFormController {
 
                 if (type.orElse(no) == yes) {
                     try {
-                        Boolean flag = CustomerModel.updateCustomer(dto);
+                        Boolean flag = customerBO.updateCustomer(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Customer Updated").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
@@ -290,10 +276,10 @@ public class CustomersFormController {
     }
 
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
+    void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
-    public void clearAllFields() throws SQLException {
+    public void clearAllFields() {
         txtSearchByID.clear();
         txtId.clear();
         txtTp.clear();
@@ -303,7 +289,7 @@ public class CustomersFormController {
     }
 
     @FXML
-    void txtSearchByIdOnMouseClicked(MouseEvent event) throws SQLException {
+    void txtSearchByIdOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 
@@ -338,7 +324,7 @@ public class CustomersFormController {
         return true;
     }
     @FXML
-    void idOnMouseClicked(MouseEvent event) throws SQLException {
+    void idOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 

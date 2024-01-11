@@ -13,9 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.SupplierBO;
+import lk.ijse.st_clothing.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.st_clothing.dto.SupplierDto;
 import lk.ijse.st_clothing.dto.tm.SupplierTm;
-import lk.ijse.st_clothing.model.SupplierModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -30,51 +32,37 @@ public class SuppliersFormController {
     private JFXButton btnAddSupplier;
     @FXML
     private ImageView btnRefresh;
-
     @FXML
     private JFXButton btnUpdateSupplier;
-
     @FXML
     private TableColumn<SupplierTm, Button> colAction;
-
     @FXML
     private TableColumn<SupplierTm, String> colAddress;
-
     @FXML
     private TableColumn<SupplierTm, String> colDate;
-
     @FXML
     private TableColumn<SupplierTm, String> colId;
-
     @FXML
     private TableColumn<SupplierTm, String> colName;
-
     @FXML
     private TableColumn<SupplierTm, String> colTp;
-
     @FXML
     private Label lblDate;
-
     @FXML
     private TableView<SupplierTm> tblSupplier;
-
     @FXML
     private JFXTextField txtAddress;
-
     @FXML
     private JFXTextField txtName;
-
     @FXML
     private JFXTextField txtSearchId;
-
     @FXML
     private JFXTextField txtTp;
-
     private ObservableList<SupplierTm> toTable;
-
     @FXML
     private Label lblSupId;
-    public void initialize() throws SQLException {
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SUPPLIER);
+    public void initialize() {
         setTableSuppliers();
         vitualize();
         searchFilter();
@@ -99,13 +87,26 @@ public class SuppliersFormController {
 
     private void generateNextSupplierId() {
         try {
-            String supplierId = SupplierModel.generateNextSupplierId();
+            String supplierId = splitSupplierId(supplierBO.generateNextSupplierId());
             lblSupId.setText(supplierId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
+    private String splitSupplierId(String supplierId) {
+        if (supplierId == null || supplierId.isEmpty() || !supplierId.matches("^s\\d+$")) {
+            return "s001";
+        } else {
+            String numericPart = supplierId.substring(3);
+            int numericValue = Integer.parseInt(numericPart);
+
+            int nextNumericValue = numericValue + 1;
+            String nextNumericPart = String.format("%0" + numericPart.length() + "d", nextNumericValue);
+
+            return "s00" + nextNumericPart;
+        }
+    }
 
     public void setDate() {
         lblDate.setText(String.valueOf(LocalDate.now()));
@@ -113,7 +114,7 @@ public class SuppliersFormController {
 
     public void setTableSuppliers() {
         try {
-            ArrayList<SupplierDto> dtos = SupplierModel.getAllSuppliers();
+            ArrayList<SupplierDto> dtos = supplierBO.getAllSuppliers();
             ArrayList<SupplierTm> tms = new ArrayList<>();
             for (SupplierDto dto : dtos) {
                 SupplierTm tm = new SupplierTm();
@@ -128,12 +129,10 @@ public class SuppliersFormController {
                 setRemoveBtnAction(btn);
                 tm.setBtn(btn);
                 tms.add(tm);
-
             }
-
             toTable = FXCollections.observableArrayList(tms);
             tblSupplier.setItems(toTable);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -158,11 +157,9 @@ public class SuppliersFormController {
                     }else  if(cust.getTp().toLowerCase().contains(toLowerCaseFilter)){
                         return true;
                     }
-
                     return false;
                 });
             });
-
             final SortedList<SupplierTm> customers = new SortedList<>(filterData);
             customers.comparatorProperty().bind(tblSupplier.comparatorProperty());
             tblSupplier.setItems(customers);
@@ -186,12 +183,12 @@ public class SuppliersFormController {
             if (type.orElse(no) == yes) {
 
                 try {
-                    Boolean flag = SupplierModel.deleteSupplier(id);
+                    Boolean flag = supplierBO.deleteSupplier(id);
                     if (flag) {
                         clearAllFields();
                         new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                 }
             }
@@ -210,14 +207,14 @@ public class SuppliersFormController {
     public void addBtnAction() {
         btnAddSupplier.setOnAction((e) -> {
             try {
-                List<String> temp = SupplierModel.getSupplierIds();
+                List<String> temp = supplierBO.getAllSupplierIds();
                 for (String s : temp) {
                     if(lblSupId.getText().equals(s)){
                         new Alert(Alert.AlertType.ERROR,"Supplier already saved!").show();
                         return;
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
             Boolean isValidate = validateSupplier();
@@ -244,12 +241,12 @@ public class SuppliersFormController {
 
 
                     try {
-                        Boolean flag = SupplierModel.addSupplier(dto);
+                        Boolean flag = supplierBO.addSupplier(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Supplier Saved!").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
@@ -265,8 +262,7 @@ public class SuppliersFormController {
         String tp = txtTp.getText();
 
         try {
-            List<String> temp = new ArrayList<>();
-            temp = SupplierModel.getSupplierIds();
+            List<String> temp = supplierBO.getAllSupplierIds();
             Boolean flag = false;
             for (String s : temp) {
                 if(lblSupId.getText().equals(s)) {
@@ -278,7 +274,7 @@ public class SuppliersFormController {
                 return;
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -298,12 +294,12 @@ public class SuppliersFormController {
 
                     SupplierDto dto = new SupplierDto(id, name, address, tp);
                     try {
-                        Boolean flag = SupplierModel.updateSupplier(dto);
+                        Boolean flag = supplierBO.updateSupplier(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Supplier Updated").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
@@ -324,11 +320,10 @@ public class SuppliersFormController {
         lblDate.setText(colDate.getCellData(index).toString());
     }
 
-
     @FXML
     void searchByIdOnAction(ActionEvent event) {
         try {
-            SupplierDto dto = SupplierModel.getSupplierById(txtSearchId.getText());
+            SupplierDto dto = supplierBO.searchSupplier(txtSearchId.getText());
             if(dto!=null) {
                 SupplierTm tm = new SupplierTm();
                 tm.setId(dto.getId());
@@ -345,12 +340,12 @@ public class SuppliersFormController {
                 ObservableList<SupplierTm> supplierTms = FXCollections.observableArrayList(id);
                 tblSupplier.refresh();
                 tblSupplier.setItems(supplierTms);}
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
-    public void clearAllFields() throws SQLException {
+    public void clearAllFields() {
         txtSearchId.clear();
         txtTp.clear();
         txtName.clear();
@@ -358,11 +353,11 @@ public class SuppliersFormController {
         initialize();
     }
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
+    void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
     @FXML
-    void searchByIdOnMouseClicked(MouseEvent event) throws SQLException {
+    void searchByIdOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 

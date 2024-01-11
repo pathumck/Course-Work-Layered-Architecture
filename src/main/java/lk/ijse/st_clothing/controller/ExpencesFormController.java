@@ -12,9 +12,11 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.st_clothing.bo.BOFactory;
+import lk.ijse.st_clothing.bo.custom.ExpenceBO;
+import lk.ijse.st_clothing.bo.custom.impl.ExpenceBOImpl;
 import lk.ijse.st_clothing.dto.ExpenceDto;
 import lk.ijse.st_clothing.dto.tm.ExpenceTm;
-import lk.ijse.st_clothing.model.ExpenceModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -27,51 +29,37 @@ import java.util.regex.Pattern;
 public class ExpencesFormController {
     @FXML
     private JFXButton btnAdd;
-
     @FXML
     private JFXButton btnUpdate;
-
     @FXML
     private TableColumn<ExpenceTm, Button> colAction;
-
     @FXML
     private TableColumn<ExpenceTm, Double> colAmount;
-
     @FXML
     private TableColumn<ExpenceTm, String> colDate;
-
     @FXML
     private TableColumn<ExpenceTm, String> colDescription;
-
     @FXML
     private TableColumn<ExpenceTm, String> colExpenceId;
-
     @FXML
     private TableColumn<ExpenceTm, String> colType;
-
     @FXML
     private DatePicker dpDate;
-
     @FXML
     private TableView<ExpenceTm> tblExpence;
-
     @FXML
     private JFXTextField txtAmount;
-
     @FXML
     private JFXTextField txtDescription;
-
     @FXML
     private JFXTextField txtId;
-
     @FXML
     private JFXTextField txtSearchByExpenceId;
-
     @FXML
     private JFXTextField txtType;
-
     private ObservableList<ExpenceTm> toTable;
-    public void initialize() throws SQLException {
+    ExpenceBO expenceBO = (ExpenceBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.EXPENCE);
+    public void initialize() {
         dpDate.setEditable(false);
         setTableExpences();
         vitualize();
@@ -93,7 +81,7 @@ public class ExpencesFormController {
     }
     public void setTableExpences() {
         try {
-            ArrayList<ExpenceDto> dtos = ExpenceModel.getAllExpences();
+            ArrayList<ExpenceDto> dtos = expenceBO.getAllExpences();
             ArrayList<ExpenceTm> tms = new ArrayList<>();
             for (ExpenceDto dto : dtos) {
                 ExpenceTm tm = new ExpenceTm();
@@ -113,7 +101,7 @@ public class ExpencesFormController {
 
             toTable = FXCollections.observableArrayList(tms);
             tblExpence.setItems(toTable);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -121,8 +109,6 @@ public class ExpencesFormController {
     private void searchFilter() {
         FilteredList<ExpenceTm> filterData= new FilteredList<>(toTable, e->true);
         txtSearchByExpenceId.setOnKeyReleased(e->{
-
-
             txtSearchByExpenceId.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterData.setPredicate((Predicate<? super ExpenceTm >) cust->{
                     if(newValue==null){
@@ -140,17 +126,14 @@ public class ExpencesFormController {
                     }else  if(cust.getAmount().toString().toLowerCase().contains(toLowerCaseFilter)){
                         return true;
                     }
-
                     return false;
                 });
             });
-
             final SortedList<ExpenceTm> customers = new SortedList<>(filterData);
             customers.comparatorProperty().bind(tblExpence.comparatorProperty());
             tblExpence.setItems(customers);
         });
     }
-
 
     public void vitualize() {
         colExpenceId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -177,19 +160,19 @@ public class ExpencesFormController {
                 if (type.orElse(no) == yes) {
 
                     try {
-                        Boolean flag = ExpenceModel.deleteExpence(id);
+                        Boolean flag = expenceBO.deleteExpence(id);
                         if (flag) {
                             clearAllFields();
                             new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
                     }
                 }
         });
     }
 
-    public void clearAllFields() throws SQLException {
+    public void clearAllFields() {
         txtId.clear();
         txtAmount.clear();
         txtDescription.clear();
@@ -203,14 +186,14 @@ public class ExpencesFormController {
     public void addExpenceAction() {
         btnAdd.setOnAction((e) -> {
             try {
-                List<String> temp = ExpenceModel.getExpenceIds();
+                List<String> temp = expenceBO.getAllExpenceIds();
                 for (String s : temp) {
                     if(txtId.getText().equals(s)){
                         new Alert(Alert.AlertType.ERROR,"Expence already saved!").show();
                         return;
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -238,19 +221,18 @@ public class ExpencesFormController {
                     ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
 
                     try {
-                        Boolean flag = ExpenceModel.addExpence(dto);
+                        Boolean flag = expenceBO.addExpence(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Expence Saved!").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Error!").show();
                     }
                 }
             }
         });
     }
-
 
     public void updateBtnAction() {
         btnUpdate.setOnAction((e) -> {
@@ -263,7 +245,7 @@ public class ExpencesFormController {
 
             try {
                 List<String> temp = new ArrayList<>();
-                temp = ExpenceModel.getExpenceIds();
+                temp = expenceBO.getAllExpenceIds();
                 Boolean flag = false;
                 for (String s : temp) {
                     if(txtId.getText().equals(s)) {
@@ -275,7 +257,7 @@ public class ExpencesFormController {
                     return;
                 }
 
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -295,12 +277,12 @@ public class ExpencesFormController {
                 if (type1.orElse(no) == yes) {
                     ExpenceDto dto = new ExpenceDto(id, type, description, date, amount1);
                     try {
-                        Boolean flag = ExpenceModel.updateExpences(dto);
+                        boolean flag = expenceBO.updateExpence(dto);
                         if (flag) {
                             new Alert(Alert.AlertType.CONFIRMATION, "Expence Updated").show();
                             clearAllFields();
                         }
-                    } catch (SQLException exception) {
+                    } catch (SQLException | ClassNotFoundException exception) {
                         new Alert(Alert.AlertType.ERROR, "Check Expence ID!").show();
                     }
                 }
@@ -323,16 +305,16 @@ public class ExpencesFormController {
     }
 
     @FXML
-    void btnClearAllFieldsOnAction(ActionEvent event) throws SQLException {
+    void btnClearAllFieldsOnAction(ActionEvent event) {
         clearAllFields();
     }
     @FXML
-    void txtSearchByExpenceIdOnMouseClicked(MouseEvent event) throws SQLException {
+    void txtSearchByExpenceIdOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 
     @FXML
-    void txtIdOnMouseClicked(MouseEvent event) throws SQLException {
+    void txtIdOnMouseClicked(MouseEvent event) {
         clearAllFields();
     }
 

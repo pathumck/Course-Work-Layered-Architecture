@@ -20,24 +20,19 @@ import static lk.ijse.Launcher.rootNode;
 public class FogotPasswordController {
     @FXML
     private JFXButton btnBack;
-
     @FXML
     private JFXButton btnClickHere;
-
     @FXML
     private JFXButton btnConfirm;
-
     @FXML
     private JFXPasswordField txtOTP;
-
     private String pwd;
-
     public void initialize() {
         btnConfirm.setDisable(true);
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
+    void btnBackOnAction(ActionEvent event) {
         // Locate the AnchorPane within dashboard_form.fxml
         pwd = null;
         btnConfirm.setDisable(true);
@@ -46,7 +41,12 @@ public class FogotPasswordController {
 
         // Load and set the content from another FXML file
         FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
-        AnchorPane subContent = subLoader.load();
+        AnchorPane subContent = null;
+        try {
+            subContent = subLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Add the subContent to the targetAnchorPane
         targetAnchorPane.getChildren().setAll(subContent);
@@ -100,7 +100,7 @@ public class FogotPasswordController {
     }
 
     @FXML
-    void btnConfirmOnAction(ActionEvent event) throws IOException {
+    void btnConfirmOnAction(ActionEvent event) {
         String otp = txtOTP.getText();
         if(otp.isEmpty()) {
             new Alert(Alert.AlertType.ERROR,"Please Enter OTP!").show();
@@ -118,7 +118,12 @@ public class FogotPasswordController {
 
             // Load and set the content from another FXML file
             FXMLLoader subLoader = new FXMLLoader(getClass().getResource("/view/new_credentials_form.fxml"));
-            AnchorPane subContent = subLoader.load();
+            AnchorPane subContent = null;
+            try {
+                subContent = subLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // Add the subContent to the targetAnchorPane
             targetAnchorPane.getChildren().setAll(subContent);

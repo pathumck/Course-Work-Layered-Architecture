@@ -58,7 +58,7 @@ public class FogotPasswordController {
         final int OTP_LENGTH = 6;
 
         final String username = "ckpathumlahiruck@gmail.com";
-        final String password = "hjew sikl mkzi dnfe";
+        final String password = "hjew sikl mkzi dfgh";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
